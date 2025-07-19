@@ -1,0 +1,84 @@
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthCard from '../../components/ui/AuthCard';
+import { Button } from '@/components/ui/button';
+import api from '../../lib/api';
+
+export default function Register() {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        password: '',
+        storeName: '',
+    });
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await api.post('/auth/register', formData);
+            navigate('/login');
+        } catch (err) {
+            setError(err.response?.data?.message || 'Registration failed');
+        }
+    };
+
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-100 to-purple-100 p-4">
+            <AuthCard title="Create a New Account">
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        className="w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                    <input
+                        type="text"
+                        name="storeName"
+                        placeholder="Store Name (if Vendor)"
+                        value={formData.storeName}
+                        onChange={handleChange}
+                        className="w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                    {error && <p className="text-red-500 text-sm">{error}</p>}
+                    <Button type="submit" className="w-full bg-purple-500 hover:bg-purple-600 text-white font-medium py-3 rounded-xl">
+                        Register
+                    </Button>
+                </form>
+                <p className="text-center text-sm text-gray-500 mt-4">
+                    Already have an account?{' '}
+                    <Link to="/login" className="text-indigo-500 font-medium hover:underline">
+                        Login
+                    </Link>
+                </p>
+            </AuthCard>
+        </div>
+    );
+}

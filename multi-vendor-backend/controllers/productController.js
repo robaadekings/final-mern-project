@@ -1,5 +1,6 @@
 const Product = require('../models/Product');
 
+// 📦 Create a product
 const createProduct = async (req, res) => {
     try {
         const product = new Product({
@@ -13,18 +14,30 @@ const createProduct = async (req, res) => {
     }
 };
 
+// 🔍 Get all products (supports ?search= & ?category=)
 const getProducts = async (req, res) => {
     try {
-        const products = await Product.find().populate('vendor', 'name').populate('category', 'name');
+        const { search, category } = req.query;
+
+        let query = {};
+        if (search) {
+            query.name = { $regex: search, $options: 'i' };
+        }
+        if (category) {
+            query.category = category;
+        }
+
+        const products = await Product.find(query).populate('vendor', 'name');
         res.json(products);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
 
+// 📄 Get product by ID
 const getProductById = async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id);
+        const product = await Product.findById(req.params.id).populate('vendor', 'name');
         if (!product) return res.status(404).json({ message: 'Product not found' });
         res.json(product);
     } catch (error) {
@@ -32,6 +45,7 @@ const getProductById = async (req, res) => {
     }
 };
 
+// ✏️ Update a product
 const updateProduct = async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
@@ -49,6 +63,7 @@ const updateProduct = async (req, res) => {
     }
 };
 
+// 🗑️ Delete a product
 const deleteProduct = async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
@@ -58,7 +73,7 @@ const deleteProduct = async (req, res) => {
             return res.status(403).json({ message: 'Not authorized' });
         }
 
-        await product.remove();
+        await product.deleteOne();
         res.json({ message: 'Product removed' });
     } catch (error) {
         res.status(500).json({ message: error.message });
