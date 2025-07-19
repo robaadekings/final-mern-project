@@ -36,7 +36,7 @@ function AddProduct() {
         data.append('image', image);
 
         try {
-            await axios.post('http://localhost:5000/api/products', data, {
+            await axios.post('https://final-mern-project-g5mi.onrender.com/api/products', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${localStorage.getItem('token')}`,

@@ -8,7 +8,7 @@ function Products() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/products');
+                const res = await axios.get('https://final-mern-project-g5mi.onrender.com/api/products');
                 setProducts(res.data);
             } catch (err) {
                 console.error(err);
@@ -29,7 +29,7 @@ function Products() {
                     >
                         {product.image && (
                             <img
-                                src={`http://localhost:5000/uploads/${product.image}`}
+                                src={`https://final-mern-project-g5mi.onrender.com/uploads/${product.image}`}
                                 alt={product.name}
                                 className="w-full h-60 object-cover rounded-t-lg"
                             />

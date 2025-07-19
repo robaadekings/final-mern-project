@@ -11,7 +11,7 @@ function ProductDetail() {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/products/${id}`);
+                const res = await axios.get(`https://final-mern-project-g5mi.onrender.com/api/products/${id}`);
                 setProduct(res.data);
                 setLoading(false);
             } catch (err) {
@@ -30,7 +30,7 @@ function ProductDetail() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                 {product.image && (
                     <img
-                        src={`http://localhost:5000/uploads/${product.image}`}
+                        src={`https://final-mern-project-g5mi.onrender.com/uploads/${product.image}`}
                         alt={product.name}
                         className="w-full h-96 object-cover rounded-lg shadow-md"
                     />

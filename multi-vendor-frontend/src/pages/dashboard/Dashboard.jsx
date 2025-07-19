@@ -10,7 +10,7 @@ function Dashboard() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/products/vendor', {
+                const res = await axios.get('https://final-mern-project-g5mi.onrender.com/api/products/vendor', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
@@ -44,7 +44,7 @@ function Dashboard() {
                     {products.map((product) => (
                         <div key={product._id} className="border rounded p-4 shadow-md">
                             <img
-                                src={`http://localhost:5000/uploads/${product.image}`}
+                                src={`https://final-mern-project-g5mi.onrender.com/uploads/${product.image}`}
                                 alt={product.name}
                                 className="w-full h-48 object-cover mb-4 rounded"
                             />

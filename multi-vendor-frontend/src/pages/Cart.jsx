@@ -34,7 +34,7 @@ function Cart({ cart, setCart }) {
 
         try {
             await axios.post(
-                'http://localhost:5000/api/orders',
+                'https://final-mern-project-g5mi.onrender.com/api/orders',
                 {
                     items: cart.map((item) => ({
                         name: item.name,
