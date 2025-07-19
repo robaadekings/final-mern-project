@@ -15,7 +15,7 @@ function Navbar({ user, logoutHandler, cartCount }) {
     return (
         <nav className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-md relative z-50">
             <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-                <Link to="/" className="text-2xl font-bold">MyStore</Link>
+                <Link to="/" className="text-5xl font-bold">MyStore</Link>
 
                 <div className="md:hidden">
                     <button onClick={toggleMenu} className="focus:outline-none">
@@ -32,7 +32,7 @@ function Navbar({ user, logoutHandler, cartCount }) {
                         <>
                             <li><Link to="/" className="hover:text-gray-200">Home</Link></li>
                             <li><Link to="/products" className="hover:text-gray-200">Products</Link></li>
-                            <li><Link to="/cart" className="hover:text-gray-200">Cart ({cartCount})</Link></li>
+                            <li><Link to="/cart" className="hover:text-gray-200 ">Cart ({cartCount})</Link></li>
 
                             {user.role === 'customer' && (
                                 <li><Link to="/orders" className="hover:text-gray-200">Orders</Link></li>
@@ -51,14 +51,14 @@ function Navbar({ user, logoutHandler, cartCount }) {
                                 </>
                             )}
                             <li>
-                                <button onClick={handleLogout} className="hover:text-gray-200">Logout</button>
+                                <button onClick={handleLogout} className="hover:text-gray-200 text-2xl">Logout</button>
                             </li>
                         </>
                     )}
                     {!user && (
                         <>
-                            <li><Link to="/login" className="hover:text-gray-200">Login</Link></li>
-                            <li><Link to="/register" className="hover:text-gray-200">Register</Link></li>
+                            <li><Link to="/login" className="hover:text-gray-200 text-2xl">Login</Link></li>
+                            <li><Link to="/register" className="hover:text-gray-200 text-2xl">Register</Link></li>
                         </>
                     )}
                 </ul>
