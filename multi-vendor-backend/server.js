@@ -16,7 +16,7 @@ connectDB();
 const app = express();
 
 const corsOptions = {
-    origin: 'https://vercel.com/murangiri-roberts-projects/final-mern-project',
+    origin: 'https://final-mern-project-beige.vercel.app',
     credentials: true,
 };
 
