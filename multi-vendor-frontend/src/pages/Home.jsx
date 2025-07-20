@@ -34,7 +34,7 @@ function Home() {
                         Discover amazing products from trusted vendors.
                     </p>
                     <Link
-                        to="/Products"
+                        to="/Register"
                         className="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
                     >
                         Shop Now

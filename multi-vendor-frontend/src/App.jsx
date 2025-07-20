@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
+import AuthModal from './components/AuthModal';
 
 import Home from './pages/Home';
 import Products from './pages/Products';
@@ -23,15 +24,18 @@ import Cart from './pages/Cart';
 function App() {
     const [user, setUser] = useState(null);
     const [cart, setCart] = useState([]);
+    const [showAuthModal, setShowAuthModal] = useState(false);
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
         setUser(storedUser);
+        if (!storedUser) setShowAuthModal(true);
     }, []);
 
     const logoutHandler = () => {
         localStorage.removeItem('user');
         setUser(null);
+        setShowAuthModal(true);
     };
 
     const handleAddToCart = (product) => {
@@ -47,11 +51,7 @@ function App() {
                         <Route path="/login" element={<Login setUser={setUser} />} />
                         <Route path="/register" element={<Register setUser={setUser} />} />
 
-                        <Route path="/" element={
-                            <ProtectedRoute user={user}>
-                                <Home />
-                            </ProtectedRoute>
-                        } />
+                        <Route path="/" element={<Home />} />
 
                         <Route path="/products" element={
                             <ProtectedRoute user={user}>
@@ -113,6 +113,7 @@ function App() {
                             </ProtectedRoute>
                         } />
                     </Routes>
+                    <AuthModal open={showAuthModal && !user} onClose={() => setShowAuthModal(false)} setUser={setUser} />
                 </main>
                 <Footer />
             </div>

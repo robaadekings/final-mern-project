@@ -4,7 +4,7 @@ import AuthCard from '../../components/ui/AuthCard';
 import { Button } from '@/components/ui/button';
 import api from '../../lib/api';
 
-export default function Register() {
+export default function Register({ setUser, asModal }) {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -24,15 +24,20 @@ export default function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await api.post('/auth/register', formData);
-            navigate('/login');
+            const res = await api.post('/auth/register', formData);
+            if (setUser) {
+                setUser(res.data.user);
+            }
+            if (!asModal) {
+                navigate('/login');
+            }
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed');
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-100 to-purple-100 p-4">
+        <div className={asModal ? "" : "min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-100 to-purple-100 p-4"}>
             <AuthCard title="Create a New Account">
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <input
