@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-function Home() {
+function Home({ user }) {
     const products = [
         {
             id: 1,
@@ -22,6 +22,91 @@ function Home() {
         }
     ];
 
+    // If user is authenticated, show dashboard-style home
+    if (user) {
+        return (
+            <div className="min-h-screen bg-gray-50">
+                {/* Welcome Section */}
+                <section className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white py-16">
+                    <div className="container mx-auto text-center px-6">
+                        <h1 className="text-4xl md:text-6xl font-bold mb-4">
+                            Welcome back, {user.name}!
+                        </h1>
+                        <p className="text-lg md:text-xl mb-6">
+                            Ready to explore amazing products?
+                        </p>
+                        <Link
+                            to="/products"
+                            className="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
+                        >
+                            Browse Products
+                        </Link>
+                    </div>
+                </section>
+
+                {/* Quick Actions Section */}
+                <section className="py-12">
+                    <div className="container mx-auto px-6">
+                        <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">
+                            Quick Actions
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <Link to="/products" className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition text-center">
+                                <div className="text-4xl mb-4">🛍️</div>
+                                <h3 className="text-lg font-semibold mb-2">Browse Products</h3>
+                                <p className="text-gray-600">Discover amazing products from trusted vendors</p>
+                            </Link>
+                            <Link to="/cart" className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition text-center">
+                                <div className="text-4xl mb-4">🛒</div>
+                                <h3 className="text-lg font-semibold mb-2">View Cart</h3>
+                                <p className="text-gray-600">Check your shopping cart and proceed to checkout</p>
+                            </Link>
+                            <Link to="/orders" className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition text-center">
+                                <div className="text-4xl mb-4">📦</div>
+                                <h3 className="text-lg font-semibold mb-2">My Orders</h3>
+                                <p className="text-gray-600">Track your orders and view order history</p>
+                            </Link>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Featured Products Section */}
+                <section className="py-12 bg-white">
+                    <div className="container mx-auto px-6">
+                        <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">
+                            Featured Products
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            {products.map((product) => (
+                                <div
+                                    key={product.id}
+                                    className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition border"
+                                >
+                                    <img
+                                        src={product.image}
+                                        alt={product.name}
+                                        className="h-48 w-full object-cover rounded mb-4"
+                                    />
+                                    <h3 className="text-lg font-semibold mb-2">
+                                        {product.name}
+                                    </h3>
+                                    <p className="text-gray-600 mb-4">{product.description}</p>
+                                    <Link
+                                        to="/products"
+                                        className="text-indigo-500 font-medium hover:underline"
+                                    >
+                                        View Details
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            </div>
+        );
+    }
+
+    // If user is not authenticated, show landing page
     return (
         <div>
             {/* Hero Section */}
@@ -35,7 +120,7 @@ function Home() {
                     </p>
                     <div className="flex flex-col md:flex-row justify-center gap-4 mb-6">
                         <Link
-                            to="/Products"
+                            to="/products"
                             className="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
                         >
                             Shop Now

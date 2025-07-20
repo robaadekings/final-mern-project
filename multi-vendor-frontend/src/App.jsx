@@ -49,7 +49,7 @@ function App() {
                     <Routes>
                         <Route path="/login" element={<Login setUser={setUser} />} />
                         <Route path="/register" element={<Register setUser={setUser} />} />
-                        <Route path="/" element={<Home onLoginClick={() => { setAuthModalMode('login'); setShowAuthModal(true); }} onRegisterClick={() => { setAuthModalMode('register'); setShowAuthModal(true); }} />} />
+                        <Route path="/" element={<Home user={user} onLoginClick={() => { setAuthModalMode('login'); setShowAuthModal(true); }} onRegisterClick={() => { setAuthModalMode('register'); setShowAuthModal(true); }} />} />
 
                         <Route path="/products" element={
                             <ProtectedRoute user={user}>
