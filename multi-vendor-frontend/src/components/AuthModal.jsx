@@ -1,8 +1,13 @@
 import Register from '../pages/auth/Register';
 import Login from '../pages/auth/Login';
 
-export default function AuthModal({ open, onClose, setUser, mode }) {
+export default function AuthModal({ open, onClose, setUser, mode, setAuthModalMode }) {
   if (!open) return null;
+
+  const handleSuccess = (user) => {
+    if (setUser) setUser(user);
+    if (onClose) onClose();
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pointer-events-none">
@@ -14,9 +19,9 @@ export default function AuthModal({ open, onClose, setUser, mode }) {
           &times;
         </button>
         {mode === 'register' ? (
-          <Register setUser={setUser} asModal />
+          <Register setUser={setUser} asModal onSuccess={handleSuccess} onSwitchMode={() => setAuthModalMode && setAuthModalMode('login')} />
         ) : (
-          <Login setUser={setUser} asModal />
+          <Login setUser={setUser} asModal onSuccess={handleSuccess} onSwitchMode={() => setAuthModalMode && setAuthModalMode('register')} />
         )}
       </div>
     </div>

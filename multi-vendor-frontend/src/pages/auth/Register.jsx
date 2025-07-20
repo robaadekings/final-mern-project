@@ -4,7 +4,7 @@ import AuthCard from '../../components/ui/AuthCard';
 import { Button } from '@/components/ui/button';
 import api from '../../lib/api';
 
-export default function Register({ setUser, asModal }) {
+export default function Register({ setUser, asModal, onSuccess, onSwitchMode }) {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -24,11 +24,11 @@ export default function Register({ setUser, asModal }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await api.post('/auth/register', formData);
-            if (setUser) {
-                setUser(res.data.user);
-            }
-            if (!asModal) {
+            await api.post('/auth/register', formData);
+            if (asModal && onSuccess) {
+                onSuccess(); // Close modal
+                if (onSwitchMode) onSwitchMode(); // Switch to login
+            } else {
                 navigate('/login');
             }
         } catch (err) {
@@ -79,9 +79,15 @@ export default function Register({ setUser, asModal }) {
                 </form>
                 <p className="text-center text-sm text-gray-500 mt-4">
                     Already have an account?{' '}
-                    <Link to="/login" className="text-indigo-500 font-medium hover:underline">
-                        Login
-                    </Link>
+                    {asModal && onSwitchMode ? (
+                        <button type="button" className="text-indigo-500 font-medium hover:underline" onClick={onSwitchMode}>
+                            Login
+                        </button>
+                    ) : (
+                        <Link to="/login" className="text-indigo-500 font-medium hover:underline">
+                            Login
+                        </Link>
+                    )}
                 </p>
             </AuthCard>
         </div>

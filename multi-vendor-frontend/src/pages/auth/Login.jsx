@@ -4,7 +4,7 @@ import AuthCard from '../../components/ui/AuthCard';
 import { Button } from '@/components/ui/button';
 import api from '../../lib/api';
 
-export default function Login({ setUser, asModal }) {
+export default function Login({ setUser, asModal, onSuccess, onSwitchMode }) {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -23,10 +23,10 @@ export default function Login({ setUser, asModal }) {
         e.preventDefault();
         try {
             const res = await api.post('/auth/login', formData);
-            if (setUser) {
-                setUser(res.data.user);
-            }
-            if (!asModal) {
+            if (setUser) setUser(res.data.user);
+            if (asModal && onSuccess) {
+                onSuccess(res.data.user); // Set user and close modal
+            } else {
                 navigate('/');
             }
         } catch (err) {
@@ -61,9 +61,15 @@ export default function Login({ setUser, asModal }) {
                 </form>
                 <p className="text-center text-sm text-gray-500 mt-4">
                     Don't have an account?{' '}
-                    <Link to="/register" className="text-indigo-500 font-medium hover:underline">
-                        Register
-                    </Link>
+                    {asModal && onSwitchMode ? (
+                        <button type="button" className="text-indigo-500 font-medium hover:underline" onClick={onSwitchMode}>
+                            Register
+                        </button>
+                    ) : (
+                        <Link to="/register" className="text-indigo-500 font-medium hover:underline">
+                            Register
+                        </Link>
+                    )}
                 </p>
             </AuthCard>
         </div>
