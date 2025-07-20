@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import api from '../lib/api';
 import { ShoppingCart } from 'lucide-react';
 
 function Cart({ cart, setCart }) {
@@ -33,8 +33,8 @@ function Cart({ cart, setCart }) {
         setSuccess('');
 
         try {
-            await axios.post(
-                'https://final-mern-project-g5mi.onrender.com/api/orders',
+            await api.post(
+                '/orders',
                 {
                     items: cart.map((item) => ({
                         name: item.name,

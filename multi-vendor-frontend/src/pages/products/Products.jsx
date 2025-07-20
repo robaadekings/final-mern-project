@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../lib/api';
 import { Link } from 'react-router-dom';
 
 function Products() {
@@ -8,7 +8,7 @@ function Products() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res = await axios.get('https://final-mern-project-g5mi.onrender.com/api/products');
+                const res = await api.get('/products');
                 setProducts(res.data);
             } catch (err) {
                 console.error(err);
@@ -29,7 +29,7 @@ function Products() {
                     >
                         {product.image && (
                             <img
-                                src={`https://final-mern-project-g5mi.onrender.com/uploads/${product.image}`}
+                                src={`${import.meta.env.VITE_API_URL || 'https://final-mern-project-g5mi.onrender.com'}/uploads/${product.image}`}
                                 alt={product.name}
                                 className="w-full h-60 object-cover rounded-t-lg"
                             />

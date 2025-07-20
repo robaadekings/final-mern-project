@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../lib/api';
 import { Link } from 'react-router-dom';
 
 function Dashboard() {
@@ -10,7 +10,7 @@ function Dashboard() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res = await axios.get('https://final-mern-project-g5mi.onrender.com/api/products/vendor', {
+                const res = await api.get('/products/vendor', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
@@ -44,7 +44,7 @@ function Dashboard() {
                     {products.map((product) => (
                         <div key={product._id} className="border rounded p-4 shadow-md">
                             <img
-                                src={`https://final-mern-project-g5mi.onrender.com/uploads/${product.image}`}
+                                src={`${import.meta.env.VITE_API_URL || 'https://final-mern-project-g5mi.onrender.com'}/uploads/${product.image}`}
                                 alt={product.name}
                                 className="w-full h-48 object-cover mb-4 rounded"
                             />

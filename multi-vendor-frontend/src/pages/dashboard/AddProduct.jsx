@@ -1,5 +1,5 @@
+import api from '../../lib/api';
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function AddProduct() {
@@ -36,7 +36,7 @@ function AddProduct() {
         data.append('image', image);
 
         try {
-            await axios.post('https://final-mern-project-g5mi.onrender.com/api/products', data, {
+            await api.post('/products', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${localStorage.getItem('token')}`,

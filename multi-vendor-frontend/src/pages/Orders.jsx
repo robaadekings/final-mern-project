@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../lib/api';
 
 function Orders() {
     const [orders, setOrders] = useState([]);
@@ -16,7 +16,7 @@ function Orders() {
             }
 
             try {
-                const res = await axios.get('https://final-mern-project-g5mi.onrender.com/api/orders/my-orders', {
+                const res = await api.get('/orders/my-orders', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
