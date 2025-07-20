@@ -46,11 +46,10 @@ function App() {
         <Router>
             <div className="min-h-screen flex flex-col">
                 <Navbar user={user} logoutHandler={logoutHandler} cartCount={cart.length} />
-                <main className="flex-grow">
+                <main className="flex-grow relative">
                     <Routes>
                         <Route path="/login" element={<Login setUser={setUser} />} />
                         <Route path="/register" element={<Register setUser={setUser} />} />
-
                         <Route path="/" element={<Home />} />
 
                         <Route path="/products" element={
@@ -113,7 +112,10 @@ function App() {
                             </ProtectedRoute>
                         } />
                     </Routes>
-                    <AuthModal open={showAuthModal && !user} onClose={() => setShowAuthModal(false)} setUser={setUser} />
+                    {/* AuthModal overlays Home, not replaces it */}
+                    {window.location.pathname === '/' && (
+                        <AuthModal open={showAuthModal && !user} onClose={() => setShowAuthModal(false)} setUser={setUser} />
+                    )}
                 </main>
                 <Footer />
             </div>
