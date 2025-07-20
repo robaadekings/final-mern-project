@@ -1,10 +1,7 @@
-import { useState } from 'react';
 import Register from '../pages/auth/Register';
 import Login from '../pages/auth/Login';
 
-export default function AuthModal({ open, onClose, setUser }) {
-  const [showRegister, setShowRegister] = useState(true);
-
+export default function AuthModal({ open, onClose, setUser, mode }) {
   if (!open) return null;
 
   return (
@@ -16,21 +13,7 @@ export default function AuthModal({ open, onClose, setUser }) {
         >
           &times;
         </button>
-        <div className="mb-4 flex justify-center">
-          <button
-            className={`px-4 py-2 rounded-l-xl ${showRegister ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'}`}
-            onClick={() => setShowRegister(true)}
-          >
-            Register
-          </button>
-          <button
-            className={`px-4 py-2 rounded-r-xl ${!showRegister ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'}`}
-            onClick={() => setShowRegister(false)}
-          >
-            Login
-          </button>
-        </div>
-        {showRegister ? (
+        {mode === 'register' ? (
           <Register setUser={setUser} asModal />
         ) : (
           <Login setUser={setUser} asModal />

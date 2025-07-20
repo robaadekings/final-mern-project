@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-function Home() {
+function Home({ onRegisterClick, onLoginClick }) {
     const products = [
         {
             id: 1,
@@ -33,12 +33,26 @@ function Home() {
                     <p className="text-lg md:text-xl mb-6">
                         Discover amazing products from trusted vendors.
                     </p>
-                    <Link
-                        to="/Register"
-                        className="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
-                    >
-                        Shop Now
-                    </Link>
+                    <div className="flex flex-col md:flex-row justify-center gap-4 mb-6">
+                        <button
+                            onClick={onRegisterClick}
+                            className="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
+                        >
+                            Register
+                        </button>
+                        <button
+                            onClick={onLoginClick}
+                            className="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
+                        >
+                            Login
+                        </button>
+                        <Link
+                            to="/Products"
+                            className="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
+                        >
+                            Shop Now
+                        </Link>
+                    </div>
                 </div>
             </section>
 

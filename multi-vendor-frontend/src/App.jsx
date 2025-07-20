@@ -25,17 +25,16 @@ function App() {
     const [user, setUser] = useState(null);
     const [cart, setCart] = useState([]);
     const [showAuthModal, setShowAuthModal] = useState(false);
+    const [authModalMode, setAuthModalMode] = useState('register'); // 'register' or 'login'
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
         setUser(storedUser);
-        if (!storedUser) setShowAuthModal(true);
     }, []);
 
     const logoutHandler = () => {
         localStorage.removeItem('user');
         setUser(null);
-        setShowAuthModal(true);
     };
 
     const handleAddToCart = (product) => {
@@ -45,12 +44,12 @@ function App() {
     return (
         <Router>
             <div className="min-h-screen flex flex-col">
-                <Navbar user={user} logoutHandler={logoutHandler} cartCount={cart.length} />
+                <Navbar user={user} logoutHandler={logoutHandler} cartCount={cart.length} onLoginClick={() => { setAuthModalMode('login'); setShowAuthModal(true); }} onRegisterClick={() => { setAuthModalMode('register'); setShowAuthModal(true); }} />
                 <main className="flex-grow relative">
                     <Routes>
                         <Route path="/login" element={<Login setUser={setUser} />} />
                         <Route path="/register" element={<Register setUser={setUser} />} />
-                        <Route path="/" element={<Home />} />
+                        <Route path="/" element={<Home onLoginClick={() => { setAuthModalMode('login'); setShowAuthModal(true); }} onRegisterClick={() => { setAuthModalMode('register'); setShowAuthModal(true); }} />} />
 
                         <Route path="/products" element={
                             <ProtectedRoute user={user}>
@@ -112,10 +111,7 @@ function App() {
                             </ProtectedRoute>
                         } />
                     </Routes>
-                    {/* AuthModal overlays Home, not replaces it */}
-                    {window.location.pathname === '/' && (
-                        <AuthModal open={showAuthModal && !user} onClose={() => setShowAuthModal(false)} setUser={setUser} />
-                    )}
+                    <AuthModal open={showAuthModal} onClose={() => setShowAuthModal(false)} setUser={setUser} mode={authModalMode} />
                 </main>
                 <Footer />
             </div>
