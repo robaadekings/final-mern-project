@@ -26,8 +26,9 @@ export default function Login({ setUser, asModal, onSuccess, onSwitchMode }) {
             if (setUser) setUser(res.data.user);
             if (asModal && onSuccess) {
                 onSuccess(res.data.user); // Set user and close modal
+                navigate('/products'); // Redirect to products page after modal login
             } else {
-                navigate('/');
+                navigate('/products'); // Also redirect to products for full-page login
             }
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed');
