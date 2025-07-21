@@ -26,9 +26,9 @@ router.get('/vendor', protect, isVendor, async (req, res) => {
 router.get('/', getProducts);
 router.get('/:id', getProductById);
 
-// 🛡️ Protected (Vendor-only) routes
-router.post('/', protect, allowRoles('vendor'), createProduct);
-router.put('/:id', protect, allowRoles('vendor'), updateProduct);
-router.delete('/:id', protect, allowRoles('vendor'), deleteProduct);
+// ��️ Protected (Vendor and Admin) routes
+router.post('/', protect, allowRoles('admin', 'vendor'), createProduct);
+router.put('/:id', protect, allowRoles('admin', 'vendor'), updateProduct);
+router.delete('/:id', protect, allowRoles('admin', 'vendor'), deleteProduct);
 
 module.exports = router;
