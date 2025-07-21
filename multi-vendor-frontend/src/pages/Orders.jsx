@@ -85,12 +85,17 @@ function Orders() {
                         </ul>
                       </div>
                       <div className="flex justify-end">
-                        <a
-                          href={`/products/${order.items[0]?.productId?._id || order.items[0]?.productId}`}
-                          className="text-indigo-600 hover:underline text-sm font-medium"
-                        >
-                          View Details
-                        </a>
+                        {(() => { const pid = order.items[0]?.productId?._id || order.items[0]?.productId; console.log('Order item productId for View Details:', pid, order.items[0]); return null; })()}
+                        {order.items[0]?.productId?._id || order.items[0]?.productId ? (
+                          <a
+                            href={`/products/${order.items[0]?.productId?._id || order.items[0]?.productId}`}
+                            className="text-indigo-600 hover:underline text-sm font-medium"
+                          >
+                            View Details
+                          </a>
+                        ) : (
+                          <span className="text-gray-400 text-xs">No product details available</span>
+                        )}
                       </div>
                     </div>
                   ))}
