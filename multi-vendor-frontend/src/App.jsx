@@ -24,7 +24,7 @@ import ManageOrders from './pages/admin/ManageOrders';
 import ManageUsers from './pages/admin/ManageUsers';
 import Cart from './pages/Cart';
 
-function App() {
+function AppContent() {
     const [user, setUser] = useState(null);
     const [cart, setCart] = useState([]);
     const [showAuthModal, setShowAuthModal] = useState(false);
@@ -59,8 +59,6 @@ function App() {
     if (loading) return <div>Loading...</div>;
 
     return (
-        <ThemeProvider>
-        <ToastProvider>
         <Router>
             <div className="min-h-screen flex flex-col">
                 <Navbar user={user} logoutHandler={logoutHandler} cartCount={cart.length} onLoginClick={() => { setAuthModalMode('login'); setShowAuthModal(true); }} onRegisterClick={() => { setAuthModalMode('register'); setShowAuthModal(true); }} />
@@ -134,10 +132,18 @@ function App() {
                     <AuthModal open={showAuthModal} onClose={() => setShowAuthModal(false)} setUser={setUser} mode={authModalMode} />
                 </main>
                 <BottomNavbar user={user} cartCount={cart.length} />
-                <Footer />
+                <Footer user={user} />
             </div>
         </Router>
-        </ToastProvider>
+    );
+}
+
+function App() {
+    return (
+        <ThemeProvider>
+            <ToastProvider>
+                <AppContent />
+            </ToastProvider>
         </ThemeProvider>
     );
 }
