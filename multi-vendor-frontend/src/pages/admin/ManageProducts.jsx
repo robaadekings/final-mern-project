@@ -81,8 +81,9 @@ function ManageProducts() {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setProducts(res.data);
-            } catch {
-                setError('Failed to fetch products');
+            } catch (err) {
+                setError(`Failed to fetch products: ${err.message}`);
+                console.error('Failed to fetch products:', err);
             } finally {
                 setLoading(false);
             }
@@ -152,6 +153,7 @@ function ManageProducts() {
             setImagePreview(null);
         } catch (err) {
             toast.showToast('Failed to save product', 'error');
+            console.error('Failed to save product:', err);
         }
     };
 
@@ -174,6 +176,7 @@ function ManageProducts() {
             toast.showToast('Product deleted!', 'success');
         } catch (err) {
             toast.showToast('Failed to delete product', 'error');
+            console.error('Failed to delete product:', err);
         }
     };
     // Approve product
@@ -188,6 +191,7 @@ function ManageProducts() {
             toast.showToast('Product approved!', 'success');
         } catch (err) {
             toast.showToast('Failed to approve product', 'error');
+            console.error('Failed to approve product:', err);
         }
     };
 
@@ -203,6 +207,7 @@ function ManageProducts() {
             toast.showToast('Selected products approved!', 'success');
         } catch (err) {
             toast.showToast('Failed to approve selected products', 'error');
+            console.error('Failed to approve selected products:', err);
         }
     };
     // Bulk Delete
@@ -217,6 +222,7 @@ function ManageProducts() {
             toast.showToast('Selected products deleted!', 'success');
         } catch (err) {
             toast.showToast('Failed to delete selected products', 'error');
+            console.error('Failed to delete selected products:', err);
         }
     };
     // Handle row checkbox
@@ -276,11 +282,12 @@ function ManageProducts() {
             toast.showToast('Product updated successfully!', 'success');
         } catch (err) {
             toast.showToast('Failed to update product', 'error');
+            console.error('Failed to update product:', err);
         }
     };
 
     return (
-        <div className="p-8">
+        <div className="p-2 md:p-8">
             <ProductModal product={modalProduct} open={modalOpen} onClose={() => { setModalOpen(false); setModalProduct(null); }} onSave={handleModalSave} />
             <h2 className="text-xl font-semibold mb-4">Manage Products</h2>
             <div className="mb-4 flex flex-wrap gap-2 items-center">
@@ -308,7 +315,7 @@ function ManageProducts() {
                     <option value="status">Status</option>
                 </select>
             </div>
-            {error && <div className="text-red-600 mb-2">{error}</div>}
+            {error && <div className="text-red-600 mb-2 flex flex-col items-center">{error}</div>}
             <form onSubmit={handleSubmit} className="mb-6 space-y-2" encType="multipart/form-data">
                 <input name="name" value={form.name} onChange={handleChange} placeholder="Name" className="border p-2 mr-2" required />
                 <input name="price" value={form.price} onChange={handleChange} placeholder="Price" type="number" className="border p-2 mr-2" required />
@@ -325,54 +332,54 @@ function ManageProducts() {
                 filteredProducts.length === 0 ? (
                     <div className="text-gray-500 text-center py-8">No products found for this filter.</div>
                 ) : (
-                    <>
-                    <table className="w-full border">
-                        <thead>
-                            <tr className="bg-gray-100">
-                                <th className="p-2 border"><input type="checkbox" checked={selectAll} onChange={handleSelectAll} /></th>
-                                <th className="p-2 border">Name</th>
-                                <th className="p-2 border">Price</th>
-                                <th className="p-2 border">Description</th>
-                                <th className="p-2 border">Category</th>
-                                <th className="p-2 border">Vendor</th>
-                                <th className="p-2 border">Status</th>
-                                <th className="p-2 border">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {paginatedProducts.map(product => (
-                                <tr key={product._id} className={selected.includes(product._id) ? 'bg-indigo-50' : ''} onClick={e => { if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') { setModalProduct(product); setModalOpen(true); }}} style={{ cursor: 'pointer' }}>
-                                    <td className="p-2 border text-center">
-                                        <input type="checkbox" checked={selected.includes(product._id)} onChange={() => handleSelect(product._id)} onClick={e => e.stopPropagation()} />
-                                    </td>
-                                    <td className="p-2 border">{product.name}</td>
-                                    <td className="p-2 border">{product.price}</td>
-                                    <td className="p-2 border">{product.description}</td>
-                                    <td className="p-2 border">{product.category}</td>
-                                    <td className="p-2 border">{product.vendor ? `${product.vendor.name || ''} (${product.vendor.email || ''})` : <span className="text-gray-400">Admin</span>}</td>
-                                    <td className="p-2 border">{getStatusBadge(product.approved)}</td>
-                                    <td className="p-2 border">
-                                        <button onClick={e => { e.stopPropagation(); handleEdit(product); }} className="text-blue-600 hover:underline mr-2 flex items-center gap-1" aria-label="Edit" title="Edit"><PencilIcon className="w-5 h-5" /> Edit</button>
-                                        <button onClick={e => { e.stopPropagation(); handleDelete(product._id); }} className="text-red-600 hover:underline flex items-center gap-1" aria-label="Delete" title="Delete"><TrashIcon className="w-5 h-5" /> Delete</button>
-                                        {!product.approved && (
-                                            <button onClick={e => { e.stopPropagation(); handleApprove(product._id); }} className="ml-2 bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded transition-all duration-200 flex items-center gap-1" aria-label="Approve" title="Approve"><CheckIcon className="w-5 h-5" /> Approve</button>
-                                        )}
-                                        <button onClick={e => { e.stopPropagation(); setModalProduct(product); setModalOpen(true); }} className="ml-2 text-gray-600 hover:text-indigo-600 flex items-center gap-1" aria-label="View" title="View"><EyeIcon className="w-5 h-5" /> View</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <div className="flex justify-center items-center gap-2 mt-4">
-                        <button onClick={() => setPage(page - 1)} disabled={page === 1} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50">Prev</button>
-                        {Array.from({ length: totalPages }, (_, i) => (
-                            <button key={i+1} onClick={() => setPage(i+1)} className={`px-3 py-1 rounded ${page === i+1 ? 'bg-indigo-600 text-white' : 'bg-gray-200'}`}>{i+1}</button>
-                        ))}
-                        <button onClick={() => setPage(page + 1)} disabled={page === totalPages} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50">Next</button>
+                    <div className="overflow-x-auto">
+                      <table className="w-full border min-w-[900px]">
+                          <thead>
+                              <tr className="bg-gray-100">
+                                  <th className="p-2 border"><input type="checkbox" checked={selectAll} onChange={handleSelectAll} /></th>
+                                  <th className="p-2 border">Name</th>
+                                  <th className="p-2 border">Price</th>
+                                  <th className="p-2 border">Description</th>
+                                  <th className="p-2 border">Category</th>
+                                  <th className="p-2 border">Vendor</th>
+                                  <th className="p-2 border">Status</th>
+                                  <th className="p-2 border">Actions</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              {paginatedProducts.map(product => (
+                                  <tr key={product._id} className={selected.includes(product._id) ? 'bg-indigo-50' : ''} onClick={e => { if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') { setModalProduct(product); setModalOpen(true); }}} style={{ cursor: 'pointer' }}>
+                                      <td className="p-2 border text-center">
+                                          <input type="checkbox" checked={selected.includes(product._id)} onChange={() => handleSelect(product._id)} onClick={e => e.stopPropagation()} />
+                                      </td>
+                                      <td className="p-2 border">{product.name}</td>
+                                      <td className="p-2 border">{product.price}</td>
+                                      <td className="p-2 border">{product.description}</td>
+                                      <td className="p-2 border">{product.category}</td>
+                                      <td className="p-2 border">{product.vendor ? `${product.vendor.name || ''} (${product.vendor.email || ''})` : <span className="text-gray-400">Admin</span>}</td>
+                                      <td className="p-2 border">{getStatusBadge(product.approved)}</td>
+                                      <td className="p-2 border">
+                                          <button onClick={e => { e.stopPropagation(); handleEdit(product); }} className="text-blue-600 hover:underline mr-2 flex items-center gap-1" aria-label="Edit" title="Edit"><PencilIcon className="w-5 h-5" /> Edit</button>
+                                          <button onClick={e => { e.stopPropagation(); handleDelete(product._id); }} className="text-red-600 hover:underline flex items-center gap-1" aria-label="Delete" title="Delete"><TrashIcon className="w-5 h-5" /> Delete</button>
+                                          {!product.approved && (
+                                              <button onClick={e => { e.stopPropagation(); handleApprove(product._id); }} className="ml-2 bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded transition-all duration-200 flex items-center gap-1" aria-label="Approve" title="Approve"><CheckIcon className="w-5 h-5" /> Approve</button>
+                                          )}
+                                          <button onClick={e => { e.stopPropagation(); setModalProduct(product); setModalOpen(true); }} className="ml-2 text-gray-600 hover:text-indigo-600 flex items-center gap-1" aria-label="View" title="View"><EyeIcon className="w-5 h-5" /> View</button>
+                                      </td>
+                                  </tr>
+                              ))}
+                          </tbody>
+                      </table>
                     </div>
-                    </>
                 )
             )}
+            <div className="flex justify-center items-center gap-2 mt-4">
+                <button onClick={() => setPage(page - 1)} disabled={page === 1} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50">Prev</button>
+                {Array.from({ length: totalPages }, (_, i) => (
+                    <button key={i+1} onClick={() => setPage(i+1)} className={`px-3 py-1 rounded ${page === i+1 ? 'bg-indigo-600 text-white' : 'bg-gray-200'}`}>{i+1}</button>
+                ))}
+                <button onClick={() => setPage(page + 1)} disabled={page === totalPages} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50">Next</button>
+            </div>
         </div>
     );
 }
