@@ -24,7 +24,9 @@ export default function Register({ setUser, asModal, onSuccess, onSwitchMode }) 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await api.post('/auth/register', formData);
+            const res = await api.post('/auth/register', formData);
+            if (res.data?.token) localStorage.setItem('token', res.data.token);
+            if (res.data) localStorage.setItem('user', JSON.stringify(res.data));
             if (asModal && onSuccess) {
                 onSuccess(); // Close modal
                 if (onSwitchMode) onSwitchMode(); // Switch to login

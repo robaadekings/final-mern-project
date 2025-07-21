@@ -35,7 +35,7 @@ function Navbar({ user, logoutHandler, cartCount }) {
     const profilePic = user && user.profilePic ? user.profilePic : null;
 
     return (
-        <nav className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-md relative z-50">
+        <nav className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-md sticky top-0 z-50">
             <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
                 <Link to="/" className="text-5xl font-bold flex items-center gap-2"><HomeIcon className="w-8 h-8 inline mb-1" aria-label="Home" /> MyStore</Link>
 

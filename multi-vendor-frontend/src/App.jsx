@@ -16,6 +16,7 @@ import Dashboard from './pages/dashboard/Dashboard';
 import AddProduct from './pages/dashboard/AddProduct';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
+import Profile from './pages/Profile';
 
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ManageProducts from './pages/admin/ManageProducts';
@@ -66,6 +67,7 @@ function App() {
                         <Route path="/login" element={<Login setUser={setUser} />} />
                         <Route path="/register" element={<Register setUser={setUser} />} />
                         <Route path="/" element={<Home user={user} onLoginClick={() => { setAuthModalMode('login'); setShowAuthModal(true); }} onRegisterClick={() => { setAuthModalMode('register'); setShowAuthModal(true); }} />} />
+                        <Route path="/profile" element={<Profile />} />
 
                         <Route path="/products" element={
                             <ProtectedRoute user={user}>
