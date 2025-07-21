@@ -30,7 +30,14 @@ function App() {
 
     useEffect(() => {
         const storedUserStr = localStorage.getItem('user');
-        const storedUser = storedUserStr ? JSON.parse(storedUserStr) : null;
+        let storedUser = null;
+        try {
+            if (storedUserStr && storedUserStr !== "undefined") {
+                storedUser = JSON.parse(storedUserStr);
+            }
+        } catch (e) {
+            storedUser = null;
+        }
         setUser(storedUser);
         setLoading(false);
     }, []);
