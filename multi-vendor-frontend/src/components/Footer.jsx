@@ -18,7 +18,7 @@ const TikTokIcon = () => (
 function Footer({ user }) {
     return (
         <footer className="bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900 border-t border-pink-300/30 shadow-2xl rounded-t-2xl mx-2 md:mx-8 mt-12 overflow-hidden text-xs">
-            <div className="max-w-7xl mx-auto px-3 py-4 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0 text-center md:text-left">
+            <div className="max-w-7xl mx-auto px-3 py-4 flex flex-col-reverse md:flex-row justify-between items-center gap-4 md:gap-0 text-center md:text-left">
                 {/* Brand/Logo & Tagline */}
                 <div className="flex flex-col items-center md:items-start gap-2 mb-4 md:mb-0 w-full">
                     <div className="flex items-center gap-2 justify-center md:justify-start w-full">
@@ -50,7 +50,7 @@ function Footer({ user }) {
                     </a>
                 </div>
             </div>
-            <div className="max-w-7xl mx-auto px-3 pb-2 pt-1 text-center text-[10px] text-pink-200 mt-1">
+            <div className="max-w-7xl mx-auto px-3 pb-2 pt-1 text-center text-[10px] text-pink-200 mt-1 w-full">
                 <hr className="border-pink-300/30 mb-2" />
                 <p>© 2025 RobinkStore. All rights reserved. Made with <span className="text-pink-400">❤️</span> by Robert Murungi.</p>
             </div>
