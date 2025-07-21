@@ -3,10 +3,15 @@ const Product = require('../models/Product');
 // 📦 Create a product
 const createProduct = async (req, res) => {
     try {
-        const product = new Product({
-            vendor: req.user._id,
-            ...req.body,
-        });
+        let productData = { ...req.body };
+        if (req.user.role === 'admin') {
+            productData.approved = true;
+            productData.vendor = null;
+        } else if (req.user.role === 'vendor') {
+            productData.approved = false;
+            productData.vendor = req.user._id;
+        }
+        const product = new Product(productData);
         const savedProduct = await product.save();
         res.status(201).json(savedProduct);
     } catch (error) {
@@ -17,9 +22,12 @@ const createProduct = async (req, res) => {
 // 🔍 Get all products (supports ?search= & ?category=)
 const getProducts = async (req, res) => {
     try {
-        const { search, category } = req.query;
+        const { search, category, all } = req.query;
 
         let query = {};
+        if (!all || req.user?.role !== 'admin') {
+            query.approved = true;
+        }
         if (search) {
             query.name = { $regex: search, $options: 'i' };
         }
@@ -80,10 +88,24 @@ const deleteProduct = async (req, res) => {
     }
 };
 
+// ✅ Approve a product (admin only)
+const approveProduct = async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        if (!product) return res.status(404).json({ message: 'Product not found' });
+        product.approved = true;
+        await product.save();
+        res.json({ message: 'Product approved', product });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     createProduct,
     getProducts,
     getProductById,
     updateProduct,
     deleteProduct,
+    approveProduct,
 };

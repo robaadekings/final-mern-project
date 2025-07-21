@@ -50,7 +50,12 @@ function Dashboard() {
                             />
                             <h2 className="text-lg font-bold">{product.name}</h2>
                             <p className="text-gray-600 mb-2">{product.description.slice(0, 50)}...</p>
-                            <p className="font-semibold">${product.price}</p>
+                            <p className="font-semibold mb-2">${product.price}</p>
+                            {product.approved ? (
+                                <span className="inline-block px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full">Approved</span>
+                            ) : (
+                                <span className="inline-block px-3 py-1 text-xs bg-orange-100 text-orange-700 rounded-full">Pending Approval</span>
+                            )}
                         </div>
                     ))}
                 </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../../lib/api';
 import { useToast } from '../../components/ToastContext';
+import { FaUserShield, FaUserCog, FaUserCircle } from 'react-icons/fa';
 
 function ManageUsers() {
     const [users, setUsers] = useState([]);
@@ -45,6 +46,13 @@ function ManageUsers() {
         }
     };
 
+    // Role icon helper
+    const getRoleIcon = (role) => {
+        if (role === 'admin') return <FaUserShield className="inline text-indigo-700 mr-1" title="Admin" />;
+        if (role === 'vendor') return <FaUserCog className="inline text-pink-700 mr-1" title="Vendor" />;
+        return <FaUserCircle className="inline text-gray-500 mr-1" title="Customer" />;
+    };
+
     return (
         <div className="p-8">
             <h2 className="text-xl font-semibold mb-4">Manage Users</h2>
@@ -69,7 +77,7 @@ function ManageUsers() {
                                 <tr key={user._id}>
                                     <td className="p-2 border">{user.name}</td>
                                     <td className="p-2 border">{user.email}</td>
-                                    <td className="p-2 border">{user.role}</td>
+                                    <td className="p-2 border flex items-center gap-1">{getRoleIcon(user.role)}{user.role.charAt(0).toUpperCase() + user.role.slice(1)}</td>
                                     <td className="p-2 border">
                                         <select
                                             value={roleUpdates[user._id] || user.role}

@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthModal from './components/AuthModal';
 import { ToastProvider } from './components/ToastContext';
+import { ThemeProvider } from './components/ThemeContext';
 
 import Home from './pages/Home';
 import Products from './pages/Products';
@@ -55,6 +56,7 @@ function App() {
     if (loading) return <div>Loading...</div>;
 
     return (
+        <ThemeProvider>
         <ToastProvider>
         <Router>
             <div className="min-h-screen flex flex-col">
@@ -131,6 +133,7 @@ function App() {
             </div>
         </Router>
         </ToastProvider>
+        </ThemeProvider>
     );
 }
 

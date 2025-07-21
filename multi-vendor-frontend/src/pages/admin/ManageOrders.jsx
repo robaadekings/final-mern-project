@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../../lib/api';
 import { useToast } from '../../components/ToastContext';
+import { FaClock, FaCog, FaTruck, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 function ManageOrders() {
     const [orders, setOrders] = useState([]);
@@ -47,17 +48,35 @@ function ManageOrders() {
 
     const statusOptions = ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
 
+    // Status badge with icon
     const getStatusBadge = (status) => {
         let color = '';
+        let icon = null;
         switch (status) {
-            case 'Delivered': color = 'bg-green-500'; break;
+            case 'Delivered':
+                color = 'bg-green-500';
+                icon = <FaCheckCircle className="inline mr-1" />;
+                break;
             case 'Processing':
-            case 'Shipped': color = 'bg-blue-500'; break;
-            case 'Pending': color = 'bg-orange-500'; break;
-            case 'Cancelled': color = 'bg-red-500'; break;
-            default: color = 'bg-gray-400';
+                color = 'bg-blue-500';
+                icon = <FaCog className="inline mr-1 animate-spin" />;
+                break;
+            case 'Shipped':
+                color = 'bg-blue-700';
+                icon = <FaTruck className="inline mr-1" />;
+                break;
+            case 'Pending':
+                color = 'bg-orange-500';
+                icon = <FaClock className="inline mr-1" />;
+                break;
+            case 'Cancelled':
+                color = 'bg-red-500';
+                icon = <FaTimesCircle className="inline mr-1" />;
+                break;
+            default:
+                color = 'bg-gray-400';
         }
-        return <span className={`px-2 py-1 rounded text-white text-xs ${color}`}>{status}</span>;
+        return <span className={`px-2 py-1 rounded text-white text-xs inline-flex items-center gap-1 ${color}`}>{icon}{status}</span>;
     };
 
     return (

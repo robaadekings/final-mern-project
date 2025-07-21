@@ -6,9 +6,10 @@ const {
     getProductById,
     updateProduct,
     deleteProduct,
+    approveProduct,
 } = require('../controllers/productController');
 const { protect } = require('../middleware/authMiddleware');
-const { allowRoles, isVendor } = require('../middleware/roleMiddleware');
+const { allowRoles, isVendor, isAdmin } = require('../middleware/roleMiddleware');
 const Product = require('../models/Product');
 
 // 🛍️ Vendor-specific dashboard (only vendor sees their products)
@@ -30,5 +31,6 @@ router.get('/:id', getProductById);
 router.post('/', protect, allowRoles('admin', 'vendor'), createProduct);
 router.put('/:id', protect, allowRoles('admin', 'vendor'), updateProduct);
 router.delete('/:id', protect, allowRoles('admin', 'vendor'), deleteProduct);
+router.put('/:id/approve', protect, isAdmin, approveProduct);
 
 module.exports = router;

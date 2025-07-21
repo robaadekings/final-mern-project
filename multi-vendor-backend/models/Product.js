@@ -10,6 +10,7 @@ const productSchema = new mongoose.Schema({
     stock: { type: Number, default: 0 },
     numReviews: { type: Number, default: 0 },
     averageRating: { type: Number, default: 0 },
+    approved: { type: Boolean, default: false },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Product', productSchema);
