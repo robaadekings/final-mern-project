@@ -29,7 +29,8 @@ function App() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const storedUser = JSON.parse(localStorage.getItem('user'));
+        const storedUserStr = localStorage.getItem('user');
+        const storedUser = storedUserStr ? JSON.parse(storedUserStr) : null;
         setUser(storedUser);
         setLoading(false);
     }, []);
