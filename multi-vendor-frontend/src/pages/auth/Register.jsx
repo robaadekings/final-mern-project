@@ -64,14 +64,7 @@ export default function Register({ setUser, asModal, onSuccess, onSwitchMode }) 
                         onChange={handleChange}
                         className="w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
-                    <input
-                        type="text"
-                        name="storeName"
-                        placeholder="Store Name (if Vendor)"
-                        value={formData.storeName}
-                        onChange={handleChange}
-                        className="w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    />
+                   
                     {error && <p className="text-red-500 text-sm">{error}</p>}
                     <Button type="submit" className="w-full bg-purple-500 hover:bg-purple-600 text-white font-medium py-3 rounded-xl">
                         Register
