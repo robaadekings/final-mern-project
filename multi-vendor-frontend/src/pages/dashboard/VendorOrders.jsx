@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../../lib/api';
 import { useToast } from '../../components/ToastContext';
 
-function ManageOrders() {
+function VendorOrders() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -13,7 +13,7 @@ function ManageOrders() {
         const fetchOrders = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await api.get('/orders/admin', {
+                const res = await api.get('/orders/vendor', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setOrders(res.data);
@@ -62,7 +62,7 @@ function ManageOrders() {
 
     return (
         <div className="p-8">
-            <h2 className="text-xl font-semibold mb-4">Manage Orders</h2>
+            <h2 className="text-xl font-semibold mb-4">My Orders (Vendor)</h2>
             {error && <div className="text-red-600 mb-2">{error}</div>}
             {loading ? (
                 <div className="flex justify-center items-center py-10"><span className="loader mr-2"></span>Loading...</div>
@@ -123,4 +123,4 @@ function ManageOrders() {
     );
 }
 
-export default ManageOrders;
+export default VendorOrders; 

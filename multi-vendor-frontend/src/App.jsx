@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthModal from './components/AuthModal';
+import { ToastProvider } from './components/ToastContext';
 
 import Home from './pages/Home';
 import Products from './pages/Products';
@@ -54,6 +55,7 @@ function App() {
     if (loading) return <div>Loading...</div>;
 
     return (
+        <ToastProvider>
         <Router>
             <div className="min-h-screen flex flex-col">
                 <Navbar user={user} logoutHandler={logoutHandler} cartCount={cart.length} onLoginClick={() => { setAuthModalMode('login'); setShowAuthModal(true); }} onRegisterClick={() => { setAuthModalMode('register'); setShowAuthModal(true); }} />
@@ -128,6 +130,7 @@ function App() {
                 <Footer />
             </div>
         </Router>
+        </ToastProvider>
     );
 }
 

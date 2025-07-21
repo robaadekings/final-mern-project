@@ -67,8 +67,33 @@ const getUserProfile = async (req, res) => {
     }
 };
 
+// @desc    Get all users (admin only)
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find({});
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch users' });
+    }
+};
+
+// @desc    Update user role (admin only)
+const updateUserRole = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        user.role = req.body.role;
+        await user.save();
+        res.json({ message: 'User role updated', user });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to update user role' });
+    }
+};
+
 module.exports = {
     registerUser,
     loginUser,
     getUserProfile,
+    getAllUsers,
+    updateUserRole,
 };

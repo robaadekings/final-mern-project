@@ -67,8 +67,34 @@ const updateOrderStatus = async (req, res) => {
     }
 };
 
+// Get all orders (admin only)
+const getAllOrders = async (req, res) => {
+    try {
+        const orders = await Order.find({}).populate('customer', 'name email');
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch orders' });
+    }
+};
+
+// Get orders for vendor's products
+const getVendorOrders = async (req, res) => {
+    try {
+        // Find orders where any item.productId is a product owned by this vendor
+        const Product = require('../models/Product');
+        const vendorProducts = await Product.find({ vendor: req.user._id }).select('_id');
+        const vendorProductIds = vendorProducts.map(p => p._id.toString());
+        const orders = await Order.find({ 'items.productId': { $in: vendorProductIds } }).populate('customer', 'name email');
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch vendor orders' });
+    }
+};
+
 module.exports = {
     createOrder,
     getMyOrders,
     updateOrderStatus,
+    getAllOrders,
+    getVendorOrders,
 };

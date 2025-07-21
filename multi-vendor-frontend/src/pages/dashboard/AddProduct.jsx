@@ -11,6 +11,7 @@ function AddProduct() {
         category: '',
     });
     const [image, setImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
     const [error, setError] = useState('');
 
     const handleChange = (e) => {
@@ -18,7 +19,15 @@ function AddProduct() {
     };
 
     const handleImageChange = (e) => {
-        setImage(e.target.files[0]);
+        const file = e.target.files[0];
+        setImage(file);
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => setImagePreview(reader.result);
+            reader.readAsDataURL(file);
+        } else {
+            setImagePreview(null);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -92,6 +101,9 @@ function AddProduct() {
                     onChange={handleImageChange}
                     className="w-full"
                 />
+                {imagePreview && (
+                    <img src={imagePreview} alt="Preview" className="w-32 h-32 object-cover rounded mb-2" />
+                )}
                 <button
                     type="submit"
                     className="w-full bg-indigo-600 text-white p-2 rounded hover:bg-indigo-700"
