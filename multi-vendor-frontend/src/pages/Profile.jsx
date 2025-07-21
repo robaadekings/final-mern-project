@@ -13,7 +13,8 @@ import {
   CheckCircleIcon,
   ClockIcon,
   TruckIcon,
-  XCircleIcon
+  XCircleIcon,
+  ArrowRightOnRectangleIcon
 } from '@heroicons/react/24/outline';
 import Skeleton from '../components/Skeleton';
 
@@ -157,6 +158,12 @@ function Profile() {
         localStorage.setItem('defaultAddressIdx', idx);
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+    };
+
     return (
         <div className="max-w-3xl mx-auto py-10 px-4">
             <EditProfileModal open={editOpen} onClose={() => setEditOpen(false)} user={user} onSave={setUser} />
@@ -175,6 +182,10 @@ function Profile() {
                 <h2 className="text-2xl font-bold mt-4">{user?.name || 'Customer'}</h2>
                 <p className="text-gray-500">{user?.email}</p>
                 <button onClick={() => setEditOpen(true)} className="mt-2 flex items-center gap-1 text-indigo-600 hover:underline" aria-label="Edit Profile" title="Edit Profile"><PencilIcon className="w-5 h-5" /> Edit Profile</button>
+                {/* Logout button below profile info */}
+                <button onClick={handleLogout} className="mt-4 flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full shadow transition-all duration-200 text-lg active:scale-95" aria-label="Logout" title="Logout">
+                    <ArrowRightOnRectangleIcon className="w-6 h-6" /> Logout
+                </button>
             </div>
             <div className="bg-white rounded-lg shadow p-6 mb-8">
                 <div className="flex justify-between items-center mb-4">

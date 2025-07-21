@@ -40,7 +40,7 @@ function Navbar({ user, logoutHandler, cartCount }) {
             <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
                 <Link to="/" className="flex items-center gap-2 group select-none">
                     <HomeIcon className="w-12 h-12 inline mb-1 md:w-10 md:h-10 transition-all duration-200" aria-label="Home" />
-                    <span className="font-extrabold tracking-widest text-white drop-shadow text-3xl md:text-5xl group-hover:scale-105 transition-all duration-200 max-w-[8.5rem] md:max-w-none truncate">RobinkStore</span>
+                    <span className="font-extrabold tracking-widest text-white drop-shadow text-xl md:text-2xl group-hover:scale-105 transition-all duration-200 max-w-[7rem] md:max-w-[10rem] truncate">RobinkStore</span>
                 </Link>
 
                 <div className="md:hidden flex items-center gap-4">
