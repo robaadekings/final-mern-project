@@ -26,10 +26,12 @@ function App() {
     const [cart, setCart] = useState([]);
     const [showAuthModal, setShowAuthModal] = useState(false);
     const [authModalMode, setAuthModalMode] = useState('register'); // 'register' or 'login'
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
         setUser(storedUser);
+        setLoading(false);
     }, []);
 
     const logoutHandler = () => {
@@ -40,6 +42,8 @@ function App() {
     const handleAddToCart = (product) => {
         setCart((prevCart) => [...prevCart, product]);
     };
+
+    if (loading) return <div>Loading...</div>;
 
     return (
         <Router>
