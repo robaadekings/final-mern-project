@@ -24,6 +24,7 @@ export default function Login({ setUser, asModal, onSuccess, onSwitchMode }) {
         try {
             const res = await api.post('/auth/login', formData);
             if (setUser) setUser(res.data.user);
+            localStorage.setItem('user', JSON.stringify(res.data.user)); // Persist user
             if (asModal && onSuccess) {
                 onSuccess(res.data.user); // Set user and close modal
                 navigate('/products'); // Redirect to products page after modal login
