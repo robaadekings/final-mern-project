@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Products({ onAddToCart }) {
     const [searchTerm, setSearchTerm] = useState('');
@@ -76,9 +77,10 @@ function Products({ onAddToCart }) {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                 {filteredProducts.map((product) => (
-                    <div
+                    <Link
                         key={product.id}
-                        className="bg-white rounded-lg shadow-md hover:shadow-xl transition p-5"
+                        to={`/products/${product.id}`}
+                        className="bg-white rounded-lg shadow-md hover:shadow-xl transition p-5 block"
                     >
                         <div className="h-48 bg-gray-100 rounded mb-4 overflow-hidden">
                             <img
@@ -91,12 +93,12 @@ function Products({ onAddToCart }) {
                         <p className="text-gray-600 mb-2">{product.category}</p>
                         <p className="text-indigo-600 font-bold mb-4">${product.price}</p>
                         <button
-                            onClick={() => onAddToCart(product)}
+                            onClick={(e) => { e.preventDefault(); onAddToCart(product); }}
                             className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition w-full"
                         >
                             Add to Cart
                         </button>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </div>
