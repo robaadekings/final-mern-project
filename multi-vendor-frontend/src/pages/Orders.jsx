@@ -85,7 +85,7 @@ function Orders() {
                         </ul>
                       </div>
                       <div className="flex justify-end">
-                        <a href={`/orders/${order._id}`} className="text-indigo-600 hover:underline text-sm font-medium">View Details</a>
+                        <a href={`/products/${order.items[0]?.productId}`} className="text-indigo-600 hover:underline text-sm font-medium">View Details</a>
                       </div>
                     </div>
                   ))}

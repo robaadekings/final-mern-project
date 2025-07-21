@@ -38,7 +38,10 @@ function Navbar({ user, logoutHandler, cartCount }) {
     return (
         <nav className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-md sticky top-0 z-50">
             <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-                <Link to="/" className="text-5xl font-bold flex items-center gap-2"><HomeIcon className="w-8 h-8 inline mb-1" aria-label="Home" /> RobinkStore</Link>
+                <Link to="/" className="flex items-center gap-2 group select-none">
+                    <HomeIcon className="w-12 h-12 inline mb-1 md:w-10 md:h-10 transition-all duration-200" aria-label="Home" />
+                    <span className="font-extrabold tracking-widest text-white drop-shadow text-3xl md:text-5xl group-hover:scale-105 transition-all duration-200 max-w-[8.5rem] md:max-w-none truncate">RobinkStore</span>
+                </Link>
 
                 <div className="md:hidden flex items-center gap-4">
                     {/* Cart Icon (Mobile) */}
@@ -145,7 +148,6 @@ function Navbar({ user, logoutHandler, cartCount }) {
                             </Link>
                             <Link to="/orders" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">Orders</Link>
                             {/* ...other roles... */}
-                            <button onClick={handleLogout} className="block w-full text-left hover:text-gray-200">Logout</button>
                         </>
                     )}
                     {!user && (
@@ -179,6 +181,10 @@ function BottomNavbar({ user, cartCount }) {
                     <span className="absolute -top-1 right-2 bg-pink-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5 shadow-lg animate-bounce">{cartCount}</span>
                 )}
                 <span className="text-xs">Cart</span>
+            </Link>
+            <Link to="/orders" className="flex flex-col items-center" aria-label="Orders" title="Orders">
+                <ClipboardDocumentListIcon className="w-7 h-7" />
+                <span className="text-xs">Orders</span>
             </Link>
             <Link to="/profile" className="flex flex-col items-center" aria-label="Profile" title="Profile">
                 <UserCircleIcon className="w-7 h-7" />
