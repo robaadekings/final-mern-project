@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { HeartIcon, ShoppingCartIcon, CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import Skeleton from '../../components/Skeleton';
 
-function Products() {
+function Products({ onAddToCart }) {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [wishlist, setWishlist] = useState([]);
@@ -28,15 +28,16 @@ function Products() {
         setWishlist((prev) => prev.includes(id) ? prev.filter(wid => wid !== id) : [...prev, id]);
     };
     // Add to cart animation (demo only)
-    const handleAddToCart = (id) => {
-        setCartAnim((prev) => ({ ...prev, [id]: true }));
-        setTimeout(() => setCartAnim((prev) => ({ ...prev, [id]: false })), 700);
+    const handleAddToCart = (product) => {
+        setCartAnim((prev) => ({ ...prev, [product._id]: true }));
+        setTimeout(() => setCartAnim((prev) => ({ ...prev, [product._id]: false })), 700);
         // Animate cart icon (if present)
         const cartIcon = document.getElementById('cart-icon');
         if (cartIcon) {
             cartIcon.classList.add('animate-bounce');
             setTimeout(() => cartIcon.classList.remove('animate-bounce'), 700);
         }
+        if (onAddToCart) onAddToCart(product);
     };
 
     // Stock badge (demo: random for now)
@@ -100,7 +101,7 @@ function Products() {
                                 <p className="text-xl font-bold text-blue-600">${product.price}</p>
                                 <div className="flex gap-2 mt-2">
                                     <button
-                                        onClick={() => handleAddToCart(product._id)}
+                                        onClick={() => handleAddToCart(product)}
                                         className={`flex-1 flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition-all duration-200 shadow ${cartAnim[product._id] ? 'scale-110' : ''} active:scale-95`}
                                         aria-label="Add to Cart"
                                         title="Add to Cart"

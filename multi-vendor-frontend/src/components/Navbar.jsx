@@ -15,6 +15,7 @@ import {
   CheckCircleIcon,
 } from '@heroicons/react/24/outline';
 import { useTheme } from './ThemeContext';
+import { useEffect } from 'react';
 
 function Navbar({ user, logoutHandler, cartCount }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -163,5 +164,35 @@ function Navbar({ user, logoutHandler, cartCount }) {
         </nav>
     );
 }
+
+function BottomNavbar({ user, cartCount }) {
+    // Only show on mobile
+    if (!user) return null;
+    return (
+        <nav className="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-t md:hidden flex justify-around items-center py-2 border-t border-pink-200">
+            <Link to="/" className="flex flex-col items-center" aria-label="Home" title="Home">
+                <HomeIcon className="w-7 h-7" />
+                <span className="text-xs">Home</span>
+            </Link>
+            <Link to="/products" className="flex flex-col items-center" aria-label="Products" title="Products">
+                <CubeIcon className="w-7 h-7" />
+                <span className="text-xs">Products</span>
+            </Link>
+            <Link to="/cart" className="flex flex-col items-center relative" aria-label="Cart" title="Cart">
+                <ShoppingCartIcon className="w-7 h-7" id="cart-icon-bottom" />
+                {cartCount > 0 && (
+                    <span className="absolute -top-1 right-2 bg-pink-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5 shadow-lg animate-bounce">{cartCount}</span>
+                )}
+                <span className="text-xs">Cart</span>
+            </Link>
+            <Link to="/profile" className="flex flex-col items-center" aria-label="Profile" title="Profile">
+                <UserCircleIcon className="w-7 h-7" />
+                <span className="text-xs">Profile</span>
+            </Link>
+        </nav>
+    );
+}
+
+export { BottomNavbar };
 
 export default Navbar;

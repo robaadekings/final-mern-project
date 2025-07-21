@@ -17,39 +17,47 @@ const TikTokIcon = () => (
 
 function Footer({ user }) {
     return (
-        <footer className="bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900 text-gray-200 py-8 mt-8">
-            <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
-                {/* Brand/Logo */}
-                <div className="flex items-center gap-2 mb-4 md:mb-0">
-                    <BuildingStorefrontIcon className="w-8 h-8 text-pink-400" aria-label="Store Logo" />
-                    <span className="text-2xl font-bold tracking-wide">MyStore</span>
+        <footer className="backdrop-blur-md bg-white/10 border-t border-pink-300/30 shadow-2xl rounded-t-3xl mx-2 md:mx-8 mt-12 overflow-hidden">
+            <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-10 md:gap-0">
+                {/* Brand/Logo & Tagline */}
+                <div className="flex flex-col items-center md:items-start gap-2 mb-4 md:mb-0">
+                    <div className="flex items-center gap-2">
+                        <BuildingStorefrontIcon className="w-10 h-10 text-pink-400 drop-shadow-lg" aria-label="Store Logo" />
+                        <span className="text-3xl font-extrabold tracking-widest text-white drop-shadow">MyStore</span>
+                    </div>
+                    <span className="text-pink-200 text-sm italic mt-1">Your one-stop shop for everything unique</span>
                 </div>
+                {/* Divider for desktop */}
+                <div className="hidden md:block h-20 w-px bg-gradient-to-b from-pink-400/30 via-white/20 to-indigo-400/30 mx-8" />
                 {/* Quick Links */}
-                <div className="flex flex-wrap gap-4 text-sm justify-center">
-                    <Link to="/" className="hover:text-pink-400 transition">Home</Link>
-                    <Link to="/products" className="hover:text-pink-400 transition">Products</Link>
-                    <Link to="/cart" className="hover:text-pink-400 transition">Cart</Link>
-                    {user && (user.role === 'admin' || user.role === 'vendor') && <Link to="/dashboard" className="hover:text-pink-400 transition">Dashboard</Link>}
-                    {user && user.role === 'admin' && <Link to="/admin" className="hover:text-pink-400 transition">Admin</Link>}
+                <div className="flex flex-wrap gap-6 text-base justify-center">
+                    <Link to="/" className="hover:text-pink-400 transition font-medium">Home</Link>
+                    <Link to="/products" className="hover:text-pink-400 transition font-medium">Products</Link>
+                    <Link to="/cart" className="hover:text-pink-400 transition font-medium">Cart</Link>
+                    {user && (user.role === 'admin' || user.role === 'vendor') && <Link to="/dashboard" className="hover:text-pink-400 transition font-medium">Dashboard</Link>}
+                    {user && user.role === 'admin' && <Link to="/admin" className="hover:text-pink-400 transition font-medium">Admin</Link>}
                 </div>
+                {/* Divider for desktop */}
+                <div className="hidden md:block h-20 w-px bg-gradient-to-b from-pink-400/30 via-white/20 to-indigo-400/30 mx-8" />
                 {/* Social Icons (real brand logos) */}
-                <div className="flex gap-4 text-xl">
-                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook">
+                <div className="flex gap-6 text-3xl">
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook" className="hover:scale-110 hover:text-pink-400 transition-all">
                         <FacebookIcon />
                     </a>
-                    <a href="https://x.com" target="_blank" rel="noopener noreferrer" title="X" aria-label="X">
+                    <a href="https://x.com" target="_blank" rel="noopener noreferrer" title="X" aria-label="X" className="hover:scale-110 hover:text-pink-400 transition-all">
                         <XIcon />
                     </a>
-                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram">
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" className="hover:scale-110 hover:text-pink-400 transition-all">
                         <InstagramIcon />
                     </a>
-                    <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok">
+                    <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" className="hover:scale-110 hover:text-pink-400 transition-all">
                         <TikTokIcon />
                     </a>
                 </div>
             </div>
-            <div className="container mx-auto px-4 mt-6 text-center text-xs text-gray-400">
-                <p>&copy; {new Date().getFullYear()} MyStore. All rights reserved. | Made with <span className="text-pink-400">❤️</span> by Robert Murungi</p>
+            <div className="max-w-7xl mx-auto px-6 pb-6 pt-2 text-center text-xs text-pink-200">
+                <hr className="border-pink-300/30 mb-4" />
+                <p>&copy; {new Date().getFullYear()} <span className="font-bold text-white">MyStore</span>. All rights reserved. | Made with <span className="text-pink-400">❤️</span> by Robert Murungi</p>
             </div>
         </footer>
     );

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Navbar from './components/Navbar';
+import Navbar, { BottomNavbar } from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthModal from './components/AuthModal';
-import { ToastProvider } from './components/ToastContext';
+import { ToastProvider, useToast } from './components/ToastContext';
 import { ThemeProvider } from './components/ThemeContext';
 
 import Home from './pages/Home';
@@ -30,6 +30,7 @@ function App() {
     const [showAuthModal, setShowAuthModal] = useState(false);
     const [authModalMode, setAuthModalMode] = useState('register'); // 'register' or 'login'
     const [loading, setLoading] = useState(true);
+    const { showToast } = useToast();
 
     useEffect(() => {
         const storedUserStr = localStorage.getItem('user');
@@ -52,6 +53,7 @@ function App() {
 
     const handleAddToCart = (product) => {
         setCart((prevCart) => [...prevCart, product]);
+        showToast('Item added to cart successfully!', 'success');
     };
 
     if (loading) return <div>Loading...</div>;
@@ -131,6 +133,7 @@ function App() {
                     </Routes>
                     <AuthModal open={showAuthModal} onClose={() => setShowAuthModal(false)} setUser={setUser} mode={authModalMode} />
                 </main>
+                <BottomNavbar user={user} cartCount={cart.length} />
                 <Footer />
             </div>
         </Router>
