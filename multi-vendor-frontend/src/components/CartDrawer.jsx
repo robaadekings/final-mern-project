@@ -1,4 +1,4 @@
-import { FaTimes, FaShoppingCart, FaTrash } from 'react-icons/fa';
+import { XMarkIcon, ShoppingCartIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 function CartDrawer({ open, onClose, cart, setCart, onCheckout }) {
     const total = cart.reduce((sum, item) => sum + item.price, 0);
@@ -14,9 +14,9 @@ function CartDrawer({ open, onClose, cart, setCart, onCheckout }) {
             <div className="fixed inset-0 bg-black bg-opacity-40" onClick={onClose}></div>
             {/* Drawer */}
             <div className="ml-auto w-full max-w-sm bg-white h-full shadow-lg flex flex-col animate-slide-in-right relative">
-                <button onClick={onClose} className="absolute top-3 right-3 text-2xl text-gray-500 hover:text-pink-500"><FaTimes /></button>
+                <button onClick={onClose} className="absolute top-3 right-3 text-2xl text-gray-500 hover:text-pink-500" aria-label="Close Cart" title="Close Cart"><XMarkIcon className="w-6 h-6" /></button>
                 <div className="flex items-center gap-2 p-6 border-b">
-                    <FaShoppingCart className="text-indigo-600 text-2xl" />
+                    <ShoppingCartIcon className="text-indigo-600 w-7 h-7" />
                     <h2 className="text-xl font-bold">Your Cart</h2>
                 </div>
                 <div className="flex-1 overflow-y-auto p-6 space-y-4">
@@ -30,7 +30,7 @@ function CartDrawer({ open, onClose, cart, setCart, onCheckout }) {
                                     <p className="text-gray-600">${item.price}</p>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <button onClick={() => handleRemove(idx)} className="text-red-500 hover:text-red-700"><FaTrash /></button>
+                                    <button onClick={() => handleRemove(idx)} className="text-red-500 hover:text-red-700" aria-label="Remove from Cart" title="Remove from Cart"><TrashIcon className="w-5 h-5" /></button>
                                     <img src={item.image} alt={item.name} className="h-12 w-12 object-cover rounded" />
                                 </div>
                             </div>

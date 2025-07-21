@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../../lib/api';
 import { useToast } from '../../components/ToastContext';
-import { FaClock, FaCog, FaTruck, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { ClockIcon, Cog6ToothIcon, TruckIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 
 function ManageOrders() {
     const [orders, setOrders] = useState([]);
@@ -55,23 +55,23 @@ function ManageOrders() {
         switch (status) {
             case 'Delivered':
                 color = 'bg-green-500';
-                icon = <FaCheckCircle className="inline mr-1" />;
+                icon = <CheckCircleIcon className="inline w-4 h-4 mr-1" />;
                 break;
             case 'Processing':
                 color = 'bg-blue-500';
-                icon = <FaCog className="inline mr-1 animate-spin" />;
+                icon = <Cog6ToothIcon className="inline w-4 h-4 mr-1 animate-spin" />;
                 break;
             case 'Shipped':
                 color = 'bg-blue-700';
-                icon = <FaTruck className="inline mr-1" />;
+                icon = <TruckIcon className="inline w-4 h-4 mr-1" />;
                 break;
             case 'Pending':
                 color = 'bg-orange-500';
-                icon = <FaClock className="inline mr-1" />;
+                icon = <ClockIcon className="inline w-4 h-4 mr-1" />;
                 break;
             case 'Cancelled':
                 color = 'bg-red-500';
-                icon = <FaTimesCircle className="inline mr-1" />;
+                icon = <XCircleIcon className="inline w-4 h-4 mr-1" />;
                 break;
             default:
                 color = 'bg-gray-400';

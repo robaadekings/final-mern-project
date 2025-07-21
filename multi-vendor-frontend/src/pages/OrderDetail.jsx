@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../lib/api';
-import { FaCheckCircle, FaClock, FaTruck, FaTimesCircle, FaChevronLeft } from 'react-icons/fa';
+import { CheckCircleIcon, ClockIcon, TruckIcon, XCircleIcon, ChevronLeftIcon } from '@heroicons/react/24/outline';
 import Skeleton from '../components/Skeleton';
 
 const statusSteps = [
-    { label: 'Pending', icon: <FaClock /> },
-    { label: 'Processing', icon: <FaClock /> },
-    { label: 'Shipped', icon: <FaTruck /> },
-    { label: 'Delivered', icon: <FaCheckCircle /> },
-    { label: 'Cancelled', icon: <FaTimesCircle /> },
+    { label: 'Pending', icon: <ClockIcon className="w-5 h-5" /> },
+    { label: 'Processing', icon: <ClockIcon className="w-5 h-5" /> },
+    { label: 'Shipped', icon: <TruckIcon className="w-5 h-5" /> },
+    { label: 'Delivered', icon: <CheckCircleIcon className="w-5 h-5" /> },
+    { label: 'Cancelled', icon: <XCircleIcon className="w-5 h-5" /> },
 ];
 
 function OrderDetail() {
@@ -91,7 +91,7 @@ function OrderDetail() {
 
     return (
         <div className="max-w-2xl mx-auto py-10 px-4">
-            <Link to="/profile" className="flex items-center gap-2 text-indigo-600 hover:underline mb-6"><FaChevronLeft /> Back to Profile</Link>
+            <Link to="/profile" className="flex items-center gap-2 text-indigo-600 hover:underline mb-6"><ChevronLeftIcon className="w-5 h-5" /> Back to Profile</Link>
             <div className="bg-white rounded-lg shadow p-6 mb-6">
                 <div className="flex justify-between items-center mb-2">
                     <span className="font-semibold">Order #{order._id.slice(-6)}</span>

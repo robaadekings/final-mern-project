@@ -1,7 +1,20 @@
 import { useEffect, useState } from 'react';
 import api from '../lib/api';
 import { Link } from 'react-router-dom';
-import { FaUserCircle, FaEdit, FaCheckCircle, FaClock, FaTruck, FaTimesCircle, FaEye, FaTimes, FaMapMarkerAlt, FaPlus, FaTrash, FaCheck } from 'react-icons/fa';
+import {
+  MapPinIcon,
+  PlusIcon,
+  TrashIcon,
+  CheckIcon,
+  UserCircleIcon,
+  PencilIcon,
+  XMarkIcon,
+  EyeIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  TruckIcon,
+  XCircleIcon
+} from '@heroicons/react/24/outline';
 import Skeleton from '../components/Skeleton';
 
 function EditProfileModal({ open, onClose, user, onSave }) {
@@ -32,7 +45,7 @@ function EditProfileModal({ open, onClose, user, onSave }) {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
             <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm relative">
-                <button onClick={onClose} className="absolute top-3 right-3 text-2xl text-gray-500 hover:text-pink-500"><FaTimes /></button>
+                <button onClick={onClose} className="absolute top-3 right-3 text-2xl text-gray-500 hover:text-pink-500" aria-label="Close" title="Close"><XMarkIcon className="w-6 h-6" /></button>
                 <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <input name="name" value={form.name} onChange={handleChange} placeholder="Name" className="border p-2 w-full rounded" required />
@@ -63,7 +76,7 @@ function AddressModal({ open, onClose, onSave, address }) {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
             <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm relative">
-                <button onClick={onClose} className="absolute top-3 right-3 text-2xl text-gray-500 hover:text-pink-500"><FaTimes /></button>
+                <button onClick={onClose} className="absolute top-3 right-3 text-2xl text-gray-500 hover:text-pink-500"><XMarkIcon className="w-6 h-6" /></button>
                 <h2 className="text-xl font-bold mb-4">{address ? 'Edit Address' : 'Add Address'}</h2>
                 <form onSubmit={handleSubmit} className="space-y-3">
                     <input name="address" value={form.address} onChange={handleChange} placeholder="Address" className="border p-2 w-full rounded" required />
@@ -114,11 +127,11 @@ function Profile() {
     }, []);
 
     const getStatusIcon = (status) => {
-        if (status === 'Delivered') return <FaCheckCircle className="text-green-500 inline mr-1" />;
-        if (status === 'Shipped') return <FaTruck className="text-blue-700 inline mr-1" />;
-        if (status === 'Pending') return <FaClock className="text-orange-500 inline mr-1" />;
-        if (status === 'Cancelled') return <FaTimesCircle className="text-red-500 inline mr-1" />;
-        return <FaClock className="text-gray-400 inline mr-1" />;
+        if (status === 'Delivered') return <CheckCircleIcon className="text-green-500 inline mr-1 w-5 h-5" />;
+        if (status === 'Shipped') return <TruckIcon className="text-blue-700 inline mr-1 w-5 h-5" />;
+        if (status === 'Pending') return <ClockIcon className="text-orange-500 inline mr-1 w-5 h-5" />;
+        if (status === 'Cancelled') return <XCircleIcon className="text-red-500 inline mr-1 w-5 h-5" />;
+        return <ClockIcon className="text-gray-400 inline mr-1 w-5 h-5" />;
     };
 
     // Address book handlers
@@ -157,16 +170,16 @@ function Profile() {
                 {user?.profilePic ? (
                     <img src={user.profilePic} alt="Profile" className="w-24 h-24 rounded-full object-cover border-4 border-pink-400" />
                 ) : (
-                    <FaUserCircle className="w-24 h-24 text-pink-200" />
+                    <UserCircleIcon className="w-24 h-24 text-pink-200" />
                 )}
                 <h2 className="text-2xl font-bold mt-4">{user?.name || 'Customer'}</h2>
                 <p className="text-gray-500">{user?.email}</p>
-                <button onClick={() => setEditOpen(true)} className="mt-2 flex items-center gap-1 text-indigo-600 hover:underline"><FaEdit /> Edit Profile</button>
+                <button onClick={() => setEditOpen(true)} className="mt-2 flex items-center gap-1 text-indigo-600 hover:underline" aria-label="Edit Profile" title="Edit Profile"><PencilIcon className="w-5 h-5" /> Edit Profile</button>
             </div>
             <div className="bg-white rounded-lg shadow p-6 mb-8">
                 <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-lg font-semibold flex items-center gap-2"><FaMapMarkerAlt /> Address Book</h3>
-                    <button onClick={() => { setAddressModalOpen(true); setEditAddressIdx(null); }} className="flex items-center gap-1 text-sm bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded"><FaPlus /> Add Address</button>
+                    <h3 className="text-lg font-semibold flex items-center gap-2"><MapPinIcon className="w-5 h-5" /> Address Book</h3>
+                    <button onClick={() => { setAddressModalOpen(true); setEditAddressIdx(null); }} className="flex items-center gap-1 text-sm bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded" aria-label="Add Address" title="Add Address"><PlusIcon className="w-5 h-5" /> Add Address</button>
                 </div>
                 {addresses.length === 0 ? (
                     <div className="text-gray-500">No addresses saved.</div>
@@ -179,9 +192,9 @@ function Profile() {
                                     <div className="text-xs text-gray-500">Postal: {addr.postalCode}</div>
                                 </div>
                                 <div className="flex gap-2 items-center mt-2 md:mt-0">
-                                    <button onClick={() => { setAddressModalOpen(idx); setEditAddressIdx(idx); }} className="text-blue-600 hover:underline flex items-center gap-1"><FaEdit /> Edit</button>
-                                    <button onClick={() => handleDeleteAddress(idx)} className="text-red-600 hover:underline flex items-center gap-1"><FaTrash /> Delete</button>
-                                    <button onClick={() => handleSetDefault(idx)} className={`flex items-center gap-1 ${defaultIdx === idx ? 'text-green-600 font-bold' : 'text-gray-400 hover:text-green-600'}`}><FaCheck /> {defaultIdx === idx ? 'Default' : 'Set Default'}</button>
+                                    <button onClick={() => { setAddressModalOpen(idx); setEditAddressIdx(idx); }} className="text-blue-600 hover:underline flex items-center gap-1" aria-label="Edit Address" title="Edit Address"><PencilIcon className="w-5 h-5" /> Edit</button>
+                                    <button onClick={() => handleDeleteAddress(idx)} className="text-red-600 hover:underline flex items-center gap-1" aria-label="Delete Address" title="Delete Address"><TrashIcon className="w-5 h-5" /> Delete</button>
+                                    <button onClick={() => handleSetDefault(idx)} className={`flex items-center gap-1 ${defaultIdx === idx ? 'text-green-600 font-bold' : 'text-gray-400 hover:text-green-600'}`} aria-label={defaultIdx === idx ? 'Default Address' : 'Set as Default'} title={defaultIdx === idx ? 'Default Address' : 'Set as Default'}><CheckIcon className="w-5 h-5" /> {defaultIdx === idx ? 'Default' : 'Set Default'}</button>
                                 </div>
                             </div>
                         ))}
@@ -235,7 +248,7 @@ function Profile() {
                                 </div>
                                 <div className="flex justify-between items-center mt-2">
                                     <div className="text-indigo-700 font-bold">Total: ${order.totalPrice}</div>
-                                    <Link to={`/order/${order._id}`} className="flex items-center gap-1 text-sm text-indigo-600 hover:underline"><FaEye /> View Details</Link>
+                                    <Link to={`/order/${order._id}`} className="flex items-center gap-1 text-sm text-indigo-600 hover:underline" aria-label="View Order Details" title="View Order Details"><EyeIcon className="w-5 h-5" /> View Details</Link>
                                 </div>
                             </div>
                         ))}

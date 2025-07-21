@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../../lib/api';
 import { useToast } from '../../components/ToastContext';
-import { FaUserShield, FaUserCog, FaUserCircle } from 'react-icons/fa';
+import { ShieldCheckIcon, Cog6ToothIcon, UserIcon } from '@heroicons/react/24/outline';
 
 function ManageUsers() {
     const [users, setUsers] = useState([]);
@@ -48,9 +48,9 @@ function ManageUsers() {
 
     // Role icon helper
     const getRoleIcon = (role) => {
-        if (role === 'admin') return <FaUserShield className="inline text-indigo-700 mr-1" title="Admin" />;
-        if (role === 'vendor') return <FaUserCog className="inline text-pink-700 mr-1" title="Vendor" />;
-        return <FaUserCircle className="inline text-gray-500 mr-1" title="Customer" />;
+        if (role === 'admin') return <ShieldCheckIcon className="inline w-5 h-5 text-indigo-700 mr-1" title="Admin" aria-label="Admin" />;
+        if (role === 'vendor') return <Cog6ToothIcon className="inline w-5 h-5 text-pink-700 mr-1" title="Vendor" aria-label="Vendor" />;
+        return <UserIcon className="inline w-5 h-5 text-gray-500 mr-1" title="Customer" aria-label="Customer" />;
     };
 
     return (

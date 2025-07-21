@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaMapMarkerAlt, FaChevronRight, FaCheckCircle, FaBoxOpen, FaTrash } from 'react-icons/fa';
+import { MapPinIcon, ChevronRightIcon, CheckCircleIcon, CubeIcon, TrashIcon } from '@heroicons/react/24/outline';
 import api from '../lib/api';
 
 function Checkout({ cart, setCart }) {
@@ -51,7 +51,7 @@ function Checkout({ cart, setCart }) {
     if (success) {
         return (
             <div className="max-w-xl mx-auto py-16 px-4 text-center">
-                <FaCheckCircle className="text-green-500 text-5xl mx-auto mb-4" />
+                <CheckCircleIcon className="text-green-500 w-16 h-16 mx-auto mb-4" />
                 <h2 className="text-2xl font-bold mb-2">Order Placed!</h2>
                 <p className="mb-4">Your order has been placed successfully.</p>
                 <button onClick={() => navigate(`/order/${success}`)} className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded">View Order Details</button>
@@ -65,11 +65,11 @@ function Checkout({ cart, setCart }) {
             {/* Stepper */}
             <div className="flex items-center gap-4 mb-8">
                 <div className={`flex items-center gap-2 ${step === 1 ? 'text-indigo-600 font-bold' : 'text-gray-400'}`}>
-                    <FaMapMarkerAlt /> Address
+                    <MapPinIcon className="w-6 h-6" /> Address
                 </div>
-                <FaChevronRight />
+                <ChevronRightIcon className="w-5 h-5" />
                 <div className={`flex items-center gap-2 ${step === 2 ? 'text-indigo-600 font-bold' : 'text-gray-400'}`}>
-                    <FaBoxOpen /> Summary
+                    <CubeIcon className="w-6 h-6" /> Summary
                 </div>
             </div>
             {step === 1 && (
@@ -108,7 +108,9 @@ function Checkout({ cart, setCart }) {
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <span className="text-indigo-700 font-bold">${item.price}</span>
-                                        <button onClick={() => setCart(cart.filter((_, i) => i !== idx))} className="text-red-500 hover:text-red-700"><FaTrash /></button>
+                                        <button onClick={() => setCart(cart.filter((_, i) => i !== idx))} className="text-red-500 hover:text-red-700" aria-label="Remove from Cart" title="Remove from Cart">
+                                            <TrashIcon className="w-5 h-5" />
+                                        </button>
                                     </div>
                                 </div>
                             ))}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../../lib/api';
 import { Link } from 'react-router-dom';
-import { FaHeart, FaShoppingCart, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
+import { HeartIcon, ShoppingCartIcon, CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import Skeleton from '../../components/Skeleton';
 
 function Products() {
@@ -42,9 +42,9 @@ function Products() {
     // Stock badge (demo: random for now)
     const getStockBadge = (idx) => {
         const stock = ["In Stock", "Low Stock", "Out of Stock"][idx % 3];
-        if (stock === "In Stock") return <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-xs"><FaCheckCircle /> In Stock</span>;
-        if (stock === "Low Stock") return <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-orange-100 text-orange-700 rounded-full text-xs"><FaExclamationCircle /> Low Stock</span>;
-        return <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-100 text-red-700 rounded-full text-xs"><FaExclamationCircle /> Out of Stock</span>;
+        if (stock === "In Stock") return <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-xs"><CheckCircleIcon className="w-4 h-4" /> In Stock</span>;
+        if (stock === "Low Stock") return <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-orange-100 text-orange-700 rounded-full text-xs"><ExclamationCircleIcon className="w-4 h-4" /> Low Stock</span>;
+        return <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-100 text-red-700 rounded-full text-xs"><ExclamationCircleIcon className="w-4 h-4" /> Out of Stock</span>;
     };
 
     return (
@@ -80,7 +80,7 @@ function Products() {
                                 aria-label={wishlist.includes(product._id) ? 'Remove from Wishlist' : 'Add to Wishlist'}
                                 title={wishlist.includes(product._id) ? 'Remove from Wishlist' : 'Add to Wishlist'}
                             >
-                                <FaHeart />
+                                <HeartIcon className="w-6 h-6" />
                             </button>
                             <Link to={`/products/${product._id}`}> 
                                 {product.image && (
@@ -105,7 +105,7 @@ function Products() {
                                         aria-label="Add to Cart"
                                         title="Add to Cart"
                                     >
-                                        <FaShoppingCart /> Add to Cart
+                                        <ShoppingCartIcon className="w-5 h-5" /> Add to Cart
                                     </button>
                                 </div>
                             </div>

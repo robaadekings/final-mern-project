@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../../lib/api';
 import { useToast } from '../../components/ToastContext';
 import { CheckCircleIcon, ClockIcon } from '@heroicons/react/24/solid';
-import { FaEdit, FaTrash, FaCheck, FaEye } from 'react-icons/fa';
+import { PencilIcon, TrashIcon, CheckIcon, EyeIcon } from '@heroicons/react/24/outline';
 
 function ProductModal({ product, open, onClose, onSave }) {
     const [form, setForm] = useState(product || {});
@@ -352,12 +352,12 @@ function ManageProducts() {
                                     <td className="p-2 border">{product.vendor ? `${product.vendor.name || ''} (${product.vendor.email || ''})` : <span className="text-gray-400">Admin</span>}</td>
                                     <td className="p-2 border">{getStatusBadge(product.approved)}</td>
                                     <td className="p-2 border">
-                                        <button onClick={e => { e.stopPropagation(); handleEdit(product); }} className="text-blue-600 hover:underline mr-2 flex items-center gap-1"><FaEdit /> Edit</button>
-                                        <button onClick={e => { e.stopPropagation(); handleDelete(product._id); }} className="text-red-600 hover:underline flex items-center gap-1"><FaTrash /> Delete</button>
+                                        <button onClick={e => { e.stopPropagation(); handleEdit(product); }} className="text-blue-600 hover:underline mr-2 flex items-center gap-1" aria-label="Edit" title="Edit"><PencilIcon className="w-5 h-5" /> Edit</button>
+                                        <button onClick={e => { e.stopPropagation(); handleDelete(product._id); }} className="text-red-600 hover:underline flex items-center gap-1" aria-label="Delete" title="Delete"><TrashIcon className="w-5 h-5" /> Delete</button>
                                         {!product.approved && (
-                                            <button onClick={e => { e.stopPropagation(); handleApprove(product._id); }} className="ml-2 bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded transition-all duration-200 flex items-center gap-1"><FaCheck /> Approve</button>
+                                            <button onClick={e => { e.stopPropagation(); handleApprove(product._id); }} className="ml-2 bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded transition-all duration-200 flex items-center gap-1" aria-label="Approve" title="Approve"><CheckIcon className="w-5 h-5" /> Approve</button>
                                         )}
-                                        <button onClick={e => { e.stopPropagation(); setModalProduct(product); setModalOpen(true); }} className="ml-2 text-gray-600 hover:text-indigo-600 flex items-center gap-1"><FaEye /> View</button>
+                                        <button onClick={e => { e.stopPropagation(); setModalProduct(product); setModalOpen(true); }} className="ml-2 text-gray-600 hover:text-indigo-600 flex items-center gap-1" aria-label="View" title="View"><EyeIcon className="w-5 h-5" /> View</button>
                                     </td>
                                 </tr>
                             ))}
