@@ -59,7 +59,7 @@ function Orders() {
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {orders.map((order) => (
-                    <div key={order._id} className="bg-white rounded-xl shadow-lg p-6 flex flex-col gap-3 border border-gray-100 hover:shadow-2xl transition">
+                    <div key={order._id} className="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 rounded-xl shadow-2xl p-6 flex flex-col gap-3 border border-gray-100 hover:shadow-2xl transition">
                       <div className="flex items-center justify-between mb-2">
                         <h2 className="font-semibold text-lg">Order #{order._id.slice(-6)}</h2>
                         <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold ${statusStyles[order.status] || 'bg-gray-100 text-gray-700'}`}

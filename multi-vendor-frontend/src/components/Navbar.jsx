@@ -38,7 +38,7 @@ function Navbar({ user, logoutHandler, cartCount }) {
     return (
         <nav className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-md sticky top-0 z-50">
             <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-                <Link to="/" className="text-5xl font-bold flex items-center gap-2"><HomeIcon className="w-8 h-8 inline mb-1" aria-label="Home" /> MyStore</Link>
+                <Link to="/" className="text-5xl font-bold flex items-center gap-2"><HomeIcon className="w-8 h-8 inline mb-1" aria-label="Home" /> RobinkStore</Link>
 
                 <div className="md:hidden flex items-center gap-4">
                     {/* Cart Icon (Mobile) */}
@@ -117,11 +117,6 @@ function Navbar({ user, logoutHandler, cartCount }) {
                             <li>
                                 <button onClick={toggleTheme} className="flex items-center gap-2 bg-gray-200/30 hover:bg-gray-200/60 text-white px-3 py-2 rounded-full shadow transition-all duration-200 text-lg active:scale-95" aria-label="Toggle Light/Dark Mode" title="Toggle Light/Dark Mode">
                                     {theme === 'dark' ? <SunIcon className="w-6 h-6 text-yellow-300" /> : <MoonIcon className="w-6 h-6 text-indigo-900" />} {theme === 'dark' ? 'Light' : 'Dark'}
-                                </button>
-                            </li>
-                            <li>
-                                <button onClick={handleLogout} className="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-full shadow transition-all duration-200 text-lg active:scale-95" aria-label="Logout" title="Logout">
-                                    <ArrowRightOnRectangleIcon className="w-6 h-6" /> Logout
                                 </button>
                             </li>
                         </>

@@ -113,7 +113,7 @@ function Home({ user }) {
             <section className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white py-20">
                 <div className="container mx-auto text-center px-6">
                     <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                        Welcome to MyStore
+                        Welcome to RobinkStore
                     </h1>
                     <p className="text-lg md:text-xl mb-6">
                         Discover amazing products from trusted vendors.
