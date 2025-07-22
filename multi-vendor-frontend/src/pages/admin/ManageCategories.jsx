@@ -10,7 +10,11 @@ function ManageCategories() {
 
     const fetchCategories = async () => {
         try {
-            const res = await api.get('/products/categories');
+            const res = await api.get('/products/categories', {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
             setCategories(res.data);
         } catch (err) {
             setError('Failed to fetch categories');
@@ -25,7 +29,11 @@ function ManageCategories() {
         e.preventDefault();
         if (!newCategory.trim()) return;
         try {
-            await api.post('/products/categories', { name: newCategory.trim() });
+            await api.post('/products/categories', { name: newCategory.trim() }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
             setNewCategory('');
             fetchCategories();
         } catch (err) {
@@ -41,7 +49,11 @@ function ManageCategories() {
     const handleUpdateCategory = async (id) => {
         if (!editingCategoryName.trim()) return;
         try {
-            await api.put(`/products/categories/${id}`, { name: editingCategoryName.trim() });
+            await api.put(`/products/categories/${id}`, { name: editingCategoryName.trim() }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
             setEditingCategoryId(null);
             setEditingCategoryName('');
             fetchCategories();
@@ -53,7 +65,11 @@ function ManageCategories() {
     const handleDeleteCategory = async (id) => {
         if (!window.confirm('Delete this category?')) return;
         try {
-            await api.delete(`/products/categories/${id}`);
+            await api.delete(`/products/categories/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
             fetchCategories();
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to delete category');

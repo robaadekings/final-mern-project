@@ -114,13 +114,13 @@ function AddProduct() {
                             <option key={cat} value={cat}>{cat}</option>
                         ))}
                     </select>
-                    <input
-                        name="category"
-                        value={formData.category}
-                        onChange={handleChange}
+                <input
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
                         placeholder="Or type a category"
                         className="border p-2 flex-1"
-                    />
+                />
                 </div>
                 <input
                     type="file"

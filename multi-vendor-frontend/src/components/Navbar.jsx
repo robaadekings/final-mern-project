@@ -87,15 +87,15 @@ function Navbar({ user, logoutHandler, cartCount }) {
     return (
         <>
             <nav className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-900 text-white shadow-md sticky top-0 z-50">
-                <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
+            <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
                     <Link to="/" className="flex items-center gap-2 group select-none w-full justify-center md:justify-start">
                         <HomeIcon className="w-12 h-12 md:w-14 md:h-14 transition-all duration-200" aria-label="Home" />
                         <span className="font-extrabold tracking-widest text-white drop-shadow text-2xl md:text-4xl group-hover:scale-105 transition-all duration-200">RobinkStore</span>
-                    </Link>
+                </Link>
                     {/* Hide navbar links on mobile, show only logo */}
-                    <ul className="hidden md:flex space-x-6 items-center">
+                <ul className="hidden md:flex space-x-6 items-center">
                         {user && user.role === 'admin' && (
-                            <li className="relative group">
+                                    <li className="relative group">
                                 <button className="flex items-center gap-1 px-4 py-2 bg-pink-700 rounded-lg font-bold shadow hover:bg-pink-800 transition-all">
                                     <Cog6ToothIcon className="w-6 h-6" /> Admin Panel
                                 </button>
@@ -105,8 +105,8 @@ function Navbar({ user, logoutHandler, cartCount }) {
                                     <Link to="/admin/categories" className="block px-4 py-3 hover:bg-pink-50 rounded-lg"><CubeIcon className="w-5 h-5 inline mr-1" /> Manage Categories</Link>
                                     <Link to="/admin/users" className="block px-4 py-3 hover:bg-pink-50 rounded-lg"><UserGroupIcon className="w-5 h-5 inline mr-1" /> Manage Users</Link>
                                     <Link to="/admin/orders" className="block px-4 py-3 hover:bg-pink-50 rounded-lg"><ClipboardDocumentListIcon className="w-5 h-5 inline mr-1" /> Manage Orders</Link>
-                                </div>
-                            </li>
+                                        </div>
+                                    </li>
                         )}
                         {user && user.role === 'vendor' && (
                             <li><Link to="/dashboard" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/dashboard') ? 'underline font-bold' : ''}`}><CubeIcon className="w-6 h-6" /> Vendor Dashboard</Link></li>
@@ -117,20 +117,20 @@ function Navbar({ user, logoutHandler, cartCount }) {
                                 <li><Link to="/products" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/products') ? 'underline font-bold' : ''}`}><CubeIcon className="w-6 h-6" /> Products</Link></li>
                                 <li><Link to="/cart" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/cart') ? 'underline font-bold' : ''}`}><ShoppingCartIcon className="w-6 h-6" /> Cart {cartCount > 0 && <span className="ml-1 bg-pink-500 text-white text-xs font-bold rounded-full px-2 py-0.5 shadow-lg">{cartCount}</span>}</Link></li>
                                 <li><Link to="/orders" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/orders') ? 'underline font-bold' : ''}`}><ClipboardDocumentListIcon className="w-6 h-6" /> Orders</Link></li>
-                            </>
-                        )}
-                        <li className="flex items-center gap-2 ml-4">
-                            <Link to="/profile" className="flex items-center gap-1 hover:text-pink-200" aria-label="View Profile" title="View Profile">
-                                <UserCircleIcon className="w-8 h-8 text-pink-200" />
-                            </Link>
-                        </li>
-                        <li>
-                            <button onClick={toggleTheme} className="flex items-center gap-2 bg-gray-200/30 hover:bg-gray-200/60 text-white px-3 py-2 rounded-full shadow transition-all duration-200 text-lg active:scale-95" aria-label="Toggle Light/Dark Mode" title="Toggle Light/Dark Mode">
-                                {theme === 'dark' ? <SunIcon className="w-6 h-6 text-yellow-300" /> : <MoonIcon className="w-6 h-6 text-indigo-900" />} {theme === 'dark' ? 'Light' : 'Dark'}
-                            </button>
-                        </li>
-                    </ul>
-                </div>
+                                </>
+                            )}
+                                    <li className="flex items-center gap-2 ml-4">
+                                        <Link to="/profile" className="flex items-center gap-1 hover:text-pink-200" aria-label="View Profile" title="View Profile">
+                                                <UserCircleIcon className="w-8 h-8 text-pink-200" />
+                                        </Link>
+                                    </li>
+                            <li>
+                                <button onClick={toggleTheme} className="flex items-center gap-2 bg-gray-200/30 hover:bg-gray-200/60 text-white px-3 py-2 rounded-full shadow transition-all duration-200 text-lg active:scale-95" aria-label="Toggle Light/Dark Mode" title="Toggle Light/Dark Mode">
+                                    {theme === 'dark' ? <SunIcon className="w-6 h-6 text-yellow-300" /> : <MoonIcon className="w-6 h-6 text-indigo-900" />} {theme === 'dark' ? 'Light' : 'Dark'}
+                                </button>
+                            </li>
+                </ul>
+            </div>
             </nav>
             {/* Search bar below navbar for all views, styled with border and border radius */}
             {user && user.role === 'customer' && (
