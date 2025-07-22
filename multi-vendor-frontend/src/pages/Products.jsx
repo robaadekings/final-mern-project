@@ -1,12 +1,21 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../lib/api';
-import { TrashIcon } from '@heroicons/react/24/outline';
+import { TrashIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 function Products({ onAddToCart }) {
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [productsState, setProductsState] = useState(null);
+    const [search, setSearch] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+    const [allProducts, setAllProducts] = useState([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    const suggestionsRef = useRef(null);
+    const navigate = useNavigate();
     const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+
+    // Fetch all products for suggestions (optional, for dropdown)
+    // useEffect(() => { ... });
 
     const products = [
         { id: 1, name: 'iPhone 14 Pro', category: 'Smartphones', price: 1199, image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8' },
@@ -54,15 +63,40 @@ function Products({ onAddToCart }) {
         setSelectedCategory('All');
     };
 
-    return (
-        <div className="container mx-auto px-6 py-10">
-            <h1 className="text-3xl font-bold mb-8 text-gray-800 text-center">Our Products</h1>
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (search.trim()) {
+            navigate(`/products?search=${encodeURIComponent(search.trim())}`);
+        }
+    };
 
-            <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
+    return (
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
+            {/* Responsive Search Bar below sticky navbar */}
+            <div className="w-full bg-white border-b border-pink-200 shadow-sm flex flex-col items-center py-4 px-4 sticky top-[64px] z-40">
+                <form onSubmit={handleSearch} className="flex items-center w-full max-w-xl relative">
+                    <div className="flex items-center w-full bg-gray-100 border-2 border-pink-300 rounded-2xl px-3 py-2">
+                        <MagnifyingGlassIcon className="w-6 h-6 text-pink-400 mr-2" />
+                        <input
+                            type="text"
+                            value={search}
+                            onChange={e => setSearch(e.target.value)}
+                            placeholder="Search products, brands and categories"
+                            className="flex-1 px-3 py-2 rounded-2xl text-pink-900 focus:outline-none bg-gray-100"
+                            autoComplete="off"
+                        />
+                    </div>
+                    <button type="submit" className="ml-3 bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 py-2 rounded-full transition-all">Search</button>
+                </form>
+            </div>
+
+            <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-gray-800 text-center">Our Products</h1>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-6 sm:mb-8">
                 <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="border border-gray-300 rounded-md px-4 py-2 w-full md:w-1/4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="border border-gray-300 rounded-md px-3 py-2 w-full sm:w-1/4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 >
                     {categories.map((cat) => (
                         <option key={cat} value={cat}>
@@ -72,28 +106,28 @@ function Products({ onAddToCart }) {
                 </select>
                 <button
                     onClick={resetFilters}
-                    className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md transition w-full md:w-auto"
+                    className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md transition w-full sm:w-auto"
                 >
                     Reset Filters
                 </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
                 {filteredProducts.map((product) => (
-                    <div key={product.id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition p-5 block">
+                    <div key={product.id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition p-3 sm:p-5 block">
                         <Link
                             to={`/products/${product.id}`}
                         >
-                            <div className="h-48 bg-gray-100 rounded mb-4 overflow-hidden">
+                            <div className="h-40 sm:h-48 bg-gray-100 rounded mb-3 sm:mb-4 overflow-hidden">
                                 <img
                                     src={product.image}
                                     alt={product.name}
                                     className="h-full w-full object-cover"
                                 />
                             </div>
-                            <h2 className="text-lg font-semibold mb-1">{product.name}</h2>
-                            <p className="text-gray-600 mb-2">{product.category}</p>
-                            <p className="text-indigo-600 font-bold mb-4">${product.price}</p>
+                            <h2 className="text-base sm:text-lg font-semibold mb-1">{product.name}</h2>
+                            <p className="text-gray-600 mb-1 sm:mb-2">{product.category}</p>
+                            <p className="text-indigo-600 font-bold mb-2 sm:mb-4">${product.price}</p>
                         </Link>
                         <button
                             onClick={(e) => { e.preventDefault(); onAddToCart(product); }}

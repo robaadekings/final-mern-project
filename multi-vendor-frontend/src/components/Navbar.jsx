@@ -135,48 +135,7 @@ function Navbar({ user, logoutHandler, cartCount }) {
                     </ul>
                 </div>
             </nav>
-            {/* Search bar below navbar for all views, styled with border and border radius, visible on all screens for customers */}
-            {user && user.role === 'customer' && (
-                <div className="flex w-full bg-white border-b border-pink-200 shadow-sm flex-col items-center py-4 px-4">
-                    <form onSubmit={handleSearch} className="flex items-center w-full max-w-xl relative">
-                        <div className="flex items-center w-full bg-gray-100 border-2 border-pink-300 rounded-2xl px-3 py-2">
-                            <MagnifyingGlassIcon className="w-6 h-6 text-pink-400 mr-2" />
-                            <input
-                                type="text"
-                                value={search}
-                                onChange={e => { setSearch(e.target.value); setShowSuggestions(true); }}
-                                onFocus={() => setShowSuggestions(true)}
-                                placeholder="Search products, brands and categories"
-                                className="flex-1 px-3 py-2 rounded-2xl text-pink-900 focus:outline-none bg-gray-100"
-                                autoComplete="off"
-                            />
-                        </div>
-                        <button type="submit" className="ml-3 bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 py-2 rounded-full transition-all">Search</button>
-                        {/* Suggestions dropdown */}
-                        {showSuggestions && search.trim() && (
-                            <div ref={suggestionsRef} className="absolute top-12 left-0 w-full bg-white border border-pink-200 rounded-xl shadow-lg z-50 max-h-64 overflow-y-auto">
-                                {suggestions.length > 0 ? (
-                                    suggestions.map(s => (
-                                        <Link
-                                            key={s._id || s.id}
-                                            to={`/products/${s._id || s.id}`}
-                                            className="block px-4 py-2 hover:bg-pink-50 text-pink-700 cursor-pointer"
-                                            onClick={() => { setShowSuggestions(false); setSearch(''); }}
-                                        >
-                                            <span className="font-semibold">{s.name}</span>
-                                            <span className="ml-2 text-xs text-gray-500">{s.category}</span>
-                                        </Link>
-                                    ))
-                                ) : (
-                                    <div className="px-4 py-2 text-gray-500">
-                                        No results found. Try searching for another product or category.
-                                    </div>
-                                )}
-                            </div>
-                        )}
-                    </form>
-                </div>
-            )}
+            {/* Remove search bar from here */}
         </>
     );
 }
