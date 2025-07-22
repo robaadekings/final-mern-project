@@ -73,26 +73,26 @@ function Products({ onAddToCart }) {
     return (
         <div className="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
             {/* Responsive Search Bar below sticky navbar */}
-            <div className="w-full bg-white border-b border-pink-200 shadow-sm flex flex-col items-center py-4 px-4 sticky top-[64px] z-40">
-                <form onSubmit={handleSearch} className="flex items-center w-full max-w-xl relative">
-                    <div className="flex items-center w-full bg-gray-100 border-2 border-pink-300 rounded-2xl px-3 py-2">
-                        <MagnifyingGlassIcon className="w-6 h-6 text-pink-400 mr-2" />
+            <div className="w-full bg-white border-b border-pink-200 shadow-sm flex flex-col items-center py-2 px-2 sticky top-[64px] z-40" style={{ marginTop: '4px' }}>
+                <form onSubmit={handleSearch} className="flex items-center w-full max-w-md relative gap-2">
+                    <div className="flex items-center w-full bg-gray-100 border-2 border-pink-300 rounded-2xl px-2 py-1">
+                        <MagnifyingGlassIcon className="w-5 h-5 text-pink-400 mr-1" />
                         <input
                             type="text"
                             value={search}
                             onChange={e => setSearch(e.target.value)}
                             placeholder="Search products, brands and categories"
-                            className="flex-1 px-3 py-2 rounded-2xl text-pink-900 focus:outline-none bg-gray-100"
+                            className="flex-1 px-2 py-1 rounded-2xl text-pink-900 focus:outline-none bg-gray-100 text-sm"
                             autoComplete="off"
                         />
                     </div>
-                    <button type="submit" className="ml-3 bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 py-2 rounded-full transition-all">Search</button>
+                    <button type="submit" className="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-3 py-1.5 rounded-full transition-all text-sm whitespace-nowrap">Search</button>
                 </form>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-gray-800 text-center">Our Products</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-gray-800 text-center" style={{ marginTop: '8px' }}>Our Products</h1>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-6 sm:mb-8">
                 <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
@@ -112,7 +112,7 @@ function Products({ onAddToCart }) {
                 </button>
             </div>
 
-            <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+            <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6" style={{ marginBottom: '70px' }}>
                 {filteredProducts.map((product) => (
                     <div key={product.id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition p-3 sm:p-5 block">
                         <Link
