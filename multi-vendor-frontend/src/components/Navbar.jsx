@@ -182,8 +182,71 @@ function Navbar({ user, logoutHandler, cartCount }) {
 }
 
 function BottomNavbar({ user, cartCount }) {
-    // Only show on mobile
+    const { theme, toggleTheme } = useTheme ? useTheme() : { theme: 'light', toggleTheme: () => {} };
     if (!user) return null;
+    // Admin bottom navbar
+    if (user.role === 'admin') {
+        return (
+            <nav className="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-t md:hidden flex justify-around items-center py-2 border-t border-pink-200">
+                <Link to="/admin/dashboard" className="flex flex-col items-center" aria-label="Dashboard" title="Dashboard">
+                    <Cog6ToothIcon className="w-7 h-7" />
+                    <span className="text-xs">Dashboard</span>
+                </Link>
+                <Link to="/admin/products" className="flex flex-col items-center" aria-label="Products" title="Products">
+                    <CubeIcon className="w-7 h-7" />
+                    <span className="text-xs">Products</span>
+                </Link>
+                <Link to="/admin/categories" className="flex flex-col items-center" aria-label="Categories" title="Categories">
+                    <CubeIcon className="w-7 h-7" />
+                    <span className="text-xs">Categories</span>
+                </Link>
+                <Link to="/admin/users" className="flex flex-col items-center" aria-label="Users" title="Users">
+                    <UserGroupIcon className="w-7 h-7" />
+                    <span className="text-xs">Users</span>
+                </Link>
+                <Link to="/admin/orders" className="flex flex-col items-center" aria-label="Orders" title="Orders">
+                    <ClipboardDocumentListIcon className="w-7 h-7" />
+                    <span className="text-xs">Orders</span>
+                </Link>
+                <Link to="/profile" className="flex flex-col items-center" aria-label="Profile" title="Profile">
+                    <UserCircleIcon className="w-7 h-7" />
+                    <span className="text-xs">Profile</span>
+                </Link>
+                <button onClick={toggleTheme} className="flex flex-col items-center" aria-label="Theme" title="Theme">
+                    {theme === 'dark' ? <SunIcon className="w-7 h-7 text-yellow-300" /> : <MoonIcon className="w-7 h-7 text-indigo-900" />}
+                    <span className="text-xs">{theme === 'dark' ? 'Light' : 'Dark'}</span>
+                </button>
+            </nav>
+        );
+    }
+    // Vendor bottom navbar
+    if (user.role === 'vendor') {
+        return (
+            <nav className="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-t md:hidden flex justify-around items-center py-2 border-t border-pink-200">
+                <Link to="/dashboard" className="flex flex-col items-center" aria-label="Dashboard" title="Dashboard">
+                    <CubeIcon className="w-7 h-7" />
+                    <span className="text-xs">Dashboard</span>
+                </Link>
+                <Link to="/dashboard/add-product" className="flex flex-col items-center" aria-label="Add Product" title="Add Product">
+                    <CubeIcon className="w-7 h-7" />
+                    <span className="text-xs">Add Product</span>
+                </Link>
+                <Link to="/dashboard/orders" className="flex flex-col items-center" aria-label="Orders" title="Orders">
+                    <ClipboardDocumentListIcon className="w-7 h-7" />
+                    <span className="text-xs">Orders</span>
+                </Link>
+                <Link to="/profile" className="flex flex-col items-center" aria-label="Profile" title="Profile">
+                    <UserCircleIcon className="w-7 h-7" />
+                    <span className="text-xs">Profile</span>
+                </Link>
+                <button onClick={toggleTheme} className="flex flex-col items-center" aria-label="Theme" title="Theme">
+                    {theme === 'dark' ? <SunIcon className="w-7 h-7 text-yellow-300" /> : <MoonIcon className="w-7 h-7 text-indigo-900" />}
+                    <span className="text-xs">{theme === 'dark' ? 'Light' : 'Dark'}</span>
+                </button>
+            </nav>
+        );
+    }
+    // Customer bottom navbar (default)
     return (
         <nav className="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-t md:hidden flex justify-around items-center py-2 border-t border-pink-200">
             <Link to="/" className="flex flex-col items-center" aria-label="Home" title="Home">
