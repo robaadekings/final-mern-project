@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../lib/api';
+import { TrashIcon } from '@heroicons/react/24/outline';
 
 function Products({ onAddToCart }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All');
+    const [productsState, setProductsState] = useState(null);
+    const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
 
     const products = [
         { id: 1, name: 'iPhone 14 Pro', category: 'Smartphones', price: 1199, image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8' },
@@ -30,12 +34,24 @@ function Products({ onAddToCart }) {
 
     const categories = ['All', ...new Set(products.map((p) => p.category))];
 
-    const filteredProducts = products.filter((product) => {
+    const filteredProducts = (productsState || products).filter((product) => {
         const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
         const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             product.category.toLowerCase().includes(searchTerm.toLowerCase());
         return matchesCategory && matchesSearch;
     });
+
+    const handleDelete = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this product?')) return;
+        try {
+            await api.delete(`/products/${id}`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            });
+            setProductsState((prev) => (prev || products).filter((p) => p.id !== id));
+        } catch (err) {
+            alert('Failed to delete product');
+        }
+    };
 
     const resetFilters = () => {
         setSearchTerm('');
@@ -77,28 +93,39 @@ function Products({ onAddToCart }) {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                 {filteredProducts.map((product) => (
-                    <Link
-                        key={product.id}
-                        to={`/products/${product.id}`}
-                        className="bg-white rounded-lg shadow-md hover:shadow-xl transition p-5 block"
-                    >
-                        <div className="h-48 bg-gray-100 rounded mb-4 overflow-hidden">
-                            <img
-                                src={product.image}
-                                alt={product.name}
-                                className="h-full w-full object-cover"
-                            />
-                        </div>
-                        <h2 className="text-lg font-semibold mb-1">{product.name}</h2>
-                        <p className="text-gray-600 mb-2">{product.category}</p>
-                        <p className="text-indigo-600 font-bold mb-4">${product.price}</p>
+                    <div key={product.id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition p-5 block">
+                        <Link
+                            to={`/products/${product.id}`}
+                        >
+                            <div className="h-48 bg-gray-100 rounded mb-4 overflow-hidden">
+                                <img
+                                    src={product.image}
+                                    alt={product.name}
+                                    className="h-full w-full object-cover"
+                                />
+                            </div>
+                            <h2 className="text-lg font-semibold mb-1">{product.name}</h2>
+                            <p className="text-gray-600 mb-2">{product.category}</p>
+                            <p className="text-indigo-600 font-bold mb-4">${product.price}</p>
+                        </Link>
                         <button
                             onClick={(e) => { e.preventDefault(); onAddToCart(product); }}
                             className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition w-full"
                         >
                             Add to Cart
                         </button>
-                    </Link>
+                        {/* Admin-only delete button below product */}
+                        {user && user.role === 'admin' && (
+                            <button
+                                onClick={() => handleDelete(product.id)}
+                                className="mt-3 flex items-center gap-1 text-red-600 hover:underline w-full justify-center"
+                                aria-label="Delete"
+                                title="Delete"
+                            >
+                                <TrashIcon className="w-5 h-5" /> Delete
+                            </button>
+                        )}
+                    </div>
                 ))}
             </div>
         </div>

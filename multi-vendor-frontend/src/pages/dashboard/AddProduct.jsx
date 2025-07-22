@@ -1,5 +1,5 @@
 import api from '../../lib/api';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function AddProduct() {
@@ -13,6 +13,22 @@ function AddProduct() {
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [error, setError] = useState('');
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const res = await api.get('/products/categories');
+                setCategories(res.data.map(c => c.name));
+            } catch (err) {
+                setCategories([
+                    'Electronics', 'Fashion', 'Home & Kitchen', 'Beauty & Personal Care', 'Sports & Outdoors',
+                    'Toys & Games', 'Automotive', 'Books', 'Health', 'Grocery', 'Office Supplies', 'Jewelry', 'Shoes', 'Garden', 'Pet Supplies'
+                ]);
+            }
+        };
+        fetchCategories();
+    }, []);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -87,14 +103,25 @@ function AddProduct() {
                     onChange={handleChange}
                     className="w-full p-2 border rounded"
                 />
-                <input
-                    type="text"
-                    name="category"
-                    placeholder="Category ID"
-                    value={formData.category}
-                    onChange={handleChange}
-                    className="w-full p-2 border rounded"
-                />
+                <div className="flex flex-col md:flex-row gap-2 md:items-center">
+                    <select
+                        value={categories.includes(formData.category) ? formData.category : ''}
+                        onChange={e => setFormData({ ...formData, category: e.target.value })}
+                        className="border p-2 min-w-[180px]"
+                    >
+                        <option value="">Select Category</option>
+                        {categories.map(cat => (
+                            <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                    </select>
+                    <input
+                        name="category"
+                        value={formData.category}
+                        onChange={handleChange}
+                        placeholder="Or type a category"
+                        className="border p-2 flex-1"
+                    />
+                </div>
                 <input
                     type="file"
                     accept="image/*"

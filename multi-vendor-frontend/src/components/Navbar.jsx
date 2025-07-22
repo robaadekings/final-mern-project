@@ -23,12 +23,20 @@ function Navbar({ user, logoutHandler, cartCount }) {
     const navigate = useNavigate();
     const location = useLocation();
     const { theme, toggleTheme } = useTheme();
+    const [search, setSearch] = useState('');
 
     const toggleMenu = () => setIsOpen(!isOpen);
     const handleLogout = () => {
         logoutHandler();
         navigate('/login');
         setIsOpen(false);
+    };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (search.trim()) {
+            navigate(`/products?search=${encodeURIComponent(search.trim())}`);
+        }
     };
 
     const isActive = (path) => location.pathname === path;
@@ -38,12 +46,26 @@ function Navbar({ user, logoutHandler, cartCount }) {
 
     return (
         <nav className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-md sticky top-0 z-50">
-            <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-                <Link to="/" className="flex items-center gap-2 group select-none">
-                    <HomeIcon className="w-12 h-12 inline mb-1 md:w-10 md:h-10 transition-all duration-200" aria-label="Home" />
-                    <span className="font-extrabold tracking-widest text-white drop-shadow text-xl md:text-2xl group-hover:scale-105 transition-all duration-200 max-w-[7rem] md:max-w-[10rem] truncate">RobinkStore</span>
-                </Link>
-
+            <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:justify-between md:items-center py-4 px-6 gap-3 md:gap-0">
+                <div className="flex items-center gap-2 group select-none mb-2 md:mb-0">
+                    <Link to="/" className="flex items-center gap-2">
+                        <HomeIcon className="w-12 h-12 inline mb-1 md:w-10 md:h-10 transition-all duration-200" aria-label="Home" />
+                        <span className="font-extrabold tracking-widest text-white drop-shadow text-xl md:text-2xl group-hover:scale-105 transition-all duration-200 max-w-[7rem] md:max-w-[10rem] truncate">RobinkStore</span>
+                    </Link>
+                </div>
+                {/* Search bar for customers only */}
+                {user && user.role === 'customer' && (
+                    <form onSubmit={handleSearch} className="flex flex-1 max-w-xl mx-auto items-center bg-white rounded-full shadow px-3 py-1 gap-2 border border-pink-200">
+                        <input
+                            type="text"
+                            value={search}
+                            onChange={e => setSearch(e.target.value)}
+                            placeholder="Search products, brands and categories"
+                            className="flex-1 px-3 py-2 rounded-full text-pink-900 focus:outline-none bg-white"
+                        />
+                        <button type="submit" className="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-5 py-2 rounded-full transition-all">Search</button>
+                    </form>
+                )}
                 <div className="md:hidden flex items-center gap-4">
                     {/* Cart Icon (Mobile) */}
                     {user && (
@@ -63,7 +85,7 @@ function Navbar({ user, logoutHandler, cartCount }) {
                 </div>
 
                 {/* Desktop Menu */}
-                <ul className="hidden md:flex space-x-6 items-center">
+                <ul className="hidden md:flex space-x-6 items-center ml-4">
                     {user && (
                         <>
                             {/* Admin Section */}

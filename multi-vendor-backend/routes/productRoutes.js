@@ -7,6 +7,10 @@ const {
     updateProduct,
     deleteProduct,
     approveProduct,
+    getCategories,
+    addCategory,
+    updateCategory,
+    deleteCategory,
 } = require('../controllers/productController');
 const { protect } = require('../middleware/authMiddleware');
 const { allowRoles, isVendor, isAdmin } = require('../middleware/roleMiddleware');
@@ -27,11 +31,15 @@ router.get('/vendor', protect, isVendor, async (req, res) => {
 // 🌍 Public routes (with support for ?search= & category=)
 router.get('/', getProducts);
 router.get('/:id', getProductById);
+router.get('/categories', getCategories);
 
-// ��️ Protected (Vendor and Admin) routes
+// ️ Protected (Vendor and Admin) routes
 router.post('/', protect, allowRoles('admin', 'vendor'), upload.single('image'), createProduct);
 router.put('/:id', protect, allowRoles('admin', 'vendor'), updateProduct);
 router.delete('/:id', protect, allowRoles('admin', 'vendor'), deleteProduct);
 router.put('/:id/approve', protect, isAdmin, approveProduct);
+router.post('/categories', protect, allowRoles('admin'), addCategory);
+router.put('/categories/:id', protect, allowRoles('admin'), updateCategory);
+router.delete('/categories/:id', protect, allowRoles('admin'), deleteCategory);
 
 module.exports = router;

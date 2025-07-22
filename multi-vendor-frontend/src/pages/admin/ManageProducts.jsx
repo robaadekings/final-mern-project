@@ -140,6 +140,24 @@ function ManageProducts() {
         }
     };
 
+    // Main product categories (will be fetched from backend)
+    const [categories, setCategories] = useState([]);
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const res = await api.get('/products/categories');
+                setCategories(res.data.map(c => c.name));
+            } catch (err) {
+                // fallback to default
+                setCategories([
+                    'Electronics', 'Fashion', 'Home & Kitchen', 'Beauty & Personal Care', 'Sports & Outdoors',
+                    'Toys & Games', 'Automotive', 'Books', 'Health', 'Grocery', 'Office Supplies', 'Jewelry', 'Shoes', 'Garden', 'Pet Supplies'
+                ]);
+            }
+        };
+        fetchCategories();
+    }, []);
+
     // Add or update product
     const handleSubmit = async e => {
         e.preventDefault();
@@ -166,7 +184,7 @@ function ManageProducts() {
                 const res = await api.post('/products', data, {
                     headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}` },
                 });
-                setProducts([...products, res.data]);
+                setProducts([res.data, ...products]); // Add new product to the top
                 toast.showToast('Product added successfully!', 'success');
             }
             setForm({ name: '', price: '', description: '', category: '' });
@@ -287,6 +305,68 @@ function ManageProducts() {
         }
     };
 
+    // Category management (admin only)
+    const [newCategory, setNewCategory] = useState('');
+    const [editingCategoryId, setEditingCategoryId] = useState(null);
+    const [editingCategoryName, setEditingCategoryName] = useState('');
+
+    const isAdmin = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).role === 'admin';
+
+    const fetchCategories = async () => {
+        try {
+            const res = await api.get('/products/categories');
+            setCategories(res.data.map(c => c.name));
+        } catch (err) {
+            setCategories([
+                'Electronics', 'Fashion', 'Home & Kitchen', 'Beauty & Personal Care', 'Sports & Outdoors',
+                'Toys & Games', 'Automotive', 'Books', 'Health', 'Grocery', 'Office Supplies', 'Jewelry', 'Shoes', 'Garden', 'Pet Supplies'
+            ]);
+        }
+    };
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    const handleAddCategory = async (e) => {
+        e.preventDefault();
+        if (!newCategory.trim()) return;
+        try {
+            await api.post('/products/categories', { name: newCategory.trim() });
+            setNewCategory('');
+            fetchCategories();
+        } catch (err) {
+            alert(err.response?.data?.message || 'Failed to add category');
+        }
+    };
+
+    const handleEditCategory = (id, name) => {
+        setEditingCategoryId(id);
+        setEditingCategoryName(name);
+    };
+
+    const handleUpdateCategory = async (id) => {
+        if (!editingCategoryName.trim()) return;
+        try {
+            await api.put(`/products/categories/${id}`, { name: editingCategoryName.trim() });
+            setEditingCategoryId(null);
+            setEditingCategoryName('');
+            fetchCategories();
+        } catch (err) {
+            alert(err.response?.data?.message || 'Failed to update category');
+        }
+    };
+
+    const handleDeleteCategory = async (id) => {
+        if (!window.confirm('Delete this category?')) return;
+        try {
+            await api.delete(`/products/categories/${id}`);
+            fetchCategories();
+        } catch (err) {
+            alert(err.response?.data?.message || 'Failed to delete category');
+        }
+    };
+
     return (
         <div className="p-2 md:p-8">
             <ProductModal product={modalProduct} open={modalOpen} onClose={() => { setModalOpen(false); setModalProduct(null); }} onSave={handleModalSave} />
@@ -317,11 +397,69 @@ function ManageProducts() {
                 </select>
             </div>
             {error && <div className="text-red-600 mb-2 flex flex-col items-center">{error}</div>}
+            {/* Category Management (admin only) */}
+            {isAdmin && (
+                <div className="mb-8 bg-pink-50 border border-pink-200 rounded-lg p-4">
+                    <h3 className="text-lg font-bold mb-2 text-pink-700">Manage Categories</h3>
+                    <form onSubmit={handleAddCategory} className="flex gap-2 mb-4">
+                        <input
+                            type="text"
+                            value={newCategory}
+                            onChange={e => setNewCategory(e.target.value)}
+                            placeholder="Add new category"
+                            className="border p-2 rounded flex-1"
+                        />
+                        <button type="submit" className="bg-pink-600 text-white px-4 py-2 rounded">Add</button>
+                    </form>
+                    <ul className="space-y-2">
+                        {categories.map((cat, idx) => (
+                            <li key={cat} className="flex items-center gap-2">
+                                {editingCategoryId === idx ? (
+                                    <>
+                                        <input
+                                            type="text"
+                                            value={editingCategoryName}
+                                            onChange={e => setEditingCategoryName(e.target.value)}
+                                            className="border p-1 rounded"
+                                        />
+                                        <button onClick={() => handleUpdateCategory(idx)} className="text-green-600">Save</button>
+                                        <button onClick={() => { setEditingCategoryId(null); setEditingCategoryName(''); }} className="text-gray-600">Cancel</button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span>{cat}</span>
+                                        <button onClick={() => handleEditCategory(idx, cat)} className="text-blue-600">Edit</button>
+                                        <button onClick={() => handleDeleteCategory(idx)} className="text-red-600">Delete</button>
+                                    </>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
             <form onSubmit={handleSubmit} className="mb-6 space-y-2" encType="multipart/form-data">
                 <input name="name" value={form.name} onChange={handleChange} placeholder="Name" className="border p-2 mr-2" required />
                 <input name="price" value={form.price} onChange={handleChange} placeholder="Price" type="number" className="border p-2 mr-2" required />
                 <input name="description" value={form.description} onChange={handleChange} placeholder="Description" className="border p-2 mr-2" required />
-                <input name="category" value={form.category} onChange={handleChange} placeholder="Category" className="border p-2 mr-2" />
+                <div className="flex flex-col md:flex-row gap-2 md:items-center">
+                    <select
+                        value={categories.includes(form.category) ? form.category : ''}
+                        onChange={e => setForm({ ...form, category: e.target.value })}
+                        className="border p-2 mr-2 min-w-[180px]"
+                    >
+                        <option value="">Select Category</option>
+                        {categories.map(cat => (
+                            <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                    </select>
+                    <input
+                        name="category"
+                        value={form.category}
+                        onChange={handleChange}
+                        placeholder="Or type a category"
+                        className="border p-2 mr-2"
+                    />
+                </div>
                 <input type="file" accept="image/*" onChange={handleImageChange} className="border p-2 mr-2" />
                 {imagePreview && (
                     <img src={imagePreview} alt="Preview" className="w-32 h-32 object-cover rounded mb-2" />

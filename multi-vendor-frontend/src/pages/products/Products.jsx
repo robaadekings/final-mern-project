@@ -1,27 +1,42 @@
 import { useEffect, useState } from 'react';
 import api from '../../lib/api';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { HeartIcon, ShoppingCartIcon, CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import Skeleton from '../../components/Skeleton';
+
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
 
 function Products({ onAddToCart }) {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [wishlist, setWishlist] = useState([]);
     const [cartAnim, setCartAnim] = useState({});
+    const query = useQuery();
+    const searchTerm = query.get('search') || '';
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const res = await api.get('/products');
-                setProducts(res.data);
+                // Sort by createdAt descending (newest first)
+                let sorted = [...res.data].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                if (searchTerm) {
+                    const lower = searchTerm.toLowerCase();
+                    sorted = sorted.filter(p =>
+                        p.name.toLowerCase().includes(lower) ||
+                        (p.category && p.category.toLowerCase().includes(lower))
+                    );
+                }
+                setProducts(sorted);
             } catch (err) {
                 console.error(err);
             }
             setLoading(false);
         };
         fetchProducts();
-    }, []);
+    }, [searchTerm]);
 
     // Wishlist toggle (local only for demo)
     const toggleWishlist = (id) => {

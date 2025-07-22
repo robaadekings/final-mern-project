@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const Category = require('../models/Category');
 
 // 📦 Create a product
 const createProduct = async (req, res) => {
@@ -7,6 +8,14 @@ const createProduct = async (req, res) => {
         // Save image filename if uploaded
         if (req.file) {
             productData.image = req.file.filename;
+        }
+        // Ensure category is stored in Category model
+        if (productData.category) {
+            await Category.findOneAndUpdate(
+                { name: productData.category },
+                { name: productData.category },
+                { upsert: true, new: true, setDefaultsOnInsert: true }
+            );
         }
         if (req.user.role === 'admin') {
             productData.approved = true;
@@ -107,6 +116,59 @@ const approveProduct = async (req, res) => {
     }
 };
 
+// Get all categories
+const getCategories = async (req, res) => {
+    try {
+        const categories = await Category.find({}).sort({ name: 1 });
+        res.json(categories);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Add a new category (admin only)
+const addCategory = async (req, res) => {
+    try {
+        const { name } = req.body;
+        if (!name) return res.status(400).json({ message: 'Category name is required' });
+        const exists = await Category.findOne({ name });
+        if (exists) return res.status(400).json({ message: 'Category already exists' });
+        const category = new Category({ name });
+        await category.save();
+        res.status(201).json(category);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Update a category (admin only)
+const updateCategory = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name } = req.body;
+        const category = await Category.findById(id);
+        if (!category) return res.status(404).json({ message: 'Category not found' });
+        category.name = name;
+        await category.save();
+        res.json(category);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Delete a category (admin only)
+const deleteCategory = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const category = await Category.findById(id);
+        if (!category) return res.status(404).json({ message: 'Category not found' });
+        await category.deleteOne();
+        res.json({ message: 'Category deleted' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     createProduct,
     getProducts,
@@ -114,4 +176,8 @@ module.exports = {
     updateProduct,
     deleteProduct,
     approveProduct,
+    getCategories,
+    addCategory,
+    updateCategory,
+    deleteCategory,
 };
