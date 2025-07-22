@@ -50,10 +50,16 @@ function Products({ onAddToCart }) {
     const handleDelete = async (id) => {
         if (!window.confirm('Are you sure you want to delete this product?')) return;
         try {
-            await api.delete(`/products/${id}`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-            });
-            setProductsState((prev) => (prev || products).filter((p) => p.id !== id));
+            // Try to delete from backend if id is string (real product), else remove from demo list
+            if (typeof id === 'string') {
+                await api.delete(`/products/${id}`, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                });
+                setProductsState((prev) => (prev || products).filter((p) => p.id !== id && p._id !== id));
+            } else {
+                // For demo products (id is number)
+                setProductsState((prev) => (prev || products).filter((p) => p.id !== id));
+            }
         } catch (err) {
             alert('Failed to delete product');
         }
@@ -72,8 +78,8 @@ function Products({ onAddToCart }) {
 
     return (
         <div className="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
-            {/* Responsive Search Bar below sticky navbar */}
-            <div className="w-full bg-white border-b border-pink-200 shadow-sm flex flex-col items-center py-2 px-2 sticky top-[64px] z-40" style={{ marginTop: '4px' }}>
+            {/* Responsive & Sticky Search Bar below sticky navbar */}
+            <div className="w-full bg-white border-b border-pink-200 shadow-sm flex flex-col items-center py-2 px-2 sticky top-[64px] z-50" style={{ marginTop: '4px' }}>
                 <form onSubmit={handleSearch} className="flex items-center w-full max-w-md relative gap-2">
                     <div className="flex items-center w-full bg-gray-100 border-2 border-pink-300 rounded-2xl px-2 py-1">
                         <MagnifyingGlassIcon className="w-5 h-5 text-pink-400 mr-1" />
