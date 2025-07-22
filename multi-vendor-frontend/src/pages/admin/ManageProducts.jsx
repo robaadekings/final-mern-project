@@ -174,7 +174,7 @@ function ManageProducts() {
             setImagePreview(null);
         } catch (err) {
             toast.showToast('Failed to save product', 'error');
-            console.error('Failed to save product:', err);
+            console.error('Failed to save product:', err.response ? err.response.data : err);
         }
     };
 

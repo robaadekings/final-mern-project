@@ -17,7 +17,7 @@ const TikTokIcon = () => (
 
 function Footer({ user }) {
     return (
-        <footer className="w-full bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900 border-t border-pink-300/30 shadow-2xl rounded-t-2xl mt-12 overflow-hidden text-xs">
+        <footer className="w-full bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900 border-t border-pink-300/30 shadow-2xl mt-12 overflow-hidden text-xs">
             <div className="px-3 py-4 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0 text-center md:text-left">
                 {/* Brand/Logo & Tagline */}
                 <div className="flex flex-col items-center md:items-start gap-2 mb-4 md:mb-0 w-full">

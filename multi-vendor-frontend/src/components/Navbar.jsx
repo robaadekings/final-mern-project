@@ -124,16 +124,32 @@ function Navbar({ user, logoutHandler, cartCount }) {
                 <div className="md:hidden bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-6 py-4 space-y-4">
                     {user && (
                         <>
-                            <Link to="/" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">Home</Link>
-                            <Link to="/products" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">Products</Link>
-                            <Link to="/cart" onClick={() => setIsOpen(false)} className="block hover:text-gray-200 relative">
-                                <span>Cart</span>
-                                {cartCount > 0 && (
-                                    <span className="absolute -top-2 left-10 bg-pink-500 text-white text-xs font-bold rounded-full px-2 py-0.5 shadow-lg animate-bounce">{cartCount}</span>
-                                )}
-                            </Link>
-                            <Link to="/orders" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">Orders</Link>
-                            {/* ...other roles... */}
+                            {user.role === 'admin' && (
+                                <>
+                                    <Link to="/admin/dashboard" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">Admin Dashboard</Link>
+                                    <Link to="/admin/products" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">Manage Products</Link>
+                                    <Link to="/admin/users" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">Manage Users</Link>
+                                    <Link to="/admin/orders" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">Manage Orders</Link>
+                                    <Link to="/profile" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">Profile</Link>
+                                </>
+                            )}
+                            {user.role === 'vendor' && (
+                                <>
+                                    <Link to="/dashboard" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">Vendor Dashboard</Link>
+                                    <Link to="/dashboard/products" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">My Products</Link>
+                                    <Link to="/dashboard/orders" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">My Orders</Link>
+                                    <Link to="/profile" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">Profile</Link>
+                                </>
+                            )}
+                            {user.role === 'customer' && (
+                                <>
+                                    <Link to="/" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">Home</Link>
+                                    <Link to="/products" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">Products</Link>
+                                    <Link to="/cart" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">Cart</Link>
+                                    <Link to="/orders" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">Orders</Link>
+                                    <Link to="/profile" onClick={() => setIsOpen(false)} className="block hover:text-gray-200">Profile</Link>
+                                </>
+                            )}
                         </>
                     )}
                     {!user && (
