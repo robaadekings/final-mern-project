@@ -4,7 +4,6 @@ import api from '../lib/api';
 import { TrashIcon } from '@heroicons/react/24/outline';
 
 function Products({ onAddToCart }) {
-    const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [productsState, setProductsState] = useState(null);
     const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
@@ -36,9 +35,7 @@ function Products({ onAddToCart }) {
 
     const filteredProducts = (productsState || products).filter((product) => {
         const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
-        const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            product.category.toLowerCase().includes(searchTerm.toLowerCase());
-        return matchesCategory && matchesSearch;
+        return matchesCategory;
     });
 
     const handleDelete = async (id) => {
@@ -54,7 +51,6 @@ function Products({ onAddToCart }) {
     };
 
     const resetFilters = () => {
-        setSearchTerm('');
         setSelectedCategory('All');
     };
 
@@ -63,14 +59,6 @@ function Products({ onAddToCart }) {
             <h1 className="text-3xl font-bold mb-8 text-gray-800 text-center">Our Products</h1>
 
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
-                <input
-                    type="text"
-                    placeholder="🔍 Search name or category"
-                    className="border border-gray-300 rounded-md px-4 py-2 w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-
                 <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
@@ -82,7 +70,6 @@ function Products({ onAddToCart }) {
                         </option>
                     ))}
                 </select>
-
                 <button
                     onClick={resetFilters}
                     className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md transition w-full md:w-auto"
