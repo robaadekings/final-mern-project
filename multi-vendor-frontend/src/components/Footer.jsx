@@ -40,11 +40,15 @@ function Footer({ user }) {
     };
 
     return (
-        <footer className="w-full mt-12 overflow-hidden text-xs">
+        <footer className="w-full mt-12 overflow-hidden text-xs bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900">
+            {/* NEW TO ROBINKSTORE Banner */}
+            <div className="w-full bg-pink-600 text-white text-center py-2 font-bold tracking-widest text-lg mb-2 shadow-md">
+                NEW TO ROBINKSTORE
+            </div>
             {/* Newsletter Section with white background, shadow, and rounded corners */}
-            <div className="w-full flex flex-col md:flex-row items-center justify-between px-4 py-8 bg-white border-t border-pink-200 rounded-t-2xl shadow-xl max-w-6xl mx-auto">
+            <div className="w-full flex flex-col md:flex-row items-center justify-between px-4 py-10 bg-white border-t border-pink-200 rounded-t-2xl shadow-xl max-w-6xl mx-auto gap-8 md:gap-16">
                 {/* Logo/Caption left */}
-                <div className="flex flex-col items-center md:items-start gap-2 mb-4 md:mb-0 w-full md:w-auto">
+                <div className="flex flex-col items-center md:items-start gap-2 mb-4 md:mb-0 w-full md:w-auto md:min-w-[220px]">
                     <div className="flex items-center gap-2 justify-center md:justify-start w-full group cursor-pointer">
                         <BuildingStorefrontIcon className="w-10 h-10 text-pink-400 drop-shadow-lg group-hover:scale-110 transition-transform" aria-label="Store Logo" />
                         <span className="text-3xl font-extrabold tracking-widest text-pink-700 drop-shadow group-hover:text-indigo-700 transition-colors">RobinkStore</span>
@@ -52,7 +56,7 @@ function Footer({ user }) {
                     <span className="text-pink-600 text-sm italic mt-1">Your one-stop shop for everything unique</span>
                 </div>
                 {/* Newsletter Form center */}
-                <div className="flex-1 flex flex-col items-center justify-center px-2">
+                <div className="flex-1 flex flex-col items-center justify-center px-2 min-w-[260px]">
                     <div className="w-full max-w-xl">
                         <div className="text-center md:text-left">
                             <h3 className="text-xl font-bold text-pink-700 mb-2">Subscribe to our newsletter to get updates on our latest offers</h3>
@@ -92,7 +96,7 @@ function Footer({ user }) {
                     </div>
                 </div>
                 {/* Social Icons right */}
-                <div className="flex gap-3 justify-center md:justify-end w-full md:w-auto mb-2 md:mb-0">
+                <div className="flex gap-3 justify-center md:justify-end w-full md:w-auto mb-2 md:mb-0 md:min-w-[220px]">
                     <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook" className="rounded-full bg-[#1877F3] w-12 h-12 flex items-center justify-center shadow-lg hover:scale-110 hover:bg-[#1456b8] transition-all">
                         <svg className="w-6 h-6" fill="#fff" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.675 0h-21.35C.595 0 0 .592 0 1.326v21.348C0 23.408.595 24 1.325 24h11.495v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.406 24 24 23.408 24 22.674V1.326C24 .592 23.406 0 22.675 0"/></svg>
                     </a>
