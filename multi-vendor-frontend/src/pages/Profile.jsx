@@ -164,6 +164,50 @@ function Profile() {
         window.location.href = '/login';
     };
 
+    if (!user) return <div className="text-center py-10">Loading...</div>;
+
+    // Admin or Vendor Profile
+    if (user.role === 'admin' || user.role === 'vendor') {
+        return (
+            <div className="max-w-2xl mx-auto py-10 px-4">
+                <div className="flex flex-col items-center mb-8">
+                    <UserCircleIcon className="w-24 h-24 text-pink-200" />
+                    <h2 className="text-3xl font-extrabold mt-4 text-pink-700">
+                        {user.role === 'admin' ? 'Admin Profile' : 'Vendor Profile'}
+                    </h2>
+                    <span className={`mt-2 px-3 py-1 rounded-full font-semibold ${user.role === 'admin' ? 'bg-pink-100 text-pink-700' : 'bg-indigo-100 text-indigo-700'}`}>Role: {user.role.charAt(0).toUpperCase() + user.role.slice(1)}</span>
+                    <p className="text-gray-700 text-lg mt-2">{user.name}</p>
+                    <p className="text-gray-500">{user.email}</p>
+                    <button onClick={() => setEditOpen(true)} className="mt-4 flex items-center gap-1 text-indigo-600 hover:underline" aria-label="Edit Profile" title="Edit Profile"><PencilIcon className="w-5 h-5" /> Edit Profile</button>
+                    <button onClick={handleLogout} className="mt-4 flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full shadow transition-all duration-200 text-lg active:scale-95" aria-label="Logout" title="Logout">
+                        <ArrowRightOnRectangleIcon className="w-6 h-6" /> Logout
+                    </button>
+                </div>
+                {user.role === 'admin' && (
+                    <div className="bg-white rounded-lg shadow p-6 mb-8">
+                        <h3 className="text-lg font-semibold mb-2 text-pink-700">Admin Capabilities</h3>
+                        <ul className="list-disc pl-6 text-gray-700 space-y-1">
+                            <li>Manage all products (add, edit, delete)</li>
+                            <li>View and manage all users (change roles)</li>
+                            <li>View and manage all orders (approve, update status)</li>
+                            <li>Access advanced analytics (if implemented)</li>
+                        </ul>
+                    </div>
+                )}
+                {user.role === 'vendor' && (
+                    <div className="bg-white rounded-lg shadow p-6 mb-8">
+                        <h3 className="text-lg font-semibold mb-2 text-indigo-700">Vendor Capabilities</h3>
+                        <ul className="list-disc pl-6 text-gray-700 space-y-1">
+                            <li>Manage your own products (add, edit, delete)</li>
+                            <li>View and manage your orders</li>
+                            <li>Access vendor dashboard</li>
+                        </ul>
+                    </div>
+                )}
+            </div>
+        );
+    }
+
     return (
         <div className="max-w-3xl mx-auto py-10 px-4">
             <EditProfileModal open={editOpen} onClose={() => setEditOpen(false)} user={user} onSave={setUser} />

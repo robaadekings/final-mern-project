@@ -99,7 +99,7 @@ function AppContent() {
                             </ProtectedRoute>
                         } />
 
-                        <Route path="/admin" element={
+                        <Route path="/admin/dashboard" element={
                             <ProtectedRoute user={user && user.role === 'admin'}>
                                 <AdminDashboard />
                             </ProtectedRoute>

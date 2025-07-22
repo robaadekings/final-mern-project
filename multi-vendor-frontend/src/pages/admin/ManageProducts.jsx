@@ -69,6 +69,27 @@ function ManageProducts() {
     const [modalOpen, setModalOpen] = useState(false);
     const [page, setPage] = useState(1);
     const pageSize = 10;
+
+    // Filter, search, and sort products
+    let filteredProducts = products.filter(product => {
+        if (filter === 'approved') return product.approved;
+        if (filter === 'pending') return !product.approved;
+        return true;
+    });
+    if (search) {
+        filteredProducts = filteredProducts.filter(product =>
+            product.name.toLowerCase().includes(search.toLowerCase()) ||
+            (product.category && product.category.toLowerCase().includes(search.toLowerCase()))
+        );
+    }
+    if (sort === 'name-asc') filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+    if (sort === 'name-desc') filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
+    if (sort === 'price-asc') filteredProducts.sort((a, b) => a.price - b.price);
+    if (sort === 'price-desc') filteredProducts.sort((a, b) => b.price - a.price);
+    if (sort === 'status') filteredProducts.sort((a, b) => (b.approved ? 1 : 0) - (a.approved ? 1 : 0));
+    if (sort === 'date-desc') filteredProducts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    if (sort === 'date-asc') filteredProducts.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
     const totalPages = Math.ceil(filteredProducts.length / pageSize);
     const paginatedProducts = filteredProducts.slice((page - 1) * pageSize, page * pageSize);
 
@@ -239,26 +260,6 @@ function ManageProducts() {
             setSelectAll(true);
         }
     };
-
-    // Filter, search, and sort products
-    let filteredProducts = products.filter(product => {
-        if (filter === 'approved') return product.approved;
-        if (filter === 'pending') return !product.approved;
-        return true;
-    });
-    if (search) {
-        filteredProducts = filteredProducts.filter(product =>
-            product.name.toLowerCase().includes(search.toLowerCase()) ||
-            (product.category && product.category.toLowerCase().includes(search.toLowerCase()))
-        );
-    }
-    if (sort === 'name-asc') filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
-    if (sort === 'name-desc') filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
-    if (sort === 'price-asc') filteredProducts.sort((a, b) => a.price - b.price);
-    if (sort === 'price-desc') filteredProducts.sort((a, b) => b.price - a.price);
-    if (sort === 'status') filteredProducts.sort((a, b) => (b.approved ? 1 : 0) - (a.approved ? 1 : 0));
-    if (sort === 'date-desc') filteredProducts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    if (sort === 'date-asc') filteredProducts.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
     // Save from modal
     const handleModalSave = async (form, image) => {
