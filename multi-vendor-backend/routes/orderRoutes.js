@@ -17,7 +17,7 @@ router.get('/my-orders', protect, getMyOrders);
 router.get('/admin', protect, allowRoles('admin'), getAllOrders);
 router.get('/vendor', protect, allowRoles('vendor'), getVendorOrders);
 
-// Vendors (and possibly admins) update order status
-router.put('/:id/status', protect, allowRoles('vendor'), updateOrderStatus);
+// Vendors and Admins update order status
+router.put('/:id/status', protect, allowRoles('admin', 'vendor'), updateOrderStatus);
 
 module.exports = router;

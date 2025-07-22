@@ -16,6 +16,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useTheme } from './ThemeContext';
 import { useEffect } from 'react';
+import { Fragment, useRef } from 'react';
 
 function Navbar({ user, logoutHandler, cartCount }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -65,62 +66,47 @@ function Navbar({ user, logoutHandler, cartCount }) {
                 <ul className="hidden md:flex space-x-6 items-center">
                     {user && (
                         <>
+                            {/* Admin Section */}
                             {user.role === 'admin' && (
-                                <>
-                                    <li><Link to="/admin/dashboard" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/admin/dashboard') ? 'underline font-bold' : ''}`} aria-label="Dashboard" title="Dashboard"><Cog6ToothIcon className="w-6 h-6" /> Dashboard</Link></li>
-                                    <li className="relative group">
-                                        <span className="hover:text-gray-200 cursor-pointer flex items-center gap-1" aria-label="Products" title="Products"><CubeIcon className="w-6 h-6" /> Products</span>
-                                        <div className="absolute left-0 mt-2 w-40 bg-white text-black rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-50">
-                                            <Link to="/admin/products" className={`block px-4 py-2 hover:bg-gray-100 ${isActive('/admin/products') ? 'bg-indigo-100 font-bold' : ''}`} aria-label="All Products" title="All Products"><CubeIcon className="w-5 h-5 inline mr-1" /> All Products</Link>
-                                            <Link to="/admin/products/add" className={`block px-4 py-2 hover:bg-gray-100 ${isActive('/admin/products/add') ? 'bg-indigo-100 font-bold' : ''}`} aria-label="Add Product" title="Add Product"><CubeIcon className="w-5 h-5 inline mr-1" /> Add Product</Link>
-                                        </div>
-                                    </li>
-                                    <li><Link to="/admin/users" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/admin/users') ? 'underline font-bold' : ''}`} aria-label="Users" title="Users"><UserGroupIcon className="w-6 h-6" /> Users</Link></li>
-                                    <li><Link to="/admin/orders" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/admin/orders') ? 'underline font-bold' : ''}`} aria-label="Orders" title="Orders"><ClipboardDocumentListIcon className="w-6 h-6" /> Orders</Link></li>
-                                </>
+                                <li className="relative group">
+                                    <button className="flex items-center gap-1 px-4 py-2 bg-pink-700 rounded-lg font-bold shadow hover:bg-pink-800 transition-all">
+                                        Admin Panel
+                                        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                                    </button>
+                                    <div className="absolute left-0 mt-2 w-56 bg-white text-black rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-50 border border-pink-200">
+                                        <Link to="/admin/dashboard" className="block px-4 py-2 hover:bg-pink-50 font-semibold border-b border-pink-100">AdminDashboard</Link>
+                                        <Link to="/admin/products" className="block px-4 py-2 hover:bg-pink-50 border-b border-pink-100">Manage Products</Link>
+                                        <Link to="/admin/users" className="block px-4 py-2 hover:bg-pink-50 border-b border-pink-100">Manage Users</Link>
+                                        <Link to="/admin/orders" className="block px-4 py-2 hover:bg-pink-50">Manage Orders</Link>
+                                    </div>
+                                </li>
                             )}
+                            {/* Vendor Section */}
                             {user.role === 'vendor' && (
-                                <>
-                                    <li><Link to="/dashboard" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/dashboard') ? 'underline font-bold' : ''}`} aria-label="Dashboard" title="Dashboard"><Cog6ToothIcon className="w-6 h-6" /> Dashboard</Link></li>
-                                    <li className="relative group">
-                                        <span className="hover:text-gray-200 cursor-pointer flex items-center gap-1" aria-label="My Products" title="My Products"><CubeIcon className="w-6 h-6" /> My Products</span>
-                                        <div className="absolute left-0 mt-2 w-40 bg-white text-black rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-50">
-                                            <Link to="/dashboard/products" className={`block px-4 py-2 hover:bg-gray-100 ${isActive('/dashboard/products') ? 'bg-indigo-100 font-bold' : ''}`} aria-label="All My Products" title="All My Products"><CubeIcon className="w-5 h-5 inline mr-1" /> All My Products</Link>
-                                            <Link to="/dashboard/products/add" className={`block px-4 py-2 hover:bg-gray-100 ${isActive('/dashboard/products/add') ? 'bg-indigo-100 font-bold' : ''}`} aria-label="Add Product" title="Add Product"><CubeIcon className="w-5 h-5 inline mr-1" /> Add Product</Link>
-                                        </div>
-                                    </li>
-                                    <li><Link to="/dashboard/orders" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/dashboard/orders') ? 'underline font-bold' : ''}`} aria-label="My Orders" title="My Orders"><ClipboardDocumentListIcon className="w-6 h-6" /> My Orders</Link></li>
-                                </>
+                                <li><Link to="/dashboard" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/dashboard') ? 'underline font-bold' : ''}`}>Vendor Dashboard</Link></li>
                             )}
+                            {/* Customer Section */}
                             {user.role === 'customer' && (
                                 <>
-                                    <li><Link to="/" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/') ? 'underline font-bold' : ''}`} aria-label="Home" title="Home"><HomeIcon className="w-6 h-6" /> Home</Link></li>
-                                    <li><Link to="/products" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/products') ? 'underline font-bold' : ''}`} aria-label="Products" title="Products"><CubeIcon className="w-6 h-6" /> Products</Link></li>
-                                    <li className="relative">
-                                        <Link to="/cart" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/cart') ? 'underline font-bold' : ''}`} aria-label="View Cart" title="View Cart">
-                                            <ShoppingCartIcon className="w-6 h-6" id="cart-icon" />
-                                            <span>Cart</span>
-                                            {cartCount > 0 && (
-                                                <span className="absolute -top-2 left-6 bg-pink-500 text-white text-xs font-bold rounded-full px-2 py-0.5 shadow-lg animate-bounce">{cartCount}</span>
-                                            )}
-                                        </Link>
-                                    </li>
-                                    <li><Link to="/orders" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/orders') ? 'underline font-bold' : ''}`} aria-label="Orders" title="Orders"><ClipboardDocumentListIcon className="w-6 h-6" /> Orders</Link></li>
-                                    <li className="flex items-center gap-2 ml-4">
-                                        <Link to="/profile" className="flex items-center gap-1 hover:text-pink-200" aria-label="View Profile" title="View Profile">
-                                            {profilePic ? (
-                                                <img src={profilePic} alt="Profile" className="w-8 h-8 rounded-full object-cover border-2 border-pink-400" />
-                                            ) : (
-                                                <UserCircleIcon className="w-8 h-8 text-pink-200" />
-                                            )}
-                                        </Link>
-                                    </li>
+                                    <li><Link to="/" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/') ? 'underline font-bold' : ''}`}>Home</Link></li>
+                                    <li><Link to="/products" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/products') ? 'underline font-bold' : ''}`}>Products</Link></li>
+                                    <li><Link to="/cart" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/cart') ? 'underline font-bold' : ''}`}>Cart</Link></li>
+                                    <li><Link to="/orders" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/orders') ? 'underline font-bold' : ''}`}>Orders</Link></li>
                                 </>
                             )}
+                            {/* Profile Link for all roles */}
+                            <li className="flex items-center gap-2 ml-4">
+                                <Link to="/profile" className="flex items-center gap-1 hover:text-pink-200" aria-label="View Profile" title="View Profile">
+                                    <UserCircleIcon className="w-8 h-8 text-pink-200" />
+                                </Link>
+                            </li>
                             <li>
                                 <button onClick={toggleTheme} className="flex items-center gap-2 bg-gray-200/30 hover:bg-gray-200/60 text-white px-3 py-2 rounded-full shadow transition-all duration-200 text-lg active:scale-95" aria-label="Toggle Light/Dark Mode" title="Toggle Light/Dark Mode">
                                     {theme === 'dark' ? <SunIcon className="w-6 h-6 text-yellow-300" /> : <MoonIcon className="w-6 h-6 text-indigo-900" />} {theme === 'dark' ? 'Light' : 'Dark'}
                                 </button>
+                            </li>
+                            <li>
+                                <button onClick={handleLogout} className="flex items-center gap-1 px-4 py-2 bg-red-600 rounded-lg font-bold shadow hover:bg-red-700 transition-all">Logout <ArrowRightOnRectangleIcon className="w-5 h-5" /></button>
                             </li>
                         </>
                     )}

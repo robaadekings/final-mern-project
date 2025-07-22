@@ -59,7 +59,8 @@ const updateProduct = async (req, res) => {
         const product = await Product.findById(req.params.id);
         if (!product) return res.status(404).json({ message: 'Product not found' });
 
-        if (product.vendor.toString() !== req.user._id.toString()) {
+        // Admin can update any product, vendor can only update their own
+        if (req.user.role !== 'admin' && product.vendor.toString() !== req.user._id.toString()) {
             return res.status(403).json({ message: 'Not authorized' });
         }
 
@@ -77,7 +78,8 @@ const deleteProduct = async (req, res) => {
         const product = await Product.findById(req.params.id);
         if (!product) return res.status(404).json({ message: 'Product not found' });
 
-        if (product.vendor.toString() !== req.user._id.toString()) {
+        // Admin can delete any product, vendor can only delete their own
+        if (req.user.role !== 'admin' && product.vendor.toString() !== req.user._id.toString()) {
             return res.status(403).json({ message: 'Not authorized' });
         }
 
