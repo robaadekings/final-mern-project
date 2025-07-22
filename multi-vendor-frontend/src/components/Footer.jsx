@@ -41,13 +41,13 @@ function Footer({ user }) {
 
     return (
         <footer className="w-full mt-12 overflow-hidden text-xs">
-            {/* Newsletter Section with white background */}
-            <div className="w-full flex flex-col md:flex-row items-center justify-between px-4 py-6 bg-white border-t border-pink-200">
+            {/* Newsletter Section with white background, shadow, and rounded corners */}
+            <div className="w-full flex flex-col md:flex-row items-center justify-between px-4 py-8 bg-white border-t border-pink-200 rounded-t-2xl shadow-xl max-w-6xl mx-auto">
                 {/* Logo/Caption left */}
                 <div className="flex flex-col items-center md:items-start gap-2 mb-4 md:mb-0 w-full md:w-auto">
-                    <div className="flex items-center gap-2 justify-center md:justify-start w-full">
-                        <BuildingStorefrontIcon className="w-10 h-10 text-pink-400 drop-shadow-lg" aria-label="Store Logo" />
-                        <span className="text-3xl font-extrabold tracking-widest text-pink-700 drop-shadow">RobinkStore</span>
+                    <div className="flex items-center gap-2 justify-center md:justify-start w-full group cursor-pointer">
+                        <BuildingStorefrontIcon className="w-10 h-10 text-pink-400 drop-shadow-lg group-hover:scale-110 transition-transform" aria-label="Store Logo" />
+                        <span className="text-3xl font-extrabold tracking-widest text-pink-700 drop-shadow group-hover:text-indigo-700 transition-colors">RobinkStore</span>
                     </div>
                     <span className="text-pink-600 text-sm italic mt-1">Your one-stop shop for everything unique</span>
                 </div>
@@ -63,12 +63,12 @@ function Footer({ user }) {
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
                                 placeholder="Enter your email"
-                                className="flex-1 px-4 py-2 rounded border border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white text-pink-900"
+                                className="flex-1 px-4 py-2 rounded border border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white text-pink-900 shadow-sm"
                                 required
                             />
                             <button
                                 type="submit"
-                                className="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 py-2 rounded shadow transition-all"
+                                className="bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 hover:from-pink-700 hover:to-indigo-700 text-white font-semibold px-8 py-2 rounded shadow-lg transition-all text-base tracking-wide"
                             >
                                 Subscribe
                             </button>
@@ -93,10 +93,10 @@ function Footer({ user }) {
                 </div>
                 {/* Social Icons right */}
                 <div className="flex gap-3 justify-center md:justify-end w-full md:w-auto mb-2 md:mb-0">
-                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook" className="rounded-full bg-[#1877F3] w-12 h-12 flex items-center justify-center shadow-lg hover:scale-110 transition-all">
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook" className="rounded-full bg-[#1877F3] w-12 h-12 flex items-center justify-center shadow-lg hover:scale-110 hover:bg-[#1456b8] transition-all">
                         <svg className="w-6 h-6" fill="#fff" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.675 0h-21.35C.595 0 0 .592 0 1.326v21.348C0 23.408.595 24 1.325 24h11.495v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.406 24 24 23.408 24 22.674V1.326C24 .592 23.406 0 22.675 0"/></svg>
                     </a>
-                    <a href="https://x.com" target="_blank" rel="noopener noreferrer" title="X" aria-label="X" className="rounded-full bg-black w-12 h-12 flex items-center justify-center shadow-lg hover:scale-110 transition-all">
+                    <a href="https://x.com" target="_blank" rel="noopener noreferrer" title="X" aria-label="X" className="rounded-full bg-black w-12 h-12 flex items-center justify-center shadow-lg hover:scale-110 hover:bg-gray-800 transition-all">
                         <svg className="w-6 h-6" fill="#fff" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.53 3H21.5l-7.19 8.21L23 21h-6.18l-4.84-6.07L6.5 21H2.5l7.61-8.7L1 3h6.18l4.34 5.45L17.53 3zm-2.13 15h2.13l-5.5-6.91-5.5 6.91h2.13l3.37-4.23 3.37 4.23z"/></svg>
                     </a>
                     <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" className="rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:scale-110 transition-all" style={{background: 'radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)'}}>
@@ -112,8 +112,10 @@ function Footer({ user }) {
                     </a>
                 </div>
             </div>
+            {/* Divider */}
+            <div className="w-full flex justify-center"><hr className="w-3/4 border-pink-200 my-0" /></div>
             {/* Copyright and Made with Love */}
-            <div className="w-full text-center text-[12px] text-pink-700 font-semibold py-3 bg-white" style={{maxWidth: '900px', margin: '0 auto'}}>
+            <div className="w-full text-center text-[13px] text-pink-700 font-semibold py-3 bg-white" style={{maxWidth: '900px', margin: '0 auto'}}>
                 <p>© 2025 RobinkStore. All rights reserved. Made with <span className="text-pink-400">❤️</span> by Robert Murungi.</p>
             </div>
         </footer>
