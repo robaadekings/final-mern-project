@@ -4,6 +4,10 @@ const Product = require('../models/Product');
 const createProduct = async (req, res) => {
     try {
         let productData = { ...req.body };
+        // Save image filename if uploaded
+        if (req.file) {
+            productData.image = req.file.filename;
+        }
         if (req.user.role === 'admin') {
             productData.approved = true;
             productData.vendor = null;

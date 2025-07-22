@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BuildingStorefrontIcon } from '@heroicons/react/24/outline';
 
@@ -16,8 +17,71 @@ const TikTokIcon = () => (
 );
 
 function Footer({ user }) {
+    const [email, setEmail] = useState('');
+    const [agreed, setAgreed] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+    const [error, setError] = useState('');
+
+    const handleSubscribe = (e) => {
+        e.preventDefault();
+        setError('');
+        if (!email) {
+            setError('Please enter your email.');
+            return;
+        }
+        if (!agreed) {
+            setError('You must agree to the privacy and cookies policy.');
+            return;
+        }
+        // Here you would send the email to your backend/newsletter service
+        setSubmitted(true);
+        setEmail('');
+        setAgreed(false);
+    };
+
     return (
         <footer className="w-full bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900 border-t border-pink-300/30 shadow-2xl mt-12 overflow-hidden text-xs">
+            {/* Newsletter Banner */}
+            <div className="w-full bg-pink-600 text-white text-center py-2 font-bold tracking-widest text-lg mb-2">
+                NEW TO ROBINKSTORE
+            </div>
+            {/* Newsletter Section */}
+            <div className="w-full flex flex-col items-center justify-center px-4 py-6 bg-pink-50 border-b border-pink-200">
+                <h3 className="text-xl font-bold text-pink-700 mb-2">Subscribe to our newsletter to get updates on our latest offers</h3>
+                <form onSubmit={handleSubscribe} className="flex flex-col md:flex-row items-center gap-3 w-full max-w-xl">
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        placeholder="Enter your email"
+                        className="flex-1 px-4 py-2 rounded border border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                        required
+                    />
+                    <button
+                        type="submit"
+                        className="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 py-2 rounded shadow transition-all"
+                    >
+                        Subscribe
+                    </button>
+                </form>
+                <div className="flex items-center gap-2 mt-3">
+                    <input
+                        type="checkbox"
+                        id="privacy"
+                        checked={agreed}
+                        onChange={e => setAgreed(e.target.checked)}
+                        className="accent-pink-600 w-4 h-4"
+                        required
+                    />
+                    <label htmlFor="privacy" className="text-xs text-gray-700">
+                        I agree to RobinkStore <Link to="/privacy" className="underline text-pink-700">privacy and cookies policy</Link>.
+                    </label>
+                </div>
+                <div className="text-xs text-gray-500 mt-1">You can unsubscribe from the newsletter at any time.</div>
+                {error && <div className="text-xs text-red-600 mt-1">{error}</div>}
+                {submitted && <div className="text-xs text-green-600 mt-1">Thank you for subscribing!</div>}
+            </div>
+            {/* Main Footer Content */}
             <div className="px-3 py-4 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0 text-center md:text-left">
                 {/* Brand/Logo & Tagline */}
                 <div className="flex flex-col items-center md:items-start gap-2 mb-4 md:mb-0 w-full">
