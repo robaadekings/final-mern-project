@@ -41,11 +41,11 @@ function Footer({ user }) {
 
     return (
         <footer className="w-full mt-12 overflow-hidden text-xs bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900">
-            {/* Mobile: Only show 'All rights reserved' */}
-            <div className="block md:hidden w-full text-center text-[13px] text-pink-100 font-semibold py-4 bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900">
-                <p>All rights reserved</p>
+            {/* Show full copyright sentence on all screens */}
+            <div className="w-full max-w-xl mx-auto text-center text-[13px] text-pink-100 md:text-pink-700 font-semibold py-4 bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900 md:bg-white rounded-b-2xl shadow-xl" style={{width: '90%'}}>
+                <p>© 2025 RobinkStore. All rights reserved. Made with <span className="text-pink-400">❤️</span> by Robert Murungi.</p>
             </div>
-            {/* Desktop: Show full footer */}
+            {/* Desktop: Show full footer (newsletter, social, etc.) */}
             <div className="hidden md:block">
                 {/* NEW TO ROBINKSTORE Banner */}
                 <div className="w-full bg-pink-600 text-white text-center py-2 font-bold tracking-widest text-lg mb-2 shadow-md">
@@ -124,10 +124,6 @@ function Footer({ user }) {
                 </div>
                 {/* Divider */}
                 <div className="w-full flex justify-center"><hr className="w-3/4 border-pink-200 my-0" /></div>
-                {/* Copyright and Made with Love */}
-                <div className="w-full max-w-xl mx-auto text-center text-[13px] text-pink-700 font-semibold py-3 bg-white rounded-b-2xl shadow-xl" style={{width: '90%'}}>
-                    <p>© 2025 RobinkStore. All rights reserved. Made with <span className="text-pink-400">❤️</span> by Robert Murungi.</p>
-                </div>
             </div>
         </footer>
     );

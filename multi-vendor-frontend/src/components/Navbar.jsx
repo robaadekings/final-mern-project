@@ -135,9 +135,9 @@ function Navbar({ user, logoutHandler, cartCount }) {
                     </ul>
                 </div>
             </nav>
-            {/* Search bar below navbar for all views, styled with border and border radius, only on md+ */}
+            {/* Search bar below navbar for all views, styled with border and border radius, visible on all screens for customers */}
             {user && user.role === 'customer' && (
-                <div className="hidden md:flex w-full bg-white border-b border-pink-200 shadow-sm flex-col items-center py-4 px-4">
+                <div className="flex w-full bg-white border-b border-pink-200 shadow-sm flex-col items-center py-4 px-4">
                     <form onSubmit={handleSearch} className="flex items-center w-full max-w-xl relative">
                         <div className="flex items-center w-full bg-gray-100 border-2 border-pink-300 rounded-2xl px-3 py-2">
                             <MagnifyingGlassIcon className="w-6 h-6 text-pink-400 mr-2" />
@@ -191,6 +191,11 @@ function BottomNavbar({ user, cartCount }) {
                 <Link to="/admin/dashboard" className="flex flex-col items-center" aria-label="Dashboard" title="Dashboard">
                     <Cog6ToothIcon className="w-7 h-7" />
                     <span className="text-xs">Dashboard</span>
+                </Link>
+                {/* All Products (customer side) */}
+                <Link to="/products" className="flex flex-col items-center" aria-label="All Products" title="All Products">
+                    <CubeIcon className="w-7 h-7" />
+                    <span className="text-xs">All Products</span>
                 </Link>
                 <Link to="/admin/products" className="flex flex-col items-center" aria-label="Products" title="Products">
                     <CubeIcon className="w-7 h-7" />

@@ -30,9 +30,9 @@ function Dashboard() {
 
     return (
         <div className="max-w-5xl mx-auto p-6">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
                 <h1 className="text-2xl font-bold">Vendor Dashboard</h1>
-                <Link to="/dashboard/add-product" className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+                <Link to="/dashboard/add-product" className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 w-full md:w-auto text-center">
                     + Add Product
                 </Link>
             </div>
