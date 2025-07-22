@@ -119,7 +119,7 @@ function Footer({ user }) {
             {/* Divider */}
             <div className="w-full flex justify-center"><hr className="w-3/4 border-pink-200 my-0" /></div>
             {/* Copyright and Made with Love */}
-            <div className="w-full text-center text-[13px] text-pink-700 font-semibold py-3 bg-white" style={{maxWidth: '900px', margin: '0 auto'}}>
+            <div className="w-full max-w-6xl mx-auto text-center text-[13px] text-pink-700 font-semibold py-3 bg-white rounded-b-2xl shadow-xl" style={{width: '98%'}}>
                 <p>© 2025 RobinkStore. All rights reserved. Made with <span className="text-pink-400">❤️</span> by Robert Murungi.</p>
             </div>
         </footer>
