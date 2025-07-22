@@ -99,12 +99,12 @@ function Navbar({ user, logoutHandler, cartCount }) {
                                 <button className="flex items-center gap-1 px-4 py-2 bg-pink-700 rounded-lg font-bold shadow hover:bg-pink-800 transition-all">
                                     <Cog6ToothIcon className="w-6 h-6" /> Admin Panel
                                 </button>
-                                <div className="absolute left-0 mt-2 w-56 bg-white text-black rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-50 border border-pink-200">
-                                    <Link to="/admin/dashboard" className="block px-4 py-2 hover:bg-pink-50 font-semibold border-b border-pink-100"><Cog6ToothIcon className="w-5 h-5 inline mr-1" /> AdminDashboard</Link>
-                                    <Link to="/admin/products" className="block px-4 py-2 hover:bg-pink-50 border-b border-pink-100"><CubeIcon className="w-5 h-5 inline mr-1" /> Manage Products</Link>
-                                    <Link to="/admin/categories" className="block px-4 py-2 hover:bg-pink-50 border-b border-pink-100"><CubeIcon className="w-5 h-5 inline mr-1" /> Manage Categories</Link>
-                                    <Link to="/admin/users" className="block px-4 py-2 hover:bg-pink-50 border-b border-pink-100"><UserGroupIcon className="w-5 h-5 inline mr-1" /> Manage Users</Link>
-                                    <Link to="/admin/orders" className="block px-4 py-2 hover:bg-pink-50"><ClipboardDocumentListIcon className="w-5 h-5 inline mr-1" /> Manage Orders</Link>
+                                <div className="absolute left-0 mt-2 w-72 bg-white text-black rounded-xl shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-50 border border-pink-200 p-2 space-y-2">
+                                    <Link to="/admin/dashboard" className="block px-4 py-3 hover:bg-pink-50 font-semibold rounded-lg"><Cog6ToothIcon className="w-5 h-5 inline mr-1" /> AdminDashboard</Link>
+                                    <Link to="/admin/products" className="block px-4 py-3 hover:bg-pink-50 rounded-lg"><CubeIcon className="w-5 h-5 inline mr-1" /> Manage Products</Link>
+                                    <Link to="/admin/categories" className="block px-4 py-3 hover:bg-pink-50 rounded-lg"><CubeIcon className="w-5 h-5 inline mr-1" /> Manage Categories</Link>
+                                    <Link to="/admin/users" className="block px-4 py-3 hover:bg-pink-50 rounded-lg"><UserGroupIcon className="w-5 h-5 inline mr-1" /> Manage Users</Link>
+                                    <Link to="/admin/orders" className="block px-4 py-3 hover:bg-pink-50 rounded-lg"><ClipboardDocumentListIcon className="w-5 h-5 inline mr-1" /> Manage Orders</Link>
                                 </div>
                             </li>
                         )}
