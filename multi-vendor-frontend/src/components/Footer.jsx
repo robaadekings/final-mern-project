@@ -40,56 +40,56 @@ function Footer({ user }) {
     };
 
     return (
-        <footer className="w-full bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900 border-t border-pink-300/30 shadow-2xl mt-12 overflow-hidden text-xs">
-            {/* Newsletter Banner */}
-            <div className="w-full bg-pink-600 text-white text-center py-2 font-bold tracking-widest text-lg mb-2">
-                NEW TO ROBINKSTORE
-            </div>
-            {/* Newsletter Section */}
-            <div className="w-full flex flex-col items-center justify-center px-4 py-6 bg-pink-50 border-b border-pink-200">
-                <h3 className="text-xl font-bold text-pink-700 mb-2">Subscribe to our newsletter to get updates on our latest offers</h3>
-                <form onSubmit={handleSubscribe} className="flex flex-col md:flex-row items-center gap-3 w-full max-w-xl">
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                        placeholder="Enter your email"
-                        className="flex-1 px-4 py-2 rounded border border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
-                        required
-                    />
-                    <button
-                        type="submit"
-                        className="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 py-2 rounded shadow transition-all"
-                    >
-                        Subscribe
-                    </button>
-                </form>
-                <div className="flex items-center gap-2 mt-3">
-                    <input
-                        type="checkbox"
-                        id="privacy"
-                        checked={agreed}
-                        onChange={e => setAgreed(e.target.checked)}
-                        className="accent-pink-600 w-4 h-4"
-                        required
-                    />
-                    <label htmlFor="privacy" className="text-xs text-gray-700">
-                        I agree to RobinkStore <Link to="/privacy" className="underline text-pink-700">privacy and cookies policy</Link>.
-                    </label>
-                </div>
-                <div className="text-xs text-gray-500 mt-1">You can unsubscribe from the newsletter at any time.</div>
-                {error && <div className="text-xs text-red-600 mt-1">{error}</div>}
-                {submitted && <div className="text-xs text-green-600 mt-1">Thank you for subscribing!</div>}
-            </div>
-            {/* Main Footer Content: Logo/Caption left, Social Icons right */}
-            <div className="px-3 py-4 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0 text-center md:text-left bg-transparent">
-                {/* Brand/Logo & Tagline */}
+        <footer className="w-full mt-12 overflow-hidden text-xs">
+            {/* Newsletter Section with white background */}
+            <div className="w-full flex flex-col md:flex-row items-center justify-between px-4 py-6 bg-white border-t border-pink-200">
+                {/* Logo/Caption left */}
                 <div className="flex flex-col items-center md:items-start gap-2 mb-4 md:mb-0 w-full md:w-auto">
                     <div className="flex items-center gap-2 justify-center md:justify-start w-full">
                         <BuildingStorefrontIcon className="w-10 h-10 text-pink-400 drop-shadow-lg" aria-label="Store Logo" />
-                        <span className="text-3xl font-extrabold tracking-widest text-white drop-shadow">RobinkStore</span>
+                        <span className="text-3xl font-extrabold tracking-widest text-pink-700 drop-shadow">RobinkStore</span>
                     </div>
-                    <span className="text-pink-200 text-sm italic mt-1">Your one-stop shop for everything unique</span>
+                    <span className="text-pink-600 text-sm italic mt-1">Your one-stop shop for everything unique</span>
+                </div>
+                {/* Newsletter Form center */}
+                <div className="flex-1 flex flex-col items-center justify-center px-2">
+                    <div className="w-full max-w-xl">
+                        <div className="text-center md:text-left">
+                            <h3 className="text-xl font-bold text-pink-700 mb-2">Subscribe to our newsletter to get updates on our latest offers</h3>
+                        </div>
+                        <form onSubmit={handleSubscribe} className="flex flex-col md:flex-row items-center gap-3 w-full">
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                placeholder="Enter your email"
+                                className="flex-1 px-4 py-2 rounded border border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white text-pink-900"
+                                required
+                            />
+                            <button
+                                type="submit"
+                                className="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 py-2 rounded shadow transition-all"
+                            >
+                                Subscribe
+                            </button>
+                        </form>
+                        <div className="flex items-center gap-2 mt-3">
+                            <input
+                                type="checkbox"
+                                id="privacy"
+                                checked={agreed}
+                                onChange={e => setAgreed(e.target.checked)}
+                                className="accent-pink-600 w-4 h-4"
+                                required
+                            />
+                            <label htmlFor="privacy" className="text-xs text-pink-700">
+                                I agree to RobinkStore <Link to="/privacy" className="underline text-pink-700">privacy and cookies policy</Link>.
+                            </label>
+                        </div>
+                        <div className="text-xs text-pink-600 mt-1">You can unsubscribe from the newsletter at any time.</div>
+                        {error && <div className="text-xs text-red-600 mt-1">{error}</div>}
+                        {submitted && <div className="text-xs text-green-600 mt-1">Thank you for subscribing!</div>}
+                    </div>
                 </div>
                 {/* Social Icons right */}
                 <div className="flex gap-3 justify-center md:justify-end w-full md:w-auto mb-2 md:mb-0">
@@ -113,7 +113,7 @@ function Footer({ user }) {
                 </div>
             </div>
             {/* Copyright and Made with Love */}
-            <div className="px-3 pb-2 pt-1 text-center text-[10px] text-pink-200 mt-1 w-full">
+            <div className="w-full text-center text-[12px] text-pink-700 font-semibold py-3 bg-white" style={{maxWidth: '900px', margin: '0 auto'}}>
                 <p>© 2025 RobinkStore. All rights reserved. Made with <span className="text-pink-400">❤️</span> by Robert Murungi.</p>
             </div>
         </footer>
