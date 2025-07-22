@@ -16,8 +16,6 @@ import {
   MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline';
 import { useTheme } from './ThemeContext';
-import { useEffect } from 'react';
-import { Fragment, useRef } from 'react';
 
 function Navbar({ user, logoutHandler, cartCount }) {
     const [isOpen, setIsOpen] = useState(false);
