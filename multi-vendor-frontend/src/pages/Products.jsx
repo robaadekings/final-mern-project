@@ -1,11 +1,35 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../lib/api';
 import { TrashIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
+const demoProducts = [
+    { id: 1, name: 'iPhone 14 Pro', category: 'Smartphones', price: 1199, image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8' },
+    { id: 2, name: 'MacBook Pro M2', category: 'Laptops', price: 1999, image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085' },
+    { id: 3, name: 'Canon DSLR Camera', category: 'Cameras', price: 899, image: 'https://images.unsplash.com/photo-1518770660439-4636190af475' },
+    { id: 4, name: 'AirPods Pro', category: 'Audio', price: 249, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e' },
+    { id: 5, name: 'PlayStation 5', category: 'Gaming', price: 499, image: 'https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=600&q=80' },
+    { id: 6, name: 'Samsung Galaxy Tab', category: 'Tablets', price: 799, image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80' },
+    { id: 7, name: 'Canon Mirrorless Camera', category: 'Cameras', price: 1299, image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80' },
+    { id: 8, name: 'Apple Watch', category: 'Wearables', price: 399, image: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4' },
+    { id: 9, name: 'Sony WH-1000XM5', category: 'Audio', price: 349, image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8' },
+    { id: 10, name: 'Logitech MX Master 3', category: 'Accessories', price: 99, image: 'https://images.unsplash.com/photo-1603791440384-56cd371ee9a7' },
+    { id: 11, name: 'JBL Bluetooth Speaker', category: 'Audio', price: 149, image: 'https://images.unsplash.com/photo-1504198458649-3128b932f49b' },
+    { id: 12, name: 'GoPro Hero 9', category: 'Cameras', price: 499, image: 'https://images.unsplash.com/photo-1505740106531-4243f3831f50' },
+    { id: 13, name: 'Mechanical Gaming Keyboard', category: 'Accessories', price: 149, image: 'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d' },
+    { id: 14, name: 'Google Nest Hub', category: 'Home Tech', price: 199, image: 'https://images.unsplash.com/photo-1527430253228-e93688616381' },
+    { id: 15, name: 'Dell UltraSharp Monitor', category: 'Monitors', price: 599, image: 'https://images.unsplash.com/photo-1539874754764-5a965591c4bc' },
+    { id: 16, name: 'Xbox Series X', category: 'Gaming', price: 549, image: 'https://images.unsplash.com/photo-1517430816045-df4b7de11d1b' },
+    { id: 17, name: 'Amazon Kindle', category: 'Tablets', price: 129, image: 'https://images.unsplash.com/photo-1507667985342-cd3ab173f28f' },
+    { id: 18, name: 'Samsung Galaxy Watch', category: 'Wearables', price: 299, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff' },
+    { id: 19, name: 'Bose Noise Cancelling 700', category: 'Audio', price: 379, image: 'https://images.unsplash.com/photo-1503602642458-232111445657' },
+    { id: 20, name: 'Razer Gaming Mouse', category: 'Accessories', price: 79, image: 'https://images.unsplash.com/photo-1527430253228-e93688616381' },
+];
+
 function Products({ onAddToCart }) {
     const [selectedCategory, setSelectedCategory] = useState('All');
-    const [productsState, setProductsState] = useState(null);
+    const [products, setProducts] = useState([]);
+    const [useDemo, setUseDemo] = useState(false);
     const [search, setSearch] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [allProducts, setAllProducts] = useState([]);
@@ -14,35 +38,29 @@ function Products({ onAddToCart }) {
     const navigate = useNavigate();
     const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
 
-    // Fetch all products for suggestions (optional, for dropdown)
-    // useEffect(() => { ... });
-
-    const products = [
-        { id: 1, name: 'iPhone 14 Pro', category: 'Smartphones', price: 1199, image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8' },
-        { id: 2, name: 'MacBook Pro M2', category: 'Laptops', price: 1999, image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085' },
-        { id: 3, name: 'Canon DSLR Camera', category: 'Cameras', price: 899, image: 'https://images.unsplash.com/photo-1518770660439-4636190af475' },
-        { id: 4, name: 'AirPods Pro', category: 'Audio', price: 249, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e' },
-        { id: 5, name: 'PlayStation 5', category: 'Gaming', price: 499, image: 'https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=600&q=80' },
-        { id: 6, name: 'Samsung Galaxy Tab', category: 'Tablets', price: 799, image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80' },
-        { id: 7, name: 'Canon Mirrorless Camera', category: 'Cameras', price: 1299, image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80' },
-        { id: 8, name: 'Apple Watch', category: 'Wearables', price: 399, image: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4' },
-        { id: 9, name: 'Sony WH-1000XM5', category: 'Audio', price: 349, image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8' },
-        { id: 10, name: 'Logitech MX Master 3', category: 'Accessories', price: 99, image: 'https://images.unsplash.com/photo-1603791440384-56cd371ee9a7' },
-        { id: 11, name: 'JBL Bluetooth Speaker', category: 'Audio', price: 149, image: 'https://images.unsplash.com/photo-1504198458649-3128b932f49b' },
-        { id: 12, name: 'GoPro Hero 9', category: 'Cameras', price: 499, image: 'https://images.unsplash.com/photo-1505740106531-4243f3831f50' },
-        { id: 13, name: 'Mechanical Gaming Keyboard', category: 'Accessories', price: 149, image: 'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d' },
-        { id: 14, name: 'Google Nest Hub', category: 'Home Tech', price: 199, image: 'https://images.unsplash.com/photo-1527430253228-e93688616381' },
-        { id: 15, name: 'Dell UltraSharp Monitor', category: 'Monitors', price: 599, image: 'https://images.unsplash.com/photo-1539874754764-5a965591c4bc' },
-        { id: 16, name: 'Xbox Series X', category: 'Gaming', price: 549, image: 'https://images.unsplash.com/photo-1517430816045-df4b7de11d1b' },
-        { id: 17, name: 'Amazon Kindle', category: 'Tablets', price: 129, image: 'https://images.unsplash.com/photo-1507667985342-cd3ab173f28f' },
-        { id: 18, name: 'Samsung Galaxy Watch', category: 'Wearables', price: 299, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff' },
-        { id: 19, name: 'Bose Noise Cancelling 700', category: 'Audio', price: 379, image: 'https://images.unsplash.com/photo-1503602642458-232111445657' },
-        { id: 20, name: 'Razer Gaming Mouse', category: 'Accessories', price: 79, image: 'https://images.unsplash.com/photo-1527430253228-e93688616381' },
-    ];
+    // Fetch products from backend
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const res = await api.get('/products');
+                if (Array.isArray(res.data) && res.data.length > 0) {
+                    setProducts(res.data);
+                    setUseDemo(false);
+                } else {
+                    setProducts(demoProducts);
+                    setUseDemo(true);
+                }
+            } catch (err) {
+                setProducts(demoProducts);
+                setUseDemo(true);
+            }
+        };
+        fetchProducts();
+    }, []);
 
     const categories = ['All', ...new Set(products.map((p) => p.category))];
 
-    const filteredProducts = (productsState || products).filter((product) => {
+    const filteredProducts = products.filter((product) => {
         const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
         return matchesCategory;
     });
@@ -50,15 +68,16 @@ function Products({ onAddToCart }) {
     const handleDelete = async (id) => {
         if (!window.confirm('Are you sure you want to delete this product?')) return;
         try {
-            // Try to delete from backend if id is string (real product), else remove from demo list
-            if (typeof id === 'string') {
+            if (!useDemo && typeof id === 'string') {
                 await api.delete(`/products/${id}`, {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                 });
-                setProductsState((prev) => (prev || products).filter((p) => p.id !== id && p._id !== id));
+                // Refetch products after delete
+                const res = await api.get('/products');
+                setProducts(res.data.length > 0 ? res.data : demoProducts);
             } else {
                 // For demo products (id is number)
-                setProductsState((prev) => (prev || products).filter((p) => p.id !== id));
+                setProducts((prev) => prev.filter((p) => p.id !== id));
             }
         } catch (err) {
             alert('Failed to delete product');
@@ -120,9 +139,9 @@ function Products({ onAddToCart }) {
 
             <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6" style={{ marginBottom: '70px' }}>
                 {filteredProducts.map((product) => (
-                    <div key={product.id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition p-3 sm:p-5 block">
+                    <div key={product._id || product.id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition p-3 sm:p-5 block">
                         <Link
-                            to={`/products/${product.id}`}
+                            to={`/products/${product._id || product.id}`}
                         >
                             <div className="h-40 sm:h-48 bg-gray-100 rounded mb-3 sm:mb-4 overflow-hidden">
                                 <img
@@ -144,7 +163,7 @@ function Products({ onAddToCart }) {
                         {/* Admin-only delete button below product */}
                         {user && user.role === 'admin' && (
                             <button
-                                onClick={() => handleDelete(product.id)}
+                                onClick={() => handleDelete(product._id || product.id)}
                                 className="mt-3 flex items-center gap-1 text-red-600 hover:underline w-full justify-center"
                                 aria-label="Delete"
                                 title="Delete"
