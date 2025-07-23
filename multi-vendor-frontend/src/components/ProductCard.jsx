@@ -32,7 +32,8 @@ export default function ProductCard({
                 <p className="text-indigo-600 font-bold mb-1">${product.price}</p>
                 <p className="text-xs text-gray-500 mb-2">{product.category}</p>
             </Link>
-            {product.approved !== undefined && (
+            {/* Show Approved/Pending badge only for admin or vendor */}
+            {user && (user.role === 'admin' || user.role === 'vendor') && product.approved !== undefined && (
                 product.approved ? (
                     <span className="inline-block px-2 py-0.5 text-xs bg-green-100 text-green-700 rounded-full mb-2">Approved</span>
                 ) : (

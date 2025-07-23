@@ -67,7 +67,7 @@ function Products({ onAddToCart }) {
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8 min-h-screen bg-gradient-to-br from-indigo-50 via-pink-50 to-purple-100">
             {/* Responsive & Sticky Search Bar below sticky navbar */}
             <div className="w-full bg-white border-b border-pink-200 shadow-sm flex flex-col items-center py-2 px-2 sticky top-[64px] z-50" style={{ marginTop: '4px' }}>
                 <form onSubmit={handleSearch} className="flex items-center w-full max-w-md relative gap-2">
