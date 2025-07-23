@@ -30,8 +30,8 @@ router.get('/vendor', protect, isVendor, async (req, res) => {
 
 // 🌍 Public routes (with support for ?search= & category=)
 router.get('/', getProducts);
-router.get('/:id', getProductById);
 router.get('/categories', getCategories);
+router.get('/:id', getProductById);
 
 // ️ Protected (Vendor and Admin) routes
 router.post('/', protect, allowRoles('admin', 'vendor'), upload.single('image'), createProduct);
