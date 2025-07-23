@@ -68,6 +68,12 @@ function ProductDetail() {
         setSubmitting(false);
     };
 
+    // Helper to get correct backend base URL for images
+    const getBackendBaseUrl = () => {
+        const url = import.meta.env.VITE_API_URL || 'https://final-mern-project-g5mi.onrender.com/api';
+        return url.replace(/\/api$/, '');
+    };
+
     if (loading) return <p className="text-center py-10">Loading...</p>;
     if (error) return <p className="text-center text-red-500 py-10">{error}</p>;
     if (!product || !product._id) return <p className="text-center text-red-500 py-10">Product not found or data is incomplete.</p>;
@@ -77,7 +83,7 @@ function ProductDetail() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                 {product.image ? (
                     <img
-                        src={`${import.meta.env.VITE_API_URL || 'https://final-mern-project-g5mi.onrender.com'}/uploads/${product.image}`}
+                        src={`${getBackendBaseUrl()}/uploads/${product.image}`}
                         alt={product.name || 'Product'}
                         className="w-full h-96 object-cover rounded-lg shadow-md"
                     />
