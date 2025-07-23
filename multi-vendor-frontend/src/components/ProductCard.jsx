@@ -15,20 +15,22 @@ export default function ProductCard({
     onDelete
 }) {
     return (
-        <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-3 flex flex-col items-center w-full max-w-xs mx-auto">
+        <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-2 flex flex-col items-center w-full max-w-[220px] min-w-[180px] mx-auto">
             <Link to={`/products/${product._id}`} className="w-full">
-                <div className="w-full aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center mb-3">
+                <div className="w-full aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center mb-2">
                     {product.image ? (
                         <img
                             src={`${getBackendBaseUrl()}/uploads/${product.image}`}
                             alt={product.name}
-                            className="object-cover w-full h-full"
+                            className="object-cover w-full h-full max-h-40 min-h-32"
+                            style={{ aspectRatio: '4/3', maxWidth: '100%', borderRadius: '0.5rem' }}
+                            loading="lazy"
                         />
                     ) : (
                         <span className="text-gray-400">No Image</span>
                     )}
                 </div>
-                <h2 className="text-base font-semibold mb-1 text-center truncate w-full">{product.name}</h2>
+                <h2 className="text-lg font-bold mb-1 text-center truncate w-full">{product.name}</h2>
                 <p className="text-indigo-600 font-bold mb-1">${product.price}</p>
                 <p className="text-xs text-gray-500 mb-2">{product.category}</p>
             </Link>

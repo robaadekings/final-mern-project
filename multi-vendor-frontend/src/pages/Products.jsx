@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../lib/api';
-import { TrashIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { TrashIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import ProductCard from '../components/ProductCard';
 
 function Products({ onAddToCart }) {
@@ -9,11 +9,11 @@ function Products({ onAddToCart }) {
     const [products, setProducts] = useState([]);
     const [search, setSearch] = useState('');
     const [suggestions, setSuggestions] = useState([]);
-    const [allProducts, setAllProducts] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const suggestionsRef = useRef(null);
     const navigate = useNavigate();
     const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+    const [activeSuggestion, setActiveSuggestion] = useState(-1);
 
     // Fetch products from backend
     useEffect(() => {
@@ -28,11 +28,63 @@ function Products({ onAddToCart }) {
         fetchProducts();
     }, []);
 
+    // Update suggestions as user types
+    useEffect(() => {
+        if (!search.trim()) {
+            setSuggestions([]);
+            return;
+        }
+        const lower = search.toLowerCase();
+        const matches = products.filter(p =>
+            p.name.toLowerCase().includes(lower) ||
+            (p.category && p.category.toLowerCase().includes(lower))
+        );
+        setSuggestions(matches.slice(0, 6));
+    }, [search, products]);
+
+    // Hide suggestions on click outside
+    useEffect(() => {
+        const handleClick = (e) => {
+            if (suggestionsRef.current && !suggestionsRef.current.contains(e.target)) {
+                setShowSuggestions(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+    }, []);
+
+    // Keyboard navigation for suggestions
+    const handleKeyDown = (e) => {
+        if (!showSuggestions || suggestions.length === 0) return;
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            setActiveSuggestion((prev) => (prev + 1) % suggestions.length);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            setActiveSuggestion((prev) => (prev - 1 + suggestions.length) % suggestions.length);
+        } else if (e.key === 'Enter') {
+            if (activeSuggestion >= 0 && suggestions[activeSuggestion]) {
+                navigate(`/products/${suggestions[activeSuggestion]._id}`);
+                setShowSuggestions(false);
+                setSearch('');
+            }
+        } else if (e.key === 'Escape') {
+            setShowSuggestions(false);
+        }
+    };
+
+    // Reset active suggestion when search or suggestions change
+    useEffect(() => {
+        setActiveSuggestion(-1);
+    }, [search, suggestions]);
+
     const categories = ['All', ...new Set(products.map((p) => p.category))];
 
+    // Filter products by category and search
     const filteredProducts = products.filter((product) => {
         const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
-        return matchesCategory;
+        const matchesSearch = !search.trim() || product.name.toLowerCase().includes(search.toLowerCase()) || (product.category && product.category.toLowerCase().includes(search.toLowerCase()));
+        return matchesCategory && matchesSearch;
     });
 
     const handleDelete = async (id) => {
@@ -51,13 +103,13 @@ function Products({ onAddToCart }) {
 
     const resetFilters = () => {
         setSelectedCategory('All');
+        setSearch('');
     };
 
     const handleSearch = (e) => {
         e.preventDefault();
-        if (search.trim()) {
-            navigate(`/products?search=${encodeURIComponent(search.trim())}`);
-        }
+        setShowSuggestions(false);
+        // No need to navigate, just filter in place
     };
 
     // Helper to get correct backend base URL for images
@@ -75,18 +127,49 @@ function Products({ onAddToCart }) {
             {/* Responsive & Sticky Search Bar below sticky navbar */}
             <div className="w-full bg-white border-b border-pink-200 shadow-sm flex flex-col items-center py-2 px-2 sticky top-[64px] z-50" style={{ marginTop: '4px' }}>
                 <form onSubmit={handleSearch} className="flex items-center w-full max-w-md relative gap-2">
-                    <div className="flex items-center w-full bg-gray-100 border-2 border-pink-300 rounded-2xl px-2 py-1">
+                    <div className={`flex items-center w-full bg-gray-100 border-2 border-pink-300 rounded-2xl px-2 py-1 transition-shadow ${showSuggestions && suggestions.length > 0 ? 'ring-2 ring-pink-300 shadow-lg' : ''}`}> 
                         <MagnifyingGlassIcon className="w-5 h-5 text-pink-400 mr-1" />
                         <input
                             type="text"
                             value={search}
-                            onChange={e => setSearch(e.target.value)}
+                            onChange={e => { setSearch(e.target.value); setShowSuggestions(true); }}
+                            onFocus={() => setShowSuggestions(true)}
+                            onKeyDown={handleKeyDown}
                             placeholder="Search products, brands and categories"
                             className="flex-1 px-2 py-1 rounded-2xl text-pink-900 focus:outline-none bg-gray-100 text-sm"
                             autoComplete="off"
+                            aria-label="Search products"
                         />
+                        {search && (
+                            <button
+                                type="button"
+                                onClick={() => { setSearch(''); setShowSuggestions(false); }}
+                                className="ml-1 text-gray-400 hover:text-pink-500 focus:outline-none"
+                                aria-label="Clear search"
+                            >
+                                <XMarkIcon className="w-5 h-5" />
+                            </button>
+                        )}
                     </div>
-                    <button type="submit" className="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-3 py-1.5 rounded-full transition-all text-sm whitespace-nowrap">Search</button>
+                    <button type="submit" className="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-3 py-1.5 rounded-full transition-all text-sm whitespace-nowrap shadow-md">Search</button>
+                    {/* Suggestions dropdown */}
+                    {showSuggestions && search.trim() && suggestions.length > 0 && (
+                        <div ref={suggestionsRef} className="absolute top-10 left-0 w-full bg-white border border-pink-200 rounded-xl shadow-2xl z-50 max-h-64 overflow-y-auto animate-fade-in">
+                            {suggestions.map((s, idx) => (
+                                <div
+                                    key={s._id}
+                                    className={`px-4 py-2 flex items-center gap-2 cursor-pointer transition-colors ${activeSuggestion === idx ? 'bg-pink-100 text-pink-700 font-semibold' : 'hover:bg-pink-50 text-pink-700'}`}
+                                    onClick={() => { setShowSuggestions(false); setSearch(''); navigate(`/products/${s._id}`); }}
+                                    onMouseEnter={() => setActiveSuggestion(idx)}
+                                    onMouseLeave={() => setActiveSuggestion(-1)}
+                                    tabIndex={-1}
+                                >
+                                    <span className="font-semibold truncate max-w-[120px]">{s.name}</span>
+                                    <span className="ml-2 text-xs text-gray-500 truncate max-w-[80px]">{s.category}</span>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </form>
             </div>
 
