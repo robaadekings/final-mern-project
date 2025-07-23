@@ -124,7 +124,7 @@ function Navbar({ user, logoutHandler, cartCount }) {
                         )}
                         <li className="flex items-center gap-2 ml-4">
                             <Link to="/profile" className="flex items-center gap-1 hover:text-pink-200" aria-label="View Profile" title="View Profile">
-                                <UserCircleIcon className="w-8 h-8 text-pink-200" />
+                                <UserCircleIcon className={`${user && user.role === 'admin' ? 'w-12 h-12' : 'w-8 h-8'} text-pink-200`} />
                             </Link>
                         </li>
                         <li>

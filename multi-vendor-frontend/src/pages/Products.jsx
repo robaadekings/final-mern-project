@@ -67,7 +67,11 @@ function Products({ onAddToCart }) {
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8 min-h-screen bg-gradient-to-br from-indigo-50 via-pink-50 to-purple-100">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8 min-h-screen relative overflow-hidden" style={{
+            background: 'linear-gradient(135deg, #f3e8ff 0%, #ffe4e6 50%, #e0e7ff 100%)',
+        }}>
+            {/* Subtle pattern overlay */}
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-20" style={{background: 'url("https://www.toptal.com/designers/subtlepatterns/patterns/memphis-mini.png") repeat'}} />
             {/* Responsive & Sticky Search Bar below sticky navbar */}
             <div className="w-full bg-white border-b border-pink-200 shadow-sm flex flex-col items-center py-2 px-2 sticky top-[64px] z-50" style={{ marginTop: '4px' }}>
                 <form onSubmit={handleSearch} className="flex items-center w-full max-w-md relative gap-2">
@@ -115,7 +119,7 @@ function Products({ onAddToCart }) {
                         product={product}
                         user={user}
                         onAddToCart={onAddToCart}
-                        onBuyNow={() => {/* Implement buy now logic here */}}
+                        onBuyNow={() => navigate(`/products/${product._id}`)}
                         onDelete={user && user.role === 'admin' ? handleDelete : undefined}
                     />
                 ))}

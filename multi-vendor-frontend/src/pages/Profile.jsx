@@ -169,7 +169,10 @@ function Profile() {
     // Admin or Vendor Profile
     if (user.role === 'admin' || user.role === 'vendor') {
         return (
-            <div className="max-w-2xl mx-auto py-10 px-4">
+            <div className="max-w-2xl mx-auto py-10 px-4 min-h-screen relative overflow-hidden" style={{
+                background: 'linear-gradient(135deg, #f3e8ff 0%, #ffe4e6 50%, #e0e7ff 100%)',
+            }}>
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-20" style={{background: 'url(\"https://www.toptal.com/designers/subtlepatterns/patterns/memphis-mini.png\") repeat'}} />
                 <div className="flex flex-col items-center mb-8">
                     <UserCircleIcon className="w-24 h-24 text-pink-200" />
                     <h2 className="text-3xl font-extrabold mt-4 text-pink-700">
@@ -209,7 +212,10 @@ function Profile() {
     }
 
     return (
-        <div className="max-w-3xl mx-auto py-10 px-4">
+        <div className="max-w-3xl mx-auto py-10 px-4 min-h-screen relative overflow-hidden" style={{
+            background: 'linear-gradient(135deg, #f3e8ff 0%, #ffe4e6 50%, #e0e7ff 100%)',
+        }}>
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-20" style={{background: 'url(\"https://www.toptal.com/designers/subtlepatterns/patterns/memphis-mini.png\") repeat'}} />
             <EditProfileModal open={editOpen} onClose={() => setEditOpen(false)} user={user} onSave={setUser} />
             <AddressModal
                 open={addressModalOpen !== false}
