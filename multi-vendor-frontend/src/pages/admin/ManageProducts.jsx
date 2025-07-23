@@ -3,6 +3,7 @@ import api from '../../lib/api';
 import { useToast } from '../../components/ToastContext';
 import { CheckCircleIcon, ClockIcon } from '@heroicons/react/24/solid';
 import { PencilIcon, TrashIcon, CheckIcon, EyeIcon } from '@heroicons/react/24/outline';
+import ProductCard from '../../components/ProductCard';
 
 function ProductModal({ product, open, onClose, onSave }) {
     const [form, setForm] = useState(product || {});
@@ -305,11 +306,18 @@ function ManageProducts() {
         }
     };
 
+    // Split products into approved, pending, and vendor-pending
+    const pendingVendorProducts = products.filter(p => !p.approved && p.vendor);
+    const otherProducts = products.filter(p => p.approved || !p.vendor);
+
     return (
-        <div className="p-2 md:p-8">
+        <div className="p-2 md:p-8 min-h-screen relative overflow-hidden" style={{
+            background: 'linear-gradient(135deg, #f3e8ff 0%, #ffe4e6 50%, #e0e7ff 100%)',
+        }}>
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-20" style={{background: 'url(\"https://www.toptal.com/designers/subtlepatterns/patterns/memphis-mini.png\") repeat'}} />
             <ProductModal product={modalProduct} open={modalOpen} onClose={() => { setModalOpen(false); setModalProduct(null); }} onSave={handleModalSave} />
-            <h2 className="text-xl font-semibold mb-4">Manage Products</h2>
-            <div className="mb-4 flex flex-wrap gap-2 items-center">
+            <h2 className="text-2xl font-bold mb-6 text-pink-700">Manage Products</h2>
+            <div className="mb-4 flex flex-wrap gap-2 items-center bg-white bg-opacity-80 rounded-lg shadow p-4">
                 <label className="font-medium">Show:</label>
                 <select value={filter} onChange={e => setFilter(e.target.value)} className="border p-1 rounded">
                     <option value="all">All</option>
@@ -365,51 +373,82 @@ function ManageProducts() {
                 <button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition-all duration-200">{editingId ? 'Update' : 'Add'} Product</button>
                 {editingId && <button type="button" onClick={() => { setEditingId(null); setForm({ name: '', price: '', description: '', category: '' }); setImage(null); setImagePreview(null); }} className="ml-2 text-gray-600">Cancel</button>}
             </form>
-            {loading ? <div>Loading...</div> : (
-                filteredProducts.length === 0 ? (
-                    <div className="text-gray-500 text-center py-8">No products found for this filter.</div>
-                ) : (
-                    <div className="overflow-x-auto">
-                      <table className="w-full border min-w-[900px]">
-                          <thead>
-                              <tr className="bg-gray-100">
-                                  <th className="p-2 border"><input type="checkbox" checked={selectAll} onChange={handleSelectAll} /></th>
-                                  <th className="p-2 border">Name</th>
-                                  <th className="p-2 border">Price</th>
-                                  <th className="p-2 border">Description</th>
-                                  <th className="p-2 border">Category</th>
-                                  <th className="p-2 border">Vendor</th>
-                                  <th className="p-2 border">Status</th>
-                                  <th className="p-2 border">Actions</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              {paginatedProducts.map(product => (
-                                  <tr key={product._id} className={selected.includes(product._id) ? 'bg-indigo-50' : ''} onClick={e => { if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') { setModalProduct(product); setModalOpen(true); }}} style={{ cursor: 'pointer' }}>
-                                      <td className="p-2 border text-center">
-                                          <input type="checkbox" checked={selected.includes(product._id)} onChange={() => handleSelect(product._id)} onClick={e => e.stopPropagation()} />
-                                      </td>
-                                      <td className="p-2 border">{product.name}</td>
-                                      <td className="p-2 border">{product.price}</td>
-                                      <td className="p-2 border">{product.description}</td>
-                                      <td className="p-2 border">{product.category}</td>
-                                      <td className="p-2 border">{product.vendor ? `${product.vendor.name || ''} (${product.vendor.email || ''})` : <span className="text-gray-400">Admin</span>}</td>
-                                      <td className="p-2 border">{getStatusBadge(product.approved)}</td>
-                                      <td className="p-2 border">
-                                          <button onClick={e => { e.stopPropagation(); handleEdit(product); }} className="text-blue-600 hover:underline mr-2 flex items-center gap-1" aria-label="Edit" title="Edit"><PencilIcon className="w-5 h-5" /> Edit</button>
-                                          <button onClick={e => { e.stopPropagation(); handleDelete(product._id); }} className="text-red-600 hover:underline flex items-center gap-1" aria-label="Delete" title="Delete"><TrashIcon className="w-5 h-5" /> Delete</button>
-                                          {!product.approved && (
-                                              <button onClick={e => { e.stopPropagation(); handleApprove(product._id); }} className="ml-2 bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded transition-all duration-200 flex items-center gap-1" aria-label="Approve" title="Approve"><CheckIcon className="w-5 h-5" /> Approve</button>
-                                          )}
-                                          <button onClick={e => { e.stopPropagation(); setModalProduct(product); setModalOpen(true); }} className="ml-2 text-gray-600 hover:text-indigo-600 flex items-center gap-1" aria-label="View" title="View"><EyeIcon className="w-5 h-5" /> View</button>
-                                      </td>
-                                  </tr>
-                              ))}
-                          </tbody>
-                      </table>
-                    </div>
-                )
-            )}
+            <div className="flex flex-col lg:flex-row gap-8">
+                {/* Main product table (left) */}
+                <div className="flex-1 bg-white bg-opacity-90 rounded-xl shadow-lg p-4 overflow-x-auto">
+                    {loading ? <div>Loading...</div> : (
+                        filteredProducts.length === 0 ? (
+                            <div className="text-gray-500 text-center py-8">No products found for this filter.</div>
+                        ) : (
+                            <table className="w-full border min-w-[900px] rounded-xl overflow-hidden">
+                                <thead className="sticky top-0 z-10 bg-gray-100">
+                                    <tr>
+                                        <th className="p-2 border font-bold"><input type="checkbox" checked={selectAll} onChange={handleSelectAll} /></th>
+                                        <th className="p-2 border font-bold">Name</th>
+                                        <th className="p-2 border font-bold">Price</th>
+                                        <th className="p-2 border font-bold">Description</th>
+                                        <th className="p-2 border font-bold">Category</th>
+                                        <th className="p-2 border font-bold">Vendor</th>
+                                        <th className="p-2 border font-bold">Status</th>
+                                        <th className="p-2 border font-bold">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {paginatedProducts.map(product => (
+                                        <tr key={product._id} className={selected.includes(product._id) ? 'bg-indigo-50' : 'hover:bg-pink-50 transition'} onClick={e => { if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') { setModalProduct(product); setModalOpen(true); }}} style={{ cursor: 'pointer' }}>
+                                            <td className="p-2 border text-center">
+                                                <input type="checkbox" checked={selected.includes(product._id)} onChange={() => handleSelect(product._id)} onClick={e => e.stopPropagation()} />
+                                            </td>
+                                            <td className="p-2 border font-semibold text-pink-700">{product.name}</td>
+                                            <td className="p-2 border">{product.price}</td>
+                                            <td className="p-2 border text-gray-600">{product.description}</td>
+                                            <td className="p-2 border text-indigo-700 font-medium">{product.category}</td>
+                                            <td className="p-2 border">{product.vendor ? `${product.vendor.name || ''} (${product.vendor.email || ''})` : <span className="text-gray-400">Admin</span>}</td>
+                                            <td className="p-2 border">{getStatusBadge(product.approved)}</td>
+                                            <td className="p-2 border">
+                                                <button onClick={e => { e.stopPropagation(); handleEdit(product); }} className="text-blue-600 hover:underline mr-2 flex items-center gap-1" aria-label="Edit" title="Edit"><PencilIcon className="w-5 h-5" /> Edit</button>
+                                                <button onClick={e => { e.stopPropagation(); handleDelete(product._id); }} className="text-red-600 hover:underline flex items-center gap-1" aria-label="Delete" title="Delete"><TrashIcon className="w-5 h-5" /> Delete</button>
+                                                {!product.approved && (
+                                                    <button onClick={e => { e.stopPropagation(); handleApprove(product._id); }} className="ml-2 bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded transition-all duration-200 flex items-center gap-1" aria-label="Approve" title="Approve"><CheckIcon className="w-5 h-5" /> Approve</button>
+                                                )}
+                                                <button onClick={e => { e.stopPropagation(); setModalProduct(product); setModalOpen(true); }} className="ml-2 text-gray-600 hover:text-indigo-600 flex items-center gap-1" aria-label="View" title="View"><EyeIcon className="w-5 h-5" /> View</button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )
+                    )}
+                </div>
+                {/* Pending vendor products (right) */}
+                <div className="w-full lg:w-[350px] flex-shrink-0 bg-white bg-opacity-90 rounded-xl shadow-lg p-4 h-fit mt-8 lg:mt-0">
+                    <h3 className="text-lg font-bold mb-4 text-orange-700 flex items-center gap-2"><ClockIcon className="w-6 h-6" /> Pending Vendor Products</h3>
+                    {pendingVendorProducts.length === 0 ? (
+                        <div className="text-gray-400 text-center">No pending vendor products.</div>
+                    ) : (
+                        <div className="flex flex-col gap-4">
+                            {pendingVendorProducts.map(product => (
+                                <div key={product._id} className="bg-orange-50 rounded-lg shadow p-3 flex flex-col gap-2">
+                                    <div className="flex items-center gap-3">
+                                        {product.image && (
+                                            <img src={`https://final-mern-project-g5mi.onrender.com/uploads/${product.image}`} alt={product.name} className="w-16 h-16 object-cover rounded" />
+                                        )}
+                                        <div className="flex-1">
+                                            <div className="font-bold text-orange-800 truncate">{product.name}</div>
+                                            <div className="text-xs text-gray-500 truncate">{product.category}</div>
+                                            <div className="text-xs text-gray-500">Vendor: {product.vendor?.name || 'N/A'}</div>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-2 mt-2">
+                                        <button onClick={() => handleApprove(product._id)} className="flex-1 bg-green-600 hover:bg-green-700 text-white py-1 rounded text-xs">Approve</button>
+                                        <button onClick={() => handleDelete(product._id)} className="flex-1 bg-red-500 hover:bg-red-600 text-white py-1 rounded text-xs">Delete</button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
             <div className="flex justify-center items-center gap-2 mt-4">
                 <button onClick={() => setPage(page - 1)} disabled={page === 1} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50">Prev</button>
                 {Array.from({ length: totalPages }, (_, i) => (
