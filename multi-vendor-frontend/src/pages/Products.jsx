@@ -59,6 +59,12 @@ function Products({ onAddToCart }) {
         }
     };
 
+    // Helper to get correct backend base URL for images
+    const getBackendBaseUrl = () => {
+        const url = import.meta.env.VITE_API_URL || 'https://final-mern-project-g5mi.onrender.com/api';
+        return url.replace(/\/api$/, '');
+    };
+
     return (
         <div className="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
             {/* Responsive & Sticky Search Bar below sticky navbar */}
@@ -109,7 +115,7 @@ function Products({ onAddToCart }) {
                         >
                             <div className="h-40 sm:h-48 bg-gray-100 rounded mb-3 sm:mb-4 overflow-hidden">
                                 <img
-                                    src={product.image}
+                                    src={product.image ? `${getBackendBaseUrl()}/uploads/${product.image}` : '/placeholder.png'}
                                     alt={product.name}
                                     className="h-full w-full object-cover"
                                 />
