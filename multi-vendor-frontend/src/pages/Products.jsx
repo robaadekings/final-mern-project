@@ -119,13 +119,13 @@ function Products({ onAddToCart }) {
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8 min-h-screen relative overflow-hidden" style={{
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 pt-24 sm:pt-28 pb-4 sm:pb-8 min-h-screen relative overflow-hidden" style={{
             background: 'linear-gradient(135deg, #f3e8ff 0%, #ffe4e6 50%, #e0e7ff 100%)',
         }}>
             {/* Subtle pattern overlay */}
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-20" style={{background: 'url("https://www.toptal.com/designers/subtlepatterns/patterns/memphis-mini.png") repeat'}} />
-            {/* Responsive & Sticky Search Bar below sticky navbar */}
-            <div className="w-full bg-white border-b border-pink-200 shadow-sm flex flex-col items-center py-2 px-2 sticky top-[64px] z-50" style={{ marginTop: '4px' }}>
+            {/* Sticky Search Bar: fixed at top, overlays above product grid */}
+            <div className="w-full bg-white border-b border-pink-200 shadow-lg flex flex-col items-center py-2 px-2 fixed top-[64px] left-0 right-0 z-50" style={{ marginTop: '0', maxWidth: '100vw' }}>
                 <form onSubmit={handleSearch} className="flex items-center w-full max-w-md relative gap-2">
                     <div className={`flex items-center w-full bg-gray-100 border-2 border-pink-300 rounded-2xl px-2 py-1 transition-shadow ${showSuggestions && suggestions.length > 0 ? 'ring-2 ring-pink-300 shadow-lg' : ''}`}> 
                         <MagnifyingGlassIcon className="w-5 h-5 text-pink-400 mr-1" />
@@ -195,7 +195,7 @@ function Products({ onAddToCart }) {
                 </button>
             </div>
 
-            <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6" style={{ marginBottom: '70px' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6" style={{ marginBottom: '70px' }}>
                 {filteredProducts.map((product) => (
                     <ProductCard
                         key={product._id}
