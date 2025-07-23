@@ -1,13 +1,49 @@
 import { useEffect, useState } from 'react';
 import api from '../../lib/api';
 import { Link } from 'react-router-dom';
-import ProductCard from '../../components/ProductCard';
+
+function VendorProductCard({ product, onDelete }) {
+    return (
+        <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-2 md:p-4 flex flex-col items-center w-full max-w-[220px] min-w-[180px] md:max-w-[260px] md:min-w-[220px] mx-auto">
+            <div className="w-full aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center mb-2">
+                {product.image ? (
+                    <img
+                        src={product.image.startsWith('http') ? product.image : `${import.meta.env.VITE_API_URL || 'https://final-mern-project-g5mi.onrender.com'}/uploads/${product.image}`}
+                        alt={product.name}
+                        className="object-cover w-full h-full max-h-40 min-h-32"
+                        style={{ aspectRatio: '4/3', maxWidth: '100%', borderRadius: '0.5rem' }}
+                        loading="lazy"
+                    />
+                ) : (
+                    <span className="text-gray-400">No Image</span>
+                )}
+            </div>
+            <h2 className="text-lg font-bold mb-1 text-center truncate w-full">{product.name}</h2>
+            <p className="text-indigo-600 font-bold mb-1">${product.price}</p>
+            <p className="text-xs text-gray-500 mb-2">{product.category}</p>
+            {product.approved !== undefined && (
+                product.approved ? (
+                    <span className="inline-block px-2 py-0.5 text-xs bg-green-100 text-green-700 rounded-full mb-2">Approved</span>
+                ) : (
+                    <span className="inline-block px-2 py-0.5 text-xs bg-orange-100 text-orange-700 rounded-full mb-2">Pending</span>
+                )
+            )}
+            <button
+                onClick={() => onDelete(product._id)}
+                className="mt-3 flex items-center gap-1 text-red-600 hover:underline w-full justify-center text-xs bg-red-50 px-2 py-1 rounded hover:bg-red-100"
+                aria-label="Delete"
+                title="Delete"
+            >
+                Delete
+            </button>
+        </div>
+    );
+}
 
 function Dashboard() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -57,10 +93,9 @@ function Dashboard() {
             ) : (
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                     {products.map((product) => (
-                        <ProductCard
+                        <VendorProductCard
                             key={product._id}
                             product={product}
-                            user={user}
                             onDelete={handleDelete}
                         />
                     ))}
