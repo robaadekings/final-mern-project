@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../lib/api';
 import { TrashIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import ProductCard from '../components/ProductCard';
 
 function Products({ onAddToCart }) {
     const [selectedCategory, setSelectedCategory] = useState('All');
@@ -109,39 +110,14 @@ function Products({ onAddToCart }) {
 
             <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6" style={{ marginBottom: '70px' }}>
                 {filteredProducts.map((product) => (
-                    <div key={product._id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition p-3 sm:p-5 block">
-                        <Link
-                            to={`/products/${product._id}`}
-                        >
-                            <div className="h-40 sm:h-48 bg-gray-100 rounded mb-3 sm:mb-4 overflow-hidden">
-                                <img
-                                    src={product.image ? `${getBackendBaseUrl()}/uploads/${product.image}` : '/placeholder.png'}
-                                    alt={product.name}
-                                    className="h-full w-full object-cover"
-                                />
-                            </div>
-                            <h2 className="text-base sm:text-lg font-semibold mb-1">{product.name}</h2>
-                            <p className="text-gray-600 mb-1 sm:mb-2">{product.category}</p>
-                            <p className="text-indigo-600 font-bold mb-2 sm:mb-4">${product.price}</p>
-                        </Link>
-                        <button
-                            onClick={(e) => { e.preventDefault(); onAddToCart(product); }}
-                            className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition w-full"
-                        >
-                            Add to Cart
-                        </button>
-                        {/* Admin-only delete button below product */}
-                        {user && user.role === 'admin' && (
-                            <button
-                                onClick={() => handleDelete(product._id)}
-                                className="mt-3 flex items-center gap-1 text-red-600 hover:underline w-full justify-center"
-                                aria-label="Delete"
-                                title="Delete"
-                            >
-                                <TrashIcon className="w-5 h-5" /> Delete
-                            </button>
-                        )}
-                    </div>
+                    <ProductCard
+                        key={product._id}
+                        product={product}
+                        user={user}
+                        onAddToCart={onAddToCart}
+                        onBuyNow={() => {/* Implement buy now logic here */}}
+                        onDelete={user && user.role === 'admin' ? handleDelete : undefined}
+                    />
                 ))}
             </div>
         </div>
