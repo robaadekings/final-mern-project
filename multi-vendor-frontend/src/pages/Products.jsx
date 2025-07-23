@@ -14,8 +14,9 @@ function Products({ onAddToCart }) {
     const navigate = useNavigate();
     const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
     const [activeSuggestion, setActiveSuggestion] = useState(-1);
+    const [categories, setCategories] = useState(['All']);
 
-    // Fetch products from backend
+    // Fetch products and categories from backend
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -25,7 +26,17 @@ function Products({ onAddToCart }) {
                 setProducts([]);
             }
         };
+        const fetchCategories = async () => {
+            try {
+                const res = await api.get('/products/categories');
+                const catList = res.data.map(c => c.name);
+                setCategories(['All', ...catList]);
+            } catch (err) {
+                setCategories(['All']);
+            }
+        };
         fetchProducts();
+        fetchCategories();
     }, []);
 
     // Update suggestions as user types
@@ -77,8 +88,6 @@ function Products({ onAddToCart }) {
     useEffect(() => {
         setActiveSuggestion(-1);
     }, [search, suggestions]);
-
-    const categories = ['All', ...new Set(products.map((p) => p.category))];
 
     // Filter products by category and search
     const filteredProducts = products.filter((product) => {
@@ -195,7 +204,7 @@ function Products({ onAddToCart }) {
                 </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6" style={{ marginBottom: '70px' }}>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6" style={{ marginBottom: '70px' }}>
                 {filteredProducts.map((product) => (
                     <ProductCard
                         key={product._id}
