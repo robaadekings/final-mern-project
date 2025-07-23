@@ -15,7 +15,7 @@ export default function ProductCard({
     onDelete
 }) {
     return (
-        <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-2 flex flex-col items-center w-full max-w-[220px] min-w-[180px] mx-auto">
+        <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-2 md:p-4 flex flex-col items-center w-full max-w-[220px] min-w-[180px] md:max-w-[260px] md:min-w-[220px] mx-auto">
             <Link to={`/products/${product._id}`} className="w-full">
                 <div className="w-full aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center mb-2">
                     {product.image ? (
