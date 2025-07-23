@@ -70,22 +70,25 @@ function ProductDetail() {
 
     if (loading) return <p className="text-center py-10">Loading...</p>;
     if (error) return <p className="text-center text-red-500 py-10">{error}</p>;
+    if (!product || !product._id) return <p className="text-center text-red-500 py-10">Product not found or data is incomplete.</p>;
 
     return (
         <div className="max-w-5xl mx-auto p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-                {product.image && (
+                {product.image ? (
                     <img
                         src={`${import.meta.env.VITE_API_URL || 'https://final-mern-project-g5mi.onrender.com'}/uploads/${product.image}`}
-                        alt={product.name}
+                        alt={product.name || 'Product'}
                         className="w-full h-96 object-cover rounded-lg shadow-md"
                     />
+                ) : (
+                    <div className="w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg shadow-md text-gray-400">No Image</div>
                 )}
                 <div>
-                    <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
-                    <p className="text-gray-700 mb-4">{product.description}</p>
-                    <p className="text-xl font-semibold text-indigo-600 mb-4">${product.price}</p>
-                    <p className="text-sm text-gray-500 mb-2">Category: {product.category?.name || 'N/A'}</p>
+                    <h1 className="text-3xl font-bold mb-4">{product.name || 'No Name'}</h1>
+                    <p className="text-gray-700 mb-4">{product.description || 'No description available.'}</p>
+                    <p className="text-xl font-semibold text-indigo-600 mb-4">{product.price ? `$${product.price}` : 'No price'}</p>
+                    <p className="text-sm text-gray-500 mb-2">Category: {product.category?.name || product.category || 'N/A'}</p>
                     <p className="text-sm text-gray-500">Vendor: {product.vendor?.name || 'N/A'}</p>
                     <button className="mt-6 px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
                         Add to Cart

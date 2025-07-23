@@ -62,6 +62,10 @@ const getProductById = async (req, res) => {
         if (!product) return res.status(404).json({ message: 'Product not found' });
         res.json(product);
     } catch (error) {
+        console.error('GET PRODUCT BY ID ERROR:', error);
+        if (error.name === 'CastError') {
+            return res.status(404).json({ message: 'Product not found (invalid ID)' });
+        }
         res.status(500).json({ message: error.message });
     }
 };
