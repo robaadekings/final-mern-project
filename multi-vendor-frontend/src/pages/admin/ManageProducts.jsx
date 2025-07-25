@@ -313,155 +313,155 @@ function ManageProducts() {
 
     return (
         <>
-            <div className="p-2 md:p-8 min-h-screen relative overflow-hidden" style={{
-                background: 'linear-gradient(135deg, #f3e8ff 0%, #ffe4e6 50%, #e0e7ff 100%)',
-            }}>
-                <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-20" style={{background: 'url(\"https://www.toptal.com/designers/subtlepatterns/patterns/memphis-mini.png\") repeat'}} />
-                <ProductModal product={modalProduct} open={modalOpen} onClose={() => { setModalOpen(false); setModalProduct(null); }} onSave={handleModalSave} />
+        <div className="p-2 md:p-8 min-h-screen relative overflow-hidden" style={{
+            background: 'linear-gradient(135deg, #f3e8ff 0%, #ffe4e6 50%, #e0e7ff 100%)',
+        }}>
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-20" style={{background: 'url(\"https://www.toptal.com/designers/subtlepatterns/patterns/memphis-mini.png\") repeat'}} />
+            <ProductModal product={modalProduct} open={modalOpen} onClose={() => { setModalOpen(false); setModalProduct(null); }} onSave={handleModalSave} />
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-2xl font-bold text-pink-700">Manage Products</h2>
                     <a href="/products" target="_blank" rel="noopener noreferrer" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded shadow font-semibold transition-all">View All Products</a>
                 </div>
                 <div className="mb-4 flex flex-wrap gap-2 items-center bg-white bg-opacity-80 rounded-lg shadow p-4 sticky top-[96px] z-40" style={{zIndex: 40}}>
-                    <label className="font-medium">Show:</label>
-                    <select value={filter} onChange={e => setFilter(e.target.value)} className="border p-1 rounded">
-                        <option value="all">All</option>
-                        <option value="approved">Customer-visible</option>
-                        <option value="pending">Pending Approval</option>
+                <label className="font-medium">Show:</label>
+                <select value={filter} onChange={e => setFilter(e.target.value)} className="border p-1 rounded">
+                    <option value="all">All</option>
+                    <option value="approved">Customer-visible</option>
+                    <option value="pending">Pending Approval</option>
+                </select>
+                <input
+                    type="text"
+                    placeholder="Search name or category..."
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    className="border p-1 rounded ml-4"
+                />
+                <label className="font-medium ml-4">Sort by:</label>
+                <select value={sort} onChange={e => setSort(e.target.value)} className="border p-1 rounded">
+                    <option value="date-desc">Newest</option>
+                    <option value="date-asc">Oldest</option>
+                    <option value="name-asc">Name (A-Z)</option>
+                    <option value="name-desc">Name (Z-A)</option>
+                    <option value="price-asc">Price (Low-High)</option>
+                    <option value="price-desc">Price (High-Low)</option>
+                    <option value="status">Status</option>
+                </select>
+            </div>
+            {error && <div className="text-red-600 mb-2 flex flex-col items-center">{error}</div>}
+            <form onSubmit={handleSubmit} className="mb-6 space-y-2" encType="multipart/form-data">
+                <input name="name" value={form.name} onChange={handleChange} placeholder="Name" className="border p-2 mr-2" required />
+                <input name="price" value={form.price} onChange={handleChange} placeholder="Price" type="number" className="border p-2 mr-2" required />
+                <input name="description" value={form.description} onChange={handleChange} placeholder="Description" className="border p-2 mr-2" required />
+                <div className="flex flex-col md:flex-row gap-2 md:items-center">
+                    <select
+                        value={categories.includes(form.category) ? form.category : ''}
+                        onChange={e => setForm({ ...form, category: e.target.value })}
+                        className="border p-2 mr-2 min-w-[180px]"
+                    >
+                        <option value="">Select Category</option>
+                        {categories.map(cat => (
+                            <option key={cat} value={cat}>{cat}</option>
+                        ))}
                     </select>
                     <input
-                        type="text"
-                        placeholder="Search name or category..."
-                        value={search}
-                        onChange={e => setSearch(e.target.value)}
-                        className="border p-1 rounded ml-4"
+                        name="category"
+                        value={form.category}
+                        onChange={handleChange}
+                        placeholder="Or type a category"
+                        className="border p-2 mr-2"
                     />
-                    <label className="font-medium ml-4">Sort by:</label>
-                    <select value={sort} onChange={e => setSort(e.target.value)} className="border p-1 rounded">
-                        <option value="date-desc">Newest</option>
-                        <option value="date-asc">Oldest</option>
-                        <option value="name-asc">Name (A-Z)</option>
-                        <option value="name-desc">Name (Z-A)</option>
-                        <option value="price-asc">Price (Low-High)</option>
-                        <option value="price-desc">Price (High-Low)</option>
-                        <option value="status">Status</option>
-                    </select>
                 </div>
-                {error && <div className="text-red-600 mb-2 flex flex-col items-center">{error}</div>}
-                <form onSubmit={handleSubmit} className="mb-6 space-y-2" encType="multipart/form-data">
-                    <input name="name" value={form.name} onChange={handleChange} placeholder="Name" className="border p-2 mr-2" required />
-                    <input name="price" value={form.price} onChange={handleChange} placeholder="Price" type="number" className="border p-2 mr-2" required />
-                    <input name="description" value={form.description} onChange={handleChange} placeholder="Description" className="border p-2 mr-2" required />
-                    <div className="flex flex-col md:flex-row gap-2 md:items-center">
-                        <select
-                            value={categories.includes(form.category) ? form.category : ''}
-                            onChange={e => setForm({ ...form, category: e.target.value })}
-                            className="border p-2 mr-2 min-w-[180px]"
-                        >
-                            <option value="">Select Category</option>
-                            {categories.map(cat => (
-                                <option key={cat} value={cat}>{cat}</option>
-                            ))}
-                        </select>
-                        <input
-                            name="category"
-                            value={form.category}
-                            onChange={handleChange}
-                            placeholder="Or type a category"
-                            className="border p-2 mr-2"
-                        />
-                    </div>
-                    <input type="file" accept="image/*" onChange={handleImageChange} className="border p-2 mr-2" />
-                    {imagePreview && (
-                        <img src={imagePreview} alt="Preview" className="w-32 h-32 object-cover rounded mb-2" />
-                    )}
-                    <button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition-all duration-200">{editingId ? 'Update' : 'Add'} Product</button>
-                    {editingId && <button type="button" onClick={() => { setEditingId(null); setForm({ name: '', price: '', description: '', category: '' }); setImage(null); setImagePreview(null); }} className="ml-2 text-gray-600">Cancel</button>}
-                </form>
-                <div className="flex flex-col lg:flex-row gap-8">
-                    {/* Main product table (left) */}
-                    <div className="flex-1 bg-white bg-opacity-90 rounded-xl shadow-lg p-4 overflow-x-auto">
-                        {loading ? <div>Loading...</div> : (
-                            filteredProducts.length === 0 ? (
-                                <div className="text-gray-500 text-center py-8">No products found for this filter.</div>
-                            ) : (
-                                <table className="w-full border min-w-[900px] rounded-xl overflow-hidden">
-                                    <thead className="sticky top-0 z-10 bg-gray-100">
-                                        <tr>
-                                            <th className="p-2 border font-bold"><input type="checkbox" checked={selectAll} onChange={handleSelectAll} /></th>
-                                            <th className="p-2 border font-bold">Name</th>
-                                            <th className="p-2 border font-bold">Price</th>
-                                            <th className="p-2 border font-bold">Description</th>
-                                            <th className="p-2 border font-bold">Category</th>
-                                            <th className="p-2 border font-bold">Vendor</th>
-                                            <th className="p-2 border font-bold">Status</th>
-                                            <th className="p-2 border font-bold">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {paginatedProducts.map(product => (
-                                            <tr key={product._id} className={selected.includes(product._id) ? 'bg-indigo-50' : 'hover:bg-pink-50 transition'} onClick={e => { if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') { setModalProduct(product); setModalOpen(true); }}} style={{ cursor: 'pointer' }}>
-                                                <td className="p-2 border text-center">
-                                                    <input type="checkbox" checked={selected.includes(product._id)} onChange={() => handleSelect(product._id)} onClick={e => e.stopPropagation()} />
-                                                </td>
-                                                <td className="p-2 border font-semibold text-pink-700">{product.name}</td>
-                                                <td className="p-2 border">{product.price}</td>
-                                                <td className="p-2 border text-gray-600">{product.description}</td>
-                                                <td className="p-2 border text-indigo-700 font-medium">{product.category}</td>
-                                                <td className="p-2 border">{product.vendor ? `${product.vendor.name || ''} (${product.vendor.email || ''})` : <span className="text-gray-400">Admin</span>}</td>
-                                                <td className="p-2 border">{getStatusBadge(product.approved)}</td>
-                                                <td className="p-2 border">
-                                                    <button onClick={e => { e.stopPropagation(); handleEdit(product); }} className="text-blue-600 hover:underline mr-2 flex items-center gap-1" aria-label="Edit" title="Edit"><PencilIcon className="w-5 h-5" /> Edit</button>
-                                                    <button onClick={e => { e.stopPropagation(); handleDelete(product._id); }} className="text-red-600 hover:underline flex items-center gap-1" aria-label="Delete" title="Delete"><TrashIcon className="w-5 h-5" /> Delete</button>
-                                                    {!product.approved && (
-                                                        <button onClick={e => { e.stopPropagation(); handleApprove(product._id); }} className="ml-2 bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded transition-all duration-200 flex items-center gap-1" aria-label="Approve" title="Approve"><CheckIcon className="w-5 h-5" /> Approve</button>
-                                                    )}
-                                                    <button onClick={e => { e.stopPropagation(); setModalProduct(product); setModalOpen(true); }} className="ml-2 text-gray-600 hover:text-indigo-600 flex items-center gap-1" aria-label="View" title="View"><EyeIcon className="w-5 h-5" /> View</button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            )
-                        )}
-                    </div>
-                    {/* Pending vendor products (right) */}
-                    <div className="w-full lg:w-[350px] flex-shrink-0 bg-white bg-opacity-90 rounded-xl shadow-lg p-4 h-fit mt-8 lg:mt-0">
-                        <h3 className="text-lg font-bold mb-4 text-orange-700 flex items-center gap-2"><ClockIcon className="w-6 h-6" /> Pending Vendor Products</h3>
-                        {pendingVendorProducts.length === 0 ? (
-                            <div className="text-gray-400 text-center">No pending vendor products.</div>
+                <input type="file" accept="image/*" onChange={handleImageChange} className="border p-2 mr-2" />
+                {imagePreview && (
+                    <img src={imagePreview} alt="Preview" className="w-32 h-32 object-cover rounded mb-2" />
+                )}
+                <button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition-all duration-200">{editingId ? 'Update' : 'Add'} Product</button>
+                {editingId && <button type="button" onClick={() => { setEditingId(null); setForm({ name: '', price: '', description: '', category: '' }); setImage(null); setImagePreview(null); }} className="ml-2 text-gray-600">Cancel</button>}
+            </form>
+            <div className="flex flex-col lg:flex-row gap-8">
+                {/* Main product table (left) */}
+                <div className="flex-1 bg-white bg-opacity-90 rounded-xl shadow-lg p-4 overflow-x-auto">
+                    {loading ? <div>Loading...</div> : (
+                        filteredProducts.length === 0 ? (
+                            <div className="text-gray-500 text-center py-8">No products found for this filter.</div>
                         ) : (
-                            <div className="flex flex-col gap-4">
-                                {pendingVendorProducts.map(product => (
-                                    <div key={product._id} className="bg-orange-50 rounded-lg shadow p-3 flex flex-col gap-2">
-                                        <div className="flex items-center gap-3">
-                                            {product.image && (
-                                                <img src={`https://final-mern-project-g5mi.onrender.com/uploads/${product.image}`} alt={product.name} className="w-16 h-16 object-cover rounded" />
-                                            )}
-                                            <div className="flex-1">
-                                                <div className="font-bold text-orange-800 truncate">{product.name}</div>
-                                                <div className="text-xs text-gray-500 truncate">{product.category}</div>
-                                                <div className="text-xs text-gray-500">Vendor: {product.vendor?.name || 'N/A'}</div>
-                                            </div>
-                                        </div>
-                                        <div className="flex gap-2 mt-2">
-                                            <button onClick={() => handleApprove(product._id)} className="flex-1 bg-green-600 hover:bg-green-700 text-white py-1 rounded text-xs">Approve</button>
-                                            <button onClick={() => handleDelete(product._id)} className="flex-1 bg-red-500 hover:bg-red-600 text-white py-1 rounded text-xs">Delete</button>
+                            <table className="w-full border min-w-[900px] rounded-xl overflow-hidden">
+                                <thead className="sticky top-0 z-10 bg-gray-100">
+                                    <tr>
+                                        <th className="p-2 border font-bold"><input type="checkbox" checked={selectAll} onChange={handleSelectAll} /></th>
+                                        <th className="p-2 border font-bold">Name</th>
+                                        <th className="p-2 border font-bold">Price</th>
+                                        <th className="p-2 border font-bold">Description</th>
+                                        <th className="p-2 border font-bold">Category</th>
+                                        <th className="p-2 border font-bold">Vendor</th>
+                                        <th className="p-2 border font-bold">Status</th>
+                                        <th className="p-2 border font-bold">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {paginatedProducts.map(product => (
+                                        <tr key={product._id} className={selected.includes(product._id) ? 'bg-indigo-50' : 'hover:bg-pink-50 transition'} onClick={e => { if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') { setModalProduct(product); setModalOpen(true); }}} style={{ cursor: 'pointer' }}>
+                                            <td className="p-2 border text-center">
+                                                <input type="checkbox" checked={selected.includes(product._id)} onChange={() => handleSelect(product._id)} onClick={e => e.stopPropagation()} />
+                                            </td>
+                                            <td className="p-2 border font-semibold text-pink-700">{product.name}</td>
+                                            <td className="p-2 border">{product.price}</td>
+                                            <td className="p-2 border text-gray-600">{product.description}</td>
+                                            <td className="p-2 border text-indigo-700 font-medium">{product.category}</td>
+                                            <td className="p-2 border">{product.vendor ? `${product.vendor.name || ''} (${product.vendor.email || ''})` : <span className="text-gray-400">Admin</span>}</td>
+                                            <td className="p-2 border">{getStatusBadge(product.approved)}</td>
+                                            <td className="p-2 border">
+                                                <button onClick={e => { e.stopPropagation(); handleEdit(product); }} className="text-blue-600 hover:underline mr-2 flex items-center gap-1" aria-label="Edit" title="Edit"><PencilIcon className="w-5 h-5" /> Edit</button>
+                                                <button onClick={e => { e.stopPropagation(); handleDelete(product._id); }} className="text-red-600 hover:underline flex items-center gap-1" aria-label="Delete" title="Delete"><TrashIcon className="w-5 h-5" /> Delete</button>
+                                                {!product.approved && (
+                                                    <button onClick={e => { e.stopPropagation(); handleApprove(product._id); }} className="ml-2 bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded transition-all duration-200 flex items-center gap-1" aria-label="Approve" title="Approve"><CheckIcon className="w-5 h-5" /> Approve</button>
+                                                )}
+                                                <button onClick={e => { e.stopPropagation(); setModalProduct(product); setModalOpen(true); }} className="ml-2 text-gray-600 hover:text-indigo-600 flex items-center gap-1" aria-label="View" title="View"><EyeIcon className="w-5 h-5" /> View</button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )
+                    )}
+                </div>
+                {/* Pending vendor products (right) */}
+                <div className="w-full lg:w-[350px] flex-shrink-0 bg-white bg-opacity-90 rounded-xl shadow-lg p-4 h-fit mt-8 lg:mt-0">
+                    <h3 className="text-lg font-bold mb-4 text-orange-700 flex items-center gap-2"><ClockIcon className="w-6 h-6" /> Pending Vendor Products</h3>
+                    {pendingVendorProducts.length === 0 ? (
+                        <div className="text-gray-400 text-center">No pending vendor products.</div>
+                    ) : (
+                        <div className="flex flex-col gap-4">
+                            {pendingVendorProducts.map(product => (
+                                <div key={product._id} className="bg-orange-50 rounded-lg shadow p-3 flex flex-col gap-2">
+                                    <div className="flex items-center gap-3">
+                                        {product.image && (
+                                            <img src={`https://final-mern-project-g5mi.onrender.com/uploads/${product.image}`} alt={product.name} className="w-16 h-16 object-cover rounded" />
+                                        )}
+                                        <div className="flex-1">
+                                            <div className="font-bold text-orange-800 truncate">{product.name}</div>
+                                            <div className="text-xs text-gray-500 truncate">{product.category}</div>
+                                            <div className="text-xs text-gray-500">Vendor: {product.vendor?.name || 'N/A'}</div>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                </div>
-                <div className="flex justify-center items-center gap-2 mt-4">
-                    <button onClick={() => setPage(page - 1)} disabled={page === 1} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50">Prev</button>
-                    {Array.from({ length: totalPages }, (_, i) => (
-                        <button key={i+1} onClick={() => setPage(i+1)} className={`px-3 py-1 rounded ${page === i+1 ? 'bg-indigo-600 text-white' : 'bg-gray-200'}`}>{i+1}</button>
-                    ))}
-                    <button onClick={() => setPage(page + 1)} disabled={page === totalPages} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50">Next</button>
+                                    <div className="flex gap-2 mt-2">
+                                        <button onClick={() => handleApprove(product._id)} className="flex-1 bg-green-600 hover:bg-green-700 text-white py-1 rounded text-xs">Approve</button>
+                                        <button onClick={() => handleDelete(product._id)} className="flex-1 bg-red-500 hover:bg-red-600 text-white py-1 rounded text-xs">Delete</button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
+            <div className="flex justify-center items-center gap-2 mt-4">
+                <button onClick={() => setPage(page - 1)} disabled={page === 1} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50">Prev</button>
+                {Array.from({ length: totalPages }, (_, i) => (
+                    <button key={i+1} onClick={() => setPage(i+1)} className={`px-3 py-1 rounded ${page === i+1 ? 'bg-indigo-600 text-white' : 'bg-gray-200'}`}>{i+1}</button>
+                ))}
+                <button onClick={() => setPage(page + 1)} disabled={page === totalPages} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50">Next</button>
+            </div>
+        </div>
             <Footer admin={true} />
         </>
     );
