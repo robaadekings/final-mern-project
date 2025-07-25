@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../../lib/api';
 import { useToast } from '../../components/ToastContext';
 import { ClockIcon, Cog6ToothIcon, TruckIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import Footer from '../../components/Footer';
 
 function ManageOrders() {
     const [orders, setOrders] = useState([]);
@@ -141,6 +142,7 @@ function ManageOrders() {
                 )
             )}
         </div>
+        <Footer admin={true} />
     );
 }
 

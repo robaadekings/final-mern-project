@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../../lib/api';
+import Footer from '../../components/Footer';
 
 function ManageCategories() {
     const [categories, setCategories] = useState([]);
@@ -115,6 +116,7 @@ function ManageCategories() {
                 ))}
             </ul>
         </div>
+        <Footer admin={true} />
     );
 }
 

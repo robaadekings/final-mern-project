@@ -27,6 +27,8 @@ function Navbar({ user, logoutHandler, cartCount }) {
     const [allProducts, setAllProducts] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const suggestionsRef = useRef(null);
+    const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
+    const adminDropdownRef = useRef(null);
 
     // Fetch all products for suggestions
     useEffect(() => {
@@ -59,6 +61,17 @@ function Navbar({ user, logoutHandler, cartCount }) {
         const handleClick = (e) => {
             if (suggestionsRef.current && !suggestionsRef.current.contains(e.target)) {
                 setShowSuggestions(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+    }, []);
+
+    // Close admin dropdown on outside click
+    useEffect(() => {
+        const handleClick = (e) => {
+            if (adminDropdownRef.current && !adminDropdownRef.current.contains(e.target)) {
+                setAdminDropdownOpen(false);
             }
         };
         document.addEventListener('mousedown', handleClick);
@@ -98,17 +111,24 @@ function Navbar({ user, logoutHandler, cartCount }) {
                     {/* Hide navbar links on mobile, show only on md+ */}
                     <ul className="hidden md:flex space-x-6 items-center">
                         {user && user.role === 'admin' && (
-                            <li className="relative group">
-                                <button className="flex items-center gap-1 px-4 py-2 bg-pink-700 rounded-lg font-bold shadow hover:bg-pink-800 transition-all">
+                            <li className="relative" ref={adminDropdownRef}>
+                                <button
+                                    className="flex items-center gap-1 px-4 py-2 bg-pink-700 rounded-lg font-bold shadow hover:bg-pink-800 transition-all"
+                                    onClick={() => setAdminDropdownOpen((open) => !open)}
+                                    aria-expanded={adminDropdownOpen}
+                                    aria-haspopup="true"
+                                >
                                     <Cog6ToothIcon className="w-6 h-6" /> Admin Panel
                                 </button>
-                                <div className="absolute left-0 mt-2 w-72 bg-white text-black rounded-xl shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-50 border border-pink-200 p-2 space-y-2">
-                                    <Link to="/admin/dashboard" className="block px-4 py-3 hover:bg-pink-50 font-semibold rounded-lg"><Cog6ToothIcon className="w-5 h-5 inline mr-1" /> AdminDashboard</Link>
-                                    <Link to="/admin/products" className="block px-4 py-3 hover:bg-pink-50 rounded-lg"><CubeIcon className="w-5 h-5 inline mr-1" /> Manage Products</Link>
-                                    <Link to="/admin/categories" className="block px-4 py-3 hover:bg-pink-50 rounded-lg"><CubeIcon className="w-5 h-5 inline mr-1" /> Manage Categories</Link>
-                                    <Link to="/admin/users" className="block px-4 py-3 hover:bg-pink-50 rounded-lg"><UserGroupIcon className="w-5 h-5 inline mr-1" /> Manage Users</Link>
-                                    <Link to="/admin/orders" className="block px-4 py-3 hover:bg-pink-50 rounded-lg"><ClipboardDocumentListIcon className="w-5 h-5 inline mr-1" /> Manage Orders</Link>
-                                </div>
+                                {adminDropdownOpen && (
+                                    <div className="absolute left-0 mt-2 w-72 bg-white text-black rounded-xl shadow-lg z-50 border border-pink-200 p-2 space-y-2">
+                                        <Link to="/admin/dashboard" className="block px-4 py-3 hover:bg-pink-50 font-semibold rounded-lg"><Cog6ToothIcon className="w-5 h-5 inline mr-1" /> AdminDashboard</Link>
+                                        <Link to="/admin/products" className="block px-4 py-3 hover:bg-pink-50 rounded-lg"><CubeIcon className="w-5 h-5 inline mr-1" /> Manage Products</Link>
+                                        <Link to="/admin/categories" className="block px-4 py-3 hover:bg-pink-50 rounded-lg"><CubeIcon className="w-5 h-5 inline mr-1" /> Manage Categories</Link>
+                                        <Link to="/admin/users" className="block px-4 py-3 hover:bg-pink-50 rounded-lg"><UserGroupIcon className="w-5 h-5 inline mr-1" /> Manage Users</Link>
+                                        <Link to="/admin/orders" className="block px-4 py-3 hover:bg-pink-50 rounded-lg"><ClipboardDocumentListIcon className="w-5 h-5 inline mr-1" /> Manage Orders</Link>
+                                    </div>
+                                )}
                             </li>
                         )}
                         {user && user.role === 'vendor' && (
@@ -120,6 +140,27 @@ function Navbar({ user, logoutHandler, cartCount }) {
                                 <li><Link to="/products" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/products') ? 'underline font-bold' : ''}`}><CubeIcon className="w-6 h-6" /> Products</Link></li>
                                 <li><Link to="/cart" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/cart') ? 'underline font-bold' : ''}`}><ShoppingCartIcon className="w-6 h-6" /> Cart {cartCount > 0 && <span className="ml-1 bg-pink-500 text-white text-xs font-bold rounded-full px-2 py-0.5 shadow-lg">{cartCount}</span>}</Link></li>
                                 <li><Link to="/orders" className={`hover:text-gray-200 flex items-center gap-1 ${isActive('/orders') ? 'underline font-bold' : ''}`}><ClipboardDocumentListIcon className="w-6 h-6" /> Orders</Link></li>
+                            </>
+                        )}
+                        {/* Show Login/Register if not logged in */}
+                        {!user && (
+                            <>
+                                <li>
+                                    <Link
+                                        to="/login"
+                                        className="px-5 py-2 rounded-full border-2 border-white text-white font-bold bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 hover:from-indigo-600 hover:to-pink-600 transition-all duration-200 shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white"
+                                    >
+                                        Login
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to="/register"
+                                        className="px-5 py-2 rounded-full border-2 border-white text-pink-200 font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-pink-600 hover:to-indigo-600 transition-all duration-200 shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white"
+                                    >
+                                        Register
+                                    </Link>
+                                </li>
                             </>
                         )}
                         <li className="flex items-center gap-2 ml-4">

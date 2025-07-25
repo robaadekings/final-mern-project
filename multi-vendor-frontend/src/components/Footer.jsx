@@ -16,7 +16,16 @@ const TikTokIcon = () => (
   <svg className="w-6 h-6 transition" fill="#25F4EE" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.75 2h2.25a.75.75 0 0 1 .75.75v2.25a3.75 3.75 0 0 0 3.75 3.75h.75A.75.75 0 0 1 21 9.5v2.25a.75.75 0 0 1-.75.75h-1.5v4.25a6.25 6.25 0 1 1-6.25-6.25.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75 2.25 2.25 0 1 0 2.25 2.25V2.75A.75.75 0 0 1 12.75 2z"/></svg>
 );
 
-function Footer({ user }) {
+function Footer({ user, admin }) {
+    if (admin) {
+        return (
+            <footer className="w-full py-8 bg-gradient-to-r from-indigo-900 via-purple-900 to-pink-900 text-center">
+                <span className="font-extrabold text-white text-lg">
+                    2025 RobinkStore. All rights reserved. Made with love by Robert Murungi
+                </span>
+            </footer>
+        );
+    }
     const [email, setEmail] = useState('');
     const [agreed, setAgreed] = useState(false);
     const [submitted, setSubmitted] = useState(false);

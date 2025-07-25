@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Footer from '../../components/Footer';
 
 function AdminDashboard() {
     return (
@@ -18,6 +19,7 @@ function AdminDashboard() {
                     <span className="text-xl font-bold text-indigo-700">Manage Users</span>
                 </Link>
             </div>
+            <Footer admin={true} />
         </div>
     );
 }
