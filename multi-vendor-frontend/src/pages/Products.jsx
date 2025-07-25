@@ -134,53 +134,55 @@ function Products({ onAddToCart }) {
             {/* Subtle pattern overlay */}
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-20" style={{background: 'url("https://www.toptal.com/designers/subtlepatterns/patterns/memphis-mini.png") repeat'}} />
             {/* Sticky Search Bar: fixed at top, overlays above product grid */}
-            <div className="w-full bg-white border-b border-pink-200 shadow-lg flex flex-col items-center py-2 px-2 fixed top-[64px] left-0 right-0 z-50" style={{ marginTop: '0', maxWidth: '100vw' }}>
-                <form onSubmit={handleSearch} className="flex items-center w-full max-w-md relative gap-2">
-                    <div className={`flex items-center w-full bg-gray-100 border-2 border-pink-300 rounded-2xl px-2 py-1 transition-shadow ${showSuggestions && suggestions.length > 0 ? 'ring-2 ring-pink-300 shadow-lg' : ''}`}> 
-                        <MagnifyingGlassIcon className="w-5 h-5 text-pink-400 mr-1" />
-                        <input
-                            type="text"
-                            value={search}
-                            onChange={e => { setSearch(e.target.value); setShowSuggestions(true); }}
-                            onFocus={() => setShowSuggestions(true)}
-                            onKeyDown={handleKeyDown}
-                            placeholder="Search products, brands and categories"
-                            className="flex-1 px-2 py-1 rounded-2xl text-pink-900 focus:outline-none bg-gray-100 text-sm"
-                            autoComplete="off"
-                            aria-label="Search products"
-                        />
-                        {search && (
-                            <button
-                                type="button"
-                                onClick={() => { setSearch(''); setShowSuggestions(false); }}
-                                className="ml-1 text-gray-400 hover:text-pink-500 focus:outline-none"
-                                aria-label="Clear search"
-                            >
-                                <XMarkIcon className="w-5 h-5" />
-                            </button>
-                        )}
-                    </div>
-                    <button type="submit" className="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-3 py-1.5 rounded-full transition-all text-sm whitespace-nowrap shadow-md">Search</button>
-                    {/* Suggestions dropdown */}
-                    {showSuggestions && search.trim() && suggestions.length > 0 && (
-                        <div ref={suggestionsRef} className="absolute top-10 left-0 w-full bg-white border border-pink-200 rounded-xl shadow-2xl z-50 max-h-64 overflow-y-auto animate-fade-in">
-                            {suggestions.map((s, idx) => (
-                                <div
-                                    key={s._id}
-                                    className={`px-4 py-2 flex items-center gap-2 cursor-pointer transition-colors ${activeSuggestion === idx ? 'bg-pink-100 text-pink-700 font-semibold' : 'hover:bg-pink-50 text-pink-700'}`}
-                                    onClick={() => { setShowSuggestions(false); setSearch(''); navigate(`/products/${s._id}`); }}
-                                    onMouseEnter={() => setActiveSuggestion(idx)}
-                                    onMouseLeave={() => setActiveSuggestion(-1)}
-                                    tabIndex={-1}
+            {(!user || user.role !== 'admin') && (
+                <div className="w-full bg-white border-b border-pink-200 shadow-lg flex flex-col items-center py-2 px-2 fixed top-[64px] left-0 right-0 z-50" style={{ marginTop: '0', maxWidth: '100vw' }}>
+                    <form onSubmit={handleSearch} className="flex items-center w-full max-w-md relative gap-2">
+                        <div className={`flex items-center w-full bg-gray-100 border-2 border-pink-300 rounded-2xl px-2 py-1 transition-shadow ${showSuggestions && suggestions.length > 0 ? 'ring-2 ring-pink-300 shadow-lg' : ''}`}> 
+                            <MagnifyingGlassIcon className="w-5 h-5 text-pink-400 mr-1" />
+                            <input
+                                type="text"
+                                value={search}
+                                onChange={e => { setSearch(e.target.value); setShowSuggestions(true); }}
+                                onFocus={() => setShowSuggestions(true)}
+                                onKeyDown={handleKeyDown}
+                                placeholder="Search products, brands and categories"
+                                className="flex-1 px-2 py-1 rounded-2xl text-pink-900 focus:outline-none bg-gray-100 text-sm"
+                                autoComplete="off"
+                                aria-label="Search products"
+                            />
+                            {search && (
+                                <button
+                                    type="button"
+                                    onClick={() => { setSearch(''); setShowSuggestions(false); }}
+                                    className="ml-1 text-gray-400 hover:text-pink-500 focus:outline-none"
+                                    aria-label="Clear search"
                                 >
-                                    <span className="font-semibold truncate max-w-[120px]">{s.name}</span>
-                                    <span className="ml-2 text-xs text-gray-500 truncate max-w-[80px]">{s.category}</span>
-                                </div>
-                            ))}
+                                    <XMarkIcon className="w-5 h-5" />
+                                </button>
+                            )}
                         </div>
-                    )}
-                </form>
-            </div>
+                        <button type="submit" className="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-3 py-1.5 rounded-full transition-all text-sm whitespace-nowrap shadow-md">Search</button>
+                        {/* Suggestions dropdown */}
+                        {showSuggestions && search.trim() && suggestions.length > 0 && (
+                            <div ref={suggestionsRef} className="absolute top-10 left-0 w-full bg-white border border-pink-200 rounded-xl shadow-2xl z-50 max-h-64 overflow-y-auto animate-fade-in">
+                                {suggestions.map((s, idx) => (
+                                    <div
+                                        key={s._id}
+                                        className={`px-4 py-2 flex items-center gap-2 cursor-pointer transition-colors ${activeSuggestion === idx ? 'bg-pink-100 text-pink-700 font-semibold' : 'hover:bg-pink-50 text-pink-700'}`}
+                                        onClick={() => { setShowSuggestions(false); setSearch(''); navigate(`/products/${s._id}`); }}
+                                        onMouseEnter={() => setActiveSuggestion(idx)}
+                                        onMouseLeave={() => setActiveSuggestion(-1)}
+                                        tabIndex={-1}
+                                    >
+                                        <span className="font-semibold truncate max-w-[120px]">{s.name}</span>
+                                        <span className="ml-2 text-xs text-gray-500 truncate max-w-[80px]">{s.category}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </form>
+                </div>
+            )}
 
             <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-gray-800 text-center" style={{ marginTop: '8px' }}>Our Products</h1>
 

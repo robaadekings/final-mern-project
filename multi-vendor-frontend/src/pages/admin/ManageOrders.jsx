@@ -143,7 +143,7 @@ function ManageOrders() {
                     )
                 )}
             </div>
-            <Footer admin={true} />
+            {/* Remove Footer for admin side */}
         </>
     );
 }

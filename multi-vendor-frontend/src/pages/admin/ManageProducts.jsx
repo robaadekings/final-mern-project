@@ -322,31 +322,7 @@ function ManageProducts() {
                     <h2 className="text-2xl font-bold text-pink-700">Manage Products</h2>
                     <a href="/products" target="_blank" rel="noopener noreferrer" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded shadow font-semibold transition-all">View All Products</a>
                 </div>
-                <div className="mb-4 flex flex-wrap gap-2 items-center bg-white bg-opacity-80 rounded-lg shadow p-4 sticky top-[96px] z-40" style={{zIndex: 40}}>
-                <label className="font-medium">Show:</label>
-                <select value={filter} onChange={e => setFilter(e.target.value)} className="border p-1 rounded">
-                    <option value="all">All</option>
-                    <option value="approved">Customer-visible</option>
-                    <option value="pending">Pending Approval</option>
-                </select>
-                <input
-                    type="text"
-                    placeholder="Search name or category..."
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                    className="border p-1 rounded ml-4"
-                />
-                <label className="font-medium ml-4">Sort by:</label>
-                <select value={sort} onChange={e => setSort(e.target.value)} className="border p-1 rounded">
-                    <option value="date-desc">Newest</option>
-                    <option value="date-asc">Oldest</option>
-                    <option value="name-asc">Name (A-Z)</option>
-                    <option value="name-desc">Name (Z-A)</option>
-                    <option value="price-asc">Price (Low-High)</option>
-                    <option value="price-desc">Price (High-Low)</option>
-                    <option value="status">Status</option>
-                </select>
-            </div>
+                {/* Remove search/filter/sort bar for admin side */}
             {error && <div className="text-red-600 mb-2 flex flex-col items-center">{error}</div>}
             <form onSubmit={handleSubmit} className="mb-6 space-y-2" encType="multipart/form-data">
                 <input name="name" value={form.name} onChange={handleChange} placeholder="Name" className="border p-2 mr-2" required />
@@ -462,7 +438,7 @@ function ManageProducts() {
                 <button onClick={() => setPage(page + 1)} disabled={page === totalPages} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50">Next</button>
             </div>
         </div>
-            <Footer admin={true} />
+        {/* Remove Footer for admin side */}
         </>
     );
 }

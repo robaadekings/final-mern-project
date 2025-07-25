@@ -117,7 +117,7 @@ function ManageCategories() {
                     ))}
                 </ul>
             </div>
-            <Footer admin={true} />
+            {/* Remove Footer for admin side */}
         </>
     );
 }

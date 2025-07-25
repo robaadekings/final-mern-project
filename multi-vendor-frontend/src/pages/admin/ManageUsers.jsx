@@ -97,7 +97,6 @@ function ManageUsers() {
           </table>
         </div>
       )}
-      <Footer admin={true} />
     </div>
   );
 }

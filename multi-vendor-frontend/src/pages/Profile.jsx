@@ -14,7 +14,8 @@ import {
   ClockIcon,
   TruckIcon,
   XCircleIcon,
-  ArrowRightOnRectangleIcon
+  ArrowRightOnRectangleIcon,
+  Cog6ToothIcon
 } from '@heroicons/react/24/outline';
 import Skeleton from '../components/Skeleton';
 
@@ -173,6 +174,7 @@ function Profile() {
                 background: 'linear-gradient(135deg, #f3e8ff 0%, #ffe4e6 50%, #e0e7ff 100%)',
             }}>
                 <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-20" style={{background: 'url(\"https://www.toptal.com/designers/subtlepatterns/patterns/memphis-mini.png\") repeat'}} />
+                <EditProfileModal open={editOpen} onClose={() => setEditOpen(false)} user={user} onSave={setUser} />
                 <div className="flex flex-col items-center mb-8">
                     <UserCircleIcon className="w-24 h-24 text-pink-200" />
                     <h2 className="text-3xl font-extrabold mt-4 text-pink-700">
@@ -187,9 +189,12 @@ function Profile() {
                     </button>
                 </div>
                 {user.role === 'admin' && (
-                    <div className="bg-white rounded-lg shadow p-6 mb-8">
-                        <h3 className="text-lg font-semibold mb-2 text-pink-700">Admin Capabilities</h3>
-                        <ul className="list-disc pl-6 text-gray-700 space-y-1">
+                    <div className="bg-white rounded-lg shadow p-6 mb-8 flex flex-col items-start">
+                        <div className="flex items-center gap-2 mb-2">
+                            <Cog6ToothIcon className="w-8 h-8 text-indigo-700" />
+                            <h3 className="text-xl font-bold text-pink-700">Admin Capabilities</h3>
+                        </div>
+                        <ul className="list-disc pl-10 text-gray-700 space-y-1">
                             <li>Manage all products (add, edit, delete)</li>
                             <li>View and manage all users (change roles)</li>
                             <li>View and manage all orders (approve, update status)</li>
