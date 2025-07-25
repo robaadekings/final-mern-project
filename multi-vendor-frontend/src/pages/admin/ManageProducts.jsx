@@ -322,7 +322,7 @@ function ManageProducts() {
                     <h2 className="text-2xl font-bold text-pink-700">Manage Products</h2>
                     <a href="/products" target="_blank" rel="noopener noreferrer" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded shadow font-semibold transition-all">View All Products</a>
                 </div>
-                <div className="mb-4 flex flex-wrap gap-2 items-center bg-white bg-opacity-80 rounded-lg shadow p-4 sticky top-[72px] z-40" style={{zIndex: 40}}>
+                <div className="mb-4 flex flex-wrap gap-2 items-center bg-white bg-opacity-80 rounded-lg shadow p-4 sticky top-[96px] z-40" style={{zIndex: 40}}>
                     <label className="font-medium">Show:</label>
                     <select value={filter} onChange={e => setFilter(e.target.value)} className="border p-1 rounded">
                         <option value="all">All</option>
