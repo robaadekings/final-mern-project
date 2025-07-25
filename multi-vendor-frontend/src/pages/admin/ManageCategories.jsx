@@ -78,45 +78,47 @@ function ManageCategories() {
     };
 
     return (
-        <div className="max-w-2xl mx-auto p-6">
-            <h1 className="text-2xl font-bold mb-6">Manage Categories</h1>
-            {error && <div className="text-red-600 mb-4">{error}</div>}
-            <form onSubmit={handleAddCategory} className="flex gap-2 mb-6">
-                <input
-                    type="text"
-                    value={newCategory}
-                    onChange={e => setNewCategory(e.target.value)}
-                    placeholder="Add new category"
-                    className="border p-2 rounded flex-1"
-                />
-                <button type="submit" className="bg-pink-600 text-white px-4 py-2 rounded">Add</button>
-            </form>
-            <ul className="space-y-2">
-                {categories.map((cat) => (
-                    <li key={cat._id} className="flex items-center gap-2">
-                        {editingCategoryId === cat._id ? (
-                            <>
-                                <input
-                                    type="text"
-                                    value={editingCategoryName}
-                                    onChange={e => setEditingCategoryName(e.target.value)}
-                                    className="border p-1 rounded"
-                                />
-                                <button onClick={() => handleUpdateCategory(cat._id)} className="text-green-600">Save</button>
-                                <button onClick={() => { setEditingCategoryId(null); setEditingCategoryName(''); }} className="text-gray-600">Cancel</button>
-                            </>
-                        ) : (
-                            <>
-                                <span>{cat.name}</span>
-                                <button onClick={() => handleEditCategory(cat._id, cat.name)} className="text-blue-600">Edit</button>
-                                <button onClick={() => handleDeleteCategory(cat._id)} className="text-red-600">Delete</button>
-                            </>
-                        )}
-                    </li>
-                ))}
-            </ul>
-        </div>
-        <Footer admin={true} />
+        <>
+            <div className="max-w-2xl mx-auto p-6">
+                <h1 className="text-2xl font-bold mb-6">Manage Categories</h1>
+                {error && <div className="text-red-600 mb-4">{error}</div>}
+                <form onSubmit={handleAddCategory} className="flex gap-2 mb-6">
+                    <input
+                        type="text"
+                        value={newCategory}
+                        onChange={e => setNewCategory(e.target.value)}
+                        placeholder="Add new category"
+                        className="border p-2 rounded flex-1"
+                    />
+                    <button type="submit" className="bg-pink-600 text-white px-4 py-2 rounded">Add</button>
+                </form>
+                <ul className="space-y-2">
+                    {categories.map((cat) => (
+                        <li key={cat._id} className="flex items-center gap-2">
+                            {editingCategoryId === cat._id ? (
+                                <>
+                                    <input
+                                        type="text"
+                                        value={editingCategoryName}
+                                        onChange={e => setEditingCategoryName(e.target.value)}
+                                        className="border p-1 rounded"
+                                    />
+                                    <button onClick={() => handleUpdateCategory(cat._id)} className="text-green-600">Save</button>
+                                    <button onClick={() => { setEditingCategoryId(null); setEditingCategoryName(''); }} className="text-gray-600">Cancel</button>
+                                </>
+                            ) : (
+                                <>
+                                    <span>{cat.name}</span>
+                                    <button onClick={() => handleEditCategory(cat._id, cat.name)} className="text-blue-600">Edit</button>
+                                    <button onClick={() => handleDeleteCategory(cat._id)} className="text-red-600">Delete</button>
+                                </>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            <Footer admin={true} />
+        </>
     );
 }
 
