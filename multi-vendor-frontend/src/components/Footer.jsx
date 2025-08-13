@@ -137,20 +137,20 @@ function Footer({ user, admin }) {
                             </h3>
                             <ul className="space-y-2">
                                 <li><Link to="/" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">Home</Link></li>
-                                <li><Link to="/shop" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">All Products</Link></li>
-                                <li><Link to="/categories" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">Categories</Link></li>
-                                <li><Link to="/vendors" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">Vendors</Link></li>
+                                <li><Link to="/products" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">All Products</Link></li>
+                                <li><Link to="/cart" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">Cart</Link></li>
+                                <li><Link to="/orders" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">My Orders</Link></li>
                             </ul>
                         </div>
                         <div className="space-y-3">
                             <h3 className="text-slate-100 font-semibold text-sm uppercase tracking-wider">
-                                Support
+                                Account
                             </h3>
                             <ul className="space-y-2">
-                                <li><Link to="/help" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">Help Center</Link></li>
-                                <li><Link to="/contact" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">Contact Us</Link></li>
-                                <li><Link to="/shipping" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">Shipping Info</Link></li>
-                                <li><Link to="/returns" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">Returns</Link></li>
+                                <li><Link to="/profile" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">Profile</Link></li>
+                                <li><Link to="/dashboard" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">Dashboard</Link></li>
+                                <li><Link to="/dashboard/add-product" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">Add Product</Link></li>
+                                <li><Link to="/login" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">Login</Link></li>
                             </ul>
                         </div>
                     </div>
@@ -232,14 +232,14 @@ function Footer({ user, admin }) {
                     </div>
                     
                     <nav className="flex items-center space-x-6">
-                        <Link to="/privacy" className="text-slate-400 hover:text-blue-400 transition-colors duration-200 text-sm">
-                            Privacy Policy
+                        <Link to="/profile" className="text-slate-400 hover:text-blue-400 transition-colors duration-200 text-sm">
+                            Profile
                         </Link>
-                        <Link to="/terms" className="text-slate-400 hover:text-blue-400 transition-colors duration-200 text-sm">
-                            Terms of Service
+                        <Link to="/dashboard" className="text-slate-400 hover:text-blue-400 transition-colors duration-200 text-sm">
+                            Dashboard
                         </Link>
-                        <Link to="/cookies" className="text-slate-400 hover:text-blue-400 transition-colors duration-200 text-sm">
-                            Cookie Policy
+                        <Link to="/products" className="text-slate-400 hover:text-blue-400 transition-colors duration-200 text-sm">
+                            Products
                         </Link>
                     </nav>
                 </div>
