@@ -148,9 +148,6 @@ function Footer({ user, admin }) {
                             </h3>
                             <ul className="space-y-2">
                                 <li><Link to="/profile" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">Profile</Link></li>
-                                <li><Link to="/dashboard" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">Dashboard</Link></li>
-                                <li><Link to="/dashboard/add-product" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">Add Product</Link></li>
-                                <li><Link to="/login" className="text-slate-300 hover:text-blue-400 transition-colors duration-200 text-sm">Login</Link></li>
                             </ul>
                         </div>
                     </div>
@@ -234,9 +231,6 @@ function Footer({ user, admin }) {
                     <nav className="flex items-center space-x-6">
                         <Link to="/profile" className="text-slate-400 hover:text-blue-400 transition-colors duration-200 text-sm">
                             Profile
-                        </Link>
-                        <Link to="/dashboard" className="text-slate-400 hover:text-blue-400 transition-colors duration-200 text-sm">
-                            Dashboard
                         </Link>
                         <Link to="/products" className="text-slate-400 hover:text-blue-400 transition-colors duration-200 text-sm">
                             Products
