@@ -3,7 +3,7 @@
 export const heroBanners = [
     {
         id: 1,
-        title: "Summer Collection 2024",
+        title: "Summer Collection",
         description: "Discover the latest trends in fashion, electronics, and home decor. Up to 50% off on selected items!",
         image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
         buttonText: "Shop Now",
@@ -126,6 +126,9 @@ export const categoryBanners = [
 ];
 
 // Sample featured products data (you can replace this with actual API data)
+// Note: These are placeholder products for demonstration purposes.
+// In production, you should fetch real featured products from your database
+// or integrate with your existing products API.
 export const featuredProducts = [
     {
         _id: "featured-1",
@@ -208,6 +211,34 @@ export const featuredProducts = [
         category: "Fashion"
     }
 ];
+
+// Alternative: Function to get real featured products from your API
+// Uncomment and modify this function to use real product data instead of placeholders
+/*
+export const getRealFeaturedProducts = async () => {
+    try {
+        // Fetch featured products from your existing products API
+        const response = await fetch('/api/products?featured=true');
+        const products = await response.json();
+        
+        // Transform the data to match the expected format
+        return products.map(product => ({
+            _id: product._id,
+            name: product.name,
+            price: product.price,
+            originalPrice: product.originalPrice || product.price,
+            discount: product.discount || 0,
+            rating: product.rating || 4.0,
+            image: product.image || product.images?.[0],
+            category: product.category
+        }));
+    } catch (error) {
+        console.error('Error fetching featured products:', error);
+        // Fallback to placeholder data
+        return featuredProducts;
+    }
+};
+*/
 
 // Function to get filtered promotional banners based on user authentication status
 export const getPromotionalBanners = (user) => {

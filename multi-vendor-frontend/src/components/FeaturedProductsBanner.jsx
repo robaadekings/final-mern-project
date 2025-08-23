@@ -156,9 +156,9 @@ function FeaturedProductsBanner({ products = [], title = "Featured Products", su
                                     </div>
                                 </div>
 
-                                {/* Action Button */}
+                                {/* Action Button - Redirect to products page instead of individual product */}
                                 <Link
-                                    to={`/products/${product._id}`}
+                                    to="/products"
                                     className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white text-center py-2 px-4 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
                                 >
                                     View Details

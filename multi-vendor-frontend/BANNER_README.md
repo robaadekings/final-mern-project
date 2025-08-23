@@ -369,6 +369,21 @@ All banner components are fully responsive and include:
 4. **Animation glitches**: Check for conflicting CSS animations
 5. **Conditional logic not working**: Verify user authentication state and banner configuration
 
+### Featured Products Navigation Issue
+
+**Problem**: Clicking "View Details" on featured products shows "Product not found"
+
+**Cause**: Featured products use placeholder data with fake IDs (e.g., "featured-1", "featured-2")
+
+**Solution**: 
+- **Current Fix**: "View Details" buttons now redirect to `/products` page instead of individual product pages
+- **Future Enhancement**: Integrate with real product data from your database
+
+**To Use Real Product Data**:
+1. Uncomment the `getRealFeaturedProducts` function in `bannerData.js`
+2. Modify the API endpoint to match your backend
+3. Update the Home and Products pages to use real data instead of placeholders
+
 ### Debug Mode
 
 The banner system includes console logging for debugging:
