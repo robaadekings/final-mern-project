@@ -3,7 +3,7 @@ import HeroBanner from '../components/HeroBanner';
 import PromotionalBanner from '../components/PromotionalBanner';
 import CategoryBanner from '../components/CategoryBanner';
 import FeaturedProductsBanner from '../components/FeaturedProductsBanner';
-import { pageBanners } from '../data/bannerData';
+import { getPageBanners } from '../data/bannerData';
 
 function Home({ user }) {
     const products = [
@@ -26,6 +26,9 @@ function Home({ user }) {
             image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e'
         }
     ];
+
+    // Get banner data based on user authentication status
+    const pageBanners = getPageBanners(user);
 
     // If user is authenticated, show dashboard-style home
     if (user) {

@@ -23,6 +23,7 @@ import ManageProducts from './pages/admin/ManageProducts';
 import ManageOrders from './pages/admin/ManageOrders';
 import ManageUsers from './pages/admin/ManageUsers';
 import ManageCategories from './pages/admin/ManageCategories';
+import ManageBanners from './pages/admin/ManageBanners';
 import Cart from './pages/Cart';
 
 function AppContent() {
@@ -127,6 +128,12 @@ function AppContent() {
                         <Route path="/admin/categories" element={
                             <ProtectedRoute user={user && user.role === 'admin'}>
                                 <ManageCategories />
+                            </ProtectedRoute>
+                        } />
+
+                        <Route path="/admin/banners" element={
+                            <ProtectedRoute user={user && user.role === 'admin'}>
+                                <ManageBanners />
                             </ProtectedRoute>
                         } />
 

@@ -5,7 +5,7 @@ import { TrashIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/o
 import ProductCard from '../components/ProductCard';
 import PromotionalBanner from '../components/PromotionalBanner';
 import CategoryBanner from '../components/CategoryBanner';
-import { pageBanners } from '../data/bannerData';
+import { getPageBanners } from '../data/bannerData';
 
 function Products({ onAddToCart }) {
     const [selectedCategory, setSelectedCategory] = useState('All');
@@ -18,6 +18,9 @@ function Products({ onAddToCart }) {
     const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
     const [activeSuggestion, setActiveSuggestion] = useState(-1);
     const [categories, setCategories] = useState(['All']);
+
+    // Get banner data based on user authentication status
+    const pageBanners = getPageBanners(user);
 
     // Fetch products and categories from backend
     useEffect(() => {

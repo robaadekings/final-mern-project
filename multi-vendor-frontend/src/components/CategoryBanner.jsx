@@ -19,7 +19,7 @@ function CategoryBanner({ categories = [] }) {
                 {categories.map((category, index) => (
                     <Link
                         key={category.id || index}
-                        to={category.link || `/products?category=${category.name}`}
+                        to={category.link || "/products"}
                         className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
                     >
                         {/* Background Image */}

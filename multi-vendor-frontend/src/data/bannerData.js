@@ -23,7 +23,7 @@ export const heroBanners = [
         description: "Limited time offers on premium products. Don't miss out on these incredible deals!",
         image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1200&q=80",
         buttonText: "Shop Sale",
-        buttonLink: "/products?sale=true"
+        buttonLink: "/products"
     }
 ];
 
@@ -42,16 +42,17 @@ export const promotionalBanners = [
         title: "New User Discount",
         description: "Get 20% off your first order. Use code: NEWUSER20",
         buttonText: "Get Started",
-        buttonLink: "/auth/register",
+        buttonLink: "/register",
         type: "new",
-        dismissible: true
+        dismissible: true,
+        showOnlyForNonLoggedIn: true // This banner will only show for non-logged-in users
     },
     {
         id: 3,
         title: "Hot Deals",
         description: "Electronics up to 70% off. Don't wait, these deals won't last!",
         buttonText: "View Deals",
-        buttonLink: "/products?category=Electronics",
+        buttonLink: "/products",
         type: "hot",
         dismissible: false
     }
@@ -64,7 +65,7 @@ export const categoryBanners = [
         description: "Latest gadgets and tech innovations",
         image: "https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=600&q=80",
         icon: "📱",
-        link: "/products?category=Electronics"
+        link: "/products"
     },
     {
         id: 2,
@@ -72,7 +73,7 @@ export const categoryBanners = [
         description: "Trendy clothing and accessories",
         image: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=600&q=80",
         icon: "👗",
-        link: "/products?category=Fashion"
+        link: "/products"
     },
     {
         id: 3,
@@ -80,7 +81,7 @@ export const categoryBanners = [
         description: "Beautiful home decor and garden essentials",
         image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=80",
         icon: "🏠",
-        link: "/products?category=Home%20%26%20Garden"
+        link: "/products"
     },
     {
         id: 4,
@@ -88,7 +89,7 @@ export const categoryBanners = [
         description: "Equipment for active lifestyle",
         image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&q=80",
         icon: "⚽",
-        link: "/products?category=Sports%20%26%20Outdoors"
+        link: "/products"
     },
     {
         id: 5,
@@ -96,7 +97,7 @@ export const categoryBanners = [
         description: "Knowledge and entertainment",
         image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=600&q=80",
         icon: "📚",
-        link: "/products?category=Books%20%26%20Media"
+        link: "/products"
     },
     {
         id: 6,
@@ -104,7 +105,7 @@ export const categoryBanners = [
         description: "Personal care and wellness products",
         image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=600&q=80",
         icon: "💄",
-        link: "/products?category=Beauty%20%26%20Health"
+        link: "/products"
     },
     {
         id: 7,
@@ -112,7 +113,7 @@ export const categoryBanners = [
         description: "Fun for all ages",
         image: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=600&q=80",
         icon: "🎮",
-        link: "/products?category=Toys%20%26%20Games"
+        link: "/products"
     },
     {
         id: 8,
@@ -120,7 +121,7 @@ export const categoryBanners = [
         description: "Car accessories and maintenance",
         image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=600&q=80",
         icon: "🚗",
-        link: "/products?category=Automotive"
+        link: "/products"
     }
 ];
 
@@ -194,7 +195,7 @@ export const featuredProducts = [
         discount: 25,
         rating: 4.2,
         image: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?auto=format&fit=crop&w=400&q=80",
-        category: "Electronics"
+        category: "Sports & Outdoors"
     },
     {
         _id: "featured-8",
@@ -208,19 +209,42 @@ export const featuredProducts = [
     }
 ];
 
-// Banner configuration for different pages
-export const pageBanners = {
-    home: {
-        hero: heroBanners,
-        promotional: promotionalBanners.slice(0, 2), // Show first 2 promotional banners
-        categories: categoryBanners,
-        featured: featuredProducts
-    },
-    products: {
-        promotional: promotionalBanners.slice(1, 3), // Show last 2 promotional banners
-        categories: categoryBanners.slice(0, 4), // Show first 4 categories
-        featured: featuredProducts.slice(0, 4) // Show first 4 featured products
+// Function to get filtered promotional banners based on user authentication status
+export const getPromotionalBanners = (user) => {
+    console.log('Getting promotional banners for user:', user ? 'Logged in' : 'Not logged in');
+    
+    if (user) {
+        // If user is logged in, filter out banners that should only show for non-logged-in users
+        const filteredBanners = promotionalBanners.filter(banner => !banner.showOnlyForNonLoggedIn);
+        console.log('Filtered banners for logged-in user:', filteredBanners.map(b => b.title));
+        return filteredBanners;
+    } else {
+        // If user is not logged in, show all promotional banners
+        console.log('Showing all banners for non-logged-in user:', promotionalBanners.map(b => b.title));
+        return promotionalBanners;
     }
+};
+
+// Banner configuration for different pages
+export const getPageBanners = (user) => {
+    console.log('Getting page banners for user:', user ? 'Logged in' : 'Not logged in');
+    
+    const config = {
+        home: {
+            hero: heroBanners,
+            promotional: getPromotionalBanners(user).slice(0, 2), // Show first 2 promotional banners
+            categories: categoryBanners,
+            featured: featuredProducts
+        },
+        products: {
+            promotional: getPromotionalBanners(user).slice(1, 3), // Show last 2 promotional banners
+            categories: categoryBanners.slice(0, 4), // Show first 4 categories
+            featured: featuredProducts.slice(0, 4) // Show first 4 featured products
+        }
+    };
+    
+    console.log('Page banner configuration:', config);
+    return config;
 };
 
 export default {
@@ -228,5 +252,6 @@ export default {
     promotionalBanners,
     categoryBanners,
     featuredProducts,
-    pageBanners
+    getPromotionalBanners,
+    getPageBanners
 };

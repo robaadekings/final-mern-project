@@ -45,6 +45,7 @@ Alert-style banners for displaying special offers, discounts, and announcements.
 - Animated borders and patterns
 - Responsive design
 - Call-to-action buttons
+- **Conditional display** based on user authentication status
 
 **Usage:**
 ```jsx
@@ -68,6 +69,10 @@ import PromotionalBanner from '../components/PromotionalBanner';
 - `type` (string): Banner type - 'sale', 'new', 'hot', or 'default'
 - `dismissible` (boolean): Whether banner can be dismissed
 - `onDismiss` (function): Callback when banner is dismissed
+
+**Special Features:**
+- **Conditional Display**: Some banners can be configured to only show for non-logged-in users
+- **Working Links**: All banner links are properly integrated with your project's routing structure
 
 ### 3. CategoryBanner
 
@@ -119,6 +124,57 @@ import { featuredProducts } from '../data/bannerData';
 - `title` (string): Section title
 - `subtitle` (string): Section subtitle
 
+## 🔐 Conditional Banner Display
+
+The banner system now includes intelligent conditional display logic:
+
+### New User Discount Banner
+- **Shows only for non-logged-in users** on the home page
+- **Automatically disappears** when a user logs in
+- **Links to registration page** (`/register`) for new users
+
+### Other Promotional Banners
+- **Free Shipping** and **Hot Deals** banners show for all users
+- **Conditional filtering** based on user authentication status
+
+## 🔗 Working Links
+
+All banner links are now properly integrated with your project's routing:
+
+- **Hero Banners**: Link to `/products` page
+- **Category Banners**: Link to `/products` page (ready for future category filtering)
+- **Promotional Banners**: Link to appropriate pages (`/products`, `/register`)
+- **Featured Products**: Link to individual product pages
+
+## 🎛️ Admin Banner Management
+
+**NEW FEATURE**: Admins can now manage all banner content directly from the admin dashboard!
+
+### Access
+- **Route**: `/admin/banners`
+- **Access**: Admin users only
+- **Location**: Admin Dashboard → Manage Banners
+
+### Features
+- **Create New Banners**: Add hero, promotional, category, and featured product banners
+- **Edit Existing Banners**: Modify banner content, images, links, and settings
+- **Delete Banners**: Remove banners that are no longer needed
+- **Real-time Updates**: Changes appear immediately on the frontend
+- **Form Validation**: Built-in validation for all banner fields
+
+### Banner Types Managed
+1. **Hero Banners**: Main promotional carousel banners
+2. **Promotional Banners**: Special offers and announcements
+3. **Category Banners**: Product category navigation
+4. **Featured Products**: Highlighted product showcases
+
+### Admin Interface
+- **Grid Layout**: Organized by banner type for easy management
+- **Quick Actions**: Edit and delete buttons on each banner card
+- **Modal Forms**: Clean, user-friendly forms for banner creation/editing
+- **Image Preview**: Visual preview of banner images
+- **Status Indicators**: Shows banner properties (dismissible, type, etc.)
+
 ## 📁 File Structure
 
 ```
@@ -127,12 +183,15 @@ src/
 │   ├── HeroBanner.jsx
 │   ├── PromotionalBanner.jsx
 │   ├── CategoryBanner.jsx
-│   └── FeaturedProductsBanner.jsx
+│   ├── FeaturedProductsBanner.jsx
+│   └── BannerForm.jsx (NEW - Admin form component)
 ├── data/
-│   └── bannerData.js
+│   └── bannerData.js (updated with conditional logic)
 ├── pages/
-│   ├── Home.jsx (updated with banners)
-│   └── Products.jsx (updated with banners)
+│   ├── Home.jsx (updated with conditional banners)
+│   ├── Products.jsx (updated with conditional banners)
+│   └── admin/
+│       └── ManageBanners.jsx (NEW - Admin management page)
 └── index.css (updated with banner animations)
 ```
 
@@ -140,19 +199,38 @@ src/
 
 ### Banner Data Configuration
 
-Edit `src/data/bannerData.js` to customize banner content:
+Edit `src/data/bannerData.js` to customize banner content and behavior:
 
 ```javascript
-export const heroBanners = [
+export const promotionalBanners = [
     {
         id: 1,
-        title: "Your Custom Title",
+        title: "Your Custom Banner",
         description: "Your custom description",
-        image: "your-image-url.jpg",
         buttonText: "Custom Button",
-        buttonLink: "/custom-link"
+        buttonLink: "/your-route",
+        type: "sale",
+        dismissible: true,
+        showOnlyForNonLoggedIn: false // Set to true for user-specific banners
     }
 ];
+```
+
+### Conditional Display Logic
+
+To create banners that only show for specific user states:
+
+```javascript
+{
+    id: "unique-id",
+    title: "Special Offer",
+    description: "Only for new users",
+    buttonText: "Get Started",
+    buttonLink: "/register",
+    type: "new",
+    dismissible: true,
+    showOnlyForNonLoggedIn: true // Only shows for non-logged-in users
+}
 ```
 
 ### Styling
@@ -179,9 +257,11 @@ The banner system uses a consistent color palette:
 import React from 'react';
 import HeroBanner from '../components/HeroBanner';
 import PromotionalBanner from '../components/PromotionalBanner';
-import { pageBanners } from '../data/bannerData';
+import { getPageBanners } from '../data/bannerData';
 
-function NewPage() {
+function NewPage({ user }) {
+    const pageBanners = getPageBanners(user);
+    
     return (
         <div>
             {/* Hero Banner */}
@@ -218,9 +298,10 @@ export const customBanners = [
         description: "Up to 70% off on winter collection",
         image: "/images/winter-sale.jpg",
         buttonText: "Shop Now",
-        buttonLink: "/sale",
+        buttonLink: "/products",
         type: "sale",
-        dismissible: false
+        dismissible: false,
+        showOnlyForNonLoggedIn: false // Shows for all users
     }
 ];
 ```
@@ -256,12 +337,19 @@ All banner components are fully responsive and include:
 
 ## 🔄 Updating Banner Content
 
-To update banner content without code changes:
+### For Non-Developers (Admin Users)
+1. **Access Admin Dashboard**: Navigate to `/admin/banners`
+2. **Edit Existing Banners**: Click the edit (pencil) icon on any banner
+3. **Create New Banners**: Click "Add [Type] Banner" buttons
+4. **Delete Banners**: Click the delete (trash) icon on any banner
+5. **Real-time Updates**: Changes appear immediately on the frontend
 
+### For Developers
 1. **Modify `bannerData.js`** - Update text, links, and images
 2. **Replace images** - Update image URLs in the data file
 3. **Add new banners** - Extend the arrays with new banner objects
 4. **Modify timing** - Adjust auto-advance intervals in component files
+5. **Change conditional logic** - Update `showOnlyForNonLoggedIn` flags
 
 ## 🎨 Design Guidelines
 
@@ -269,30 +357,47 @@ To update banner content without code changes:
 - **Accessibility**: Ensure proper contrast ratios and keyboard navigation
 - **Performance**: Optimize images and minimize JavaScript execution
 - **User Experience**: Make banners engaging but not intrusive
+- **Conditional Display**: Use conditional logic to show relevant content to users
 
 ## 🐛 Troubleshooting
 
 ### Common Issues
 
-1. **Banners not showing**: Check that banner data is properly imported
+1. **Banners not showing**: Check that banner data is properly imported and user state is correct
 2. **Images not loading**: Verify image URLs are correct and accessible
 3. **Layout issues**: Ensure proper CSS classes and responsive breakpoints
 4. **Animation glitches**: Check for conflicting CSS animations
+5. **Conditional logic not working**: Verify user authentication state and banner configuration
 
 ### Debug Mode
 
-Add console logs to debug banner data:
+The banner system includes console logging for debugging:
 
 ```javascript
+// Check banner data in browser console
 console.log('Banner data:', pageBanners);
-console.log('Hero banners:', pageBanners.home.hero);
+console.log('User state:', user);
+console.log('Promotional banners:', pageBanners.home.promotional);
 ```
+
+### Banner Visibility Issues
+
+- **New User Discount not showing**: Check if user is logged in
+- **Banners disappearing**: Verify conditional logic in `bannerData.js`
+- **Links not working**: Ensure routes exist in your `App.jsx`
+
+### Admin Management Issues
+
+- **Can't access banner management**: Verify user has admin role
+- **Form not submitting**: Check browser console for errors
+- **Changes not appearing**: Refresh the page or check API responses
 
 ## 📚 Additional Resources
 
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [React Hooks Documentation](https://reactjs.org/docs/hooks-intro.html)
 - [CSS Animation Guide](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations)
+- [React Router Documentation](https://reactrouter.com/docs/en/v6)
 
 ## 🤝 Contributing
 
@@ -300,10 +405,40 @@ To add new banner types or modify existing ones:
 
 1. Create the new component in `src/components/`
 2. Add corresponding data structure in `bannerData.js`
-3. Update the documentation
-4. Test across different screen sizes
+3. Update the conditional logic if needed
+4. Test across different user authentication states
 5. Ensure accessibility compliance
+6. Test responsive behavior
+
+## 🔐 Authentication Integration
+
+The banner system automatically integrates with your authentication system:
+
+- **Non-logged-in users**: See all promotional banners including "New User Discount"
+- **Logged-in users**: See filtered promotional banners (excluding user-specific offers)
+- **Dynamic updates**: Banners automatically update when user logs in/out
+- **Admin access**: Only admin users can manage banner content
+
+## 🎛️ Admin Workflow
+
+### Typical Admin Banner Management Workflow
+
+1. **Access Management**: Navigate to Admin Dashboard → Manage Banners
+2. **Review Current Banners**: See all existing banners organized by type
+3. **Create New Banners**: Click "Add [Type] Banner" for the desired banner type
+4. **Fill Form**: Complete the banner form with title, description, image, etc.
+5. **Save Banner**: Click "Create Banner" to save
+6. **Edit Existing**: Click edit icon to modify existing banners
+7. **Delete Unwanted**: Click delete icon to remove banners
+8. **Preview Changes**: View changes immediately on the frontend
+
+### Banner Form Fields by Type
+
+- **Hero Banners**: Title, Description, Image, Button Text, Button Link
+- **Promotional Banners**: Title, Description, Button Text, Button Link, Type, Dismissible, Show for non-logged-in only
+- **Category Banners**: Category Name, Description, Image, Icon, Link
+- **Featured Products**: Product Name, Price, Original Price, Discount, Rating, Category, Image
 
 ---
 
-**Note**: These banner components are designed to work with your existing multi-vendor e-commerce platform. They integrate seamlessly with your current design system and can be easily customized to match your brand requirements.
+**Note**: These banner components are now fully integrated with your existing multi-vendor e-commerce platform. They include conditional display logic, working links, seamless integration with your authentication system, and a powerful admin management interface. The "New User Discount" banner will automatically appear/disappear based on user login status, and admins can manage all banner content directly from the admin dashboard.

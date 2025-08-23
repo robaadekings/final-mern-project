@@ -7,7 +7,7 @@ function AdminDashboard() {
                 <Link to="/products" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded shadow font-semibold transition-all">View Customer Products</Link>
             </div>
             <h1 className="text-4xl font-extrabold mb-8 text-pink-700 drop-shadow-lg">AdminDashboard</h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <Link to="/admin/products" className="bg-white rounded-xl shadow-lg p-8 flex flex-col items-center hover:scale-105 transition-transform border-2 border-pink-200">
                     <span className="text-5xl mb-2">📦</span>
                     <span className="text-xl font-bold text-pink-700">Manage Products</span>
@@ -19,6 +19,10 @@ function AdminDashboard() {
                 <Link to="/admin/users" className="bg-white rounded-xl shadow-lg p-8 flex flex-col items-center hover:scale-105 transition-transform border-2 border-indigo-200">
                     <span className="text-5xl mb-2">👥</span>
                     <span className="text-xl font-bold text-indigo-700">Manage Users</span>
+                </Link>
+                <Link to="/admin/banners" className="bg-white rounded-xl shadow-lg p-8 flex flex-col items-center hover:scale-105 transition-transform border-2 border-green-200">
+                    <span className="text-5xl mb-2">🎨</span>
+                    <span className="text-xl font-bold text-green-700">Manage Banners</span>
                 </Link>
             </div>
             {/* Remove Footer for admin side */}
