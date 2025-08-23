@@ -1,4 +1,9 @@
 import { Link } from 'react-router-dom';
+import HeroBanner from '../components/HeroBanner';
+import PromotionalBanner from '../components/PromotionalBanner';
+import CategoryBanner from '../components/CategoryBanner';
+import FeaturedProductsBanner from '../components/FeaturedProductsBanner';
+import { pageBanners } from '../data/bannerData';
 
 function Home({ user }) {
     const products = [
@@ -26,6 +31,30 @@ function Home({ user }) {
     if (user) {
         return (
             <div className="min-h-screen bg-gray-50">
+                {/* Hero Banner Section */}
+                <section className="py-8">
+                    <div className="container mx-auto px-6">
+                        <HeroBanner banners={pageBanners.home.hero} />
+                    </div>
+                </section>
+
+                {/* Promotional Banners */}
+                <section className="py-6">
+                    <div className="container mx-auto px-6 space-y-4">
+                        {pageBanners.home.promotional.map((banner) => (
+                            <PromotionalBanner
+                                key={banner.id}
+                                title={banner.title}
+                                description={banner.description}
+                                buttonText={banner.buttonText}
+                                buttonLink={banner.buttonLink}
+                                type={banner.type}
+                                dismissible={banner.dismissible}
+                            />
+                        ))}
+                    </div>
+                </section>
+
                 {/* Welcome Section */}
                 <section className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white py-16">
                     <div className="container mx-auto text-center px-6">
@@ -41,6 +70,24 @@ function Home({ user }) {
                         >
                             Browse Products
                         </Link>
+                    </div>
+                </section>
+
+                {/* Category Banners */}
+                <section className="py-16 bg-white">
+                    <div className="container mx-auto px-6">
+                        <CategoryBanner categories={pageBanners.home.categories} />
+                    </div>
+                </section>
+
+                {/* Featured Products Banner */}
+                <section className="py-16 bg-gray-50">
+                    <div className="container mx-auto px-6">
+                        <FeaturedProductsBanner 
+                            products={pageBanners.home.featured}
+                            title="Featured Products"
+                            subtitle="Handpicked for you"
+                        />
                     </div>
                 </section>
 
@@ -69,39 +116,6 @@ function Home({ user }) {
                         </div>
                     </div>
                 </section>
-
-                {/* Featured Products Section */}
-                <section className="py-12 bg-white">
-                    <div className="container mx-auto px-6">
-                        <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">
-                            Featured Products
-                        </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            {products.map((product) => (
-                                <div
-                                    key={product.id}
-                                    className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition border"
-                                >
-                                    <img
-                                        src={product.image}
-                                        alt={product.name}
-                                        className="h-48 w-full object-cover rounded mb-4"
-                                    />
-                                    <h3 className="text-lg font-semibold mb-2">
-                                        {product.name}
-                                    </h3>
-                                    <p className="text-gray-600 mb-4">{product.description}</p>
-                                    <Link
-                                        to="/products"
-                                        className="text-indigo-500 font-medium hover:underline"
-                                    >
-                                        View Details
-                                    </Link>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
             </div>
         );
     }
@@ -109,6 +123,30 @@ function Home({ user }) {
     // If user is not authenticated, show landing page
     return (
         <div>
+            {/* Hero Banner Section */}
+            <section className="py-8">
+                <div className="container mx-auto px-6">
+                    <HeroBanner banners={pageBanners.home.hero} />
+                </div>
+            </section>
+
+            {/* Promotional Banners */}
+            <section className="py-6">
+                <div className="container mx-auto px-6 space-y-4">
+                    {pageBanners.home.promotional.map((banner) => (
+                        <PromotionalBanner
+                            key={banner.id}
+                            title={banner.title}
+                            description={banner.description}
+                            buttonText={banner.buttonText}
+                            buttonLink={banner.buttonLink}
+                            type={banner.type}
+                            dismissible={banner.dismissible}
+                        />
+                    ))}
+                </div>
+            </section>
+
             {/* Hero Section */}
             <section className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white py-20">
                 <div className="container mx-auto text-center px-6">
@@ -126,6 +164,24 @@ function Home({ user }) {
                             Shop Now
                         </Link>
                     </div>
+                </div>
+            </section>
+
+            {/* Category Banners */}
+            <section className="py-16 bg-white">
+                <div className="container mx-auto px-6">
+                    <CategoryBanner categories={pageBanners.home.categories} />
+                </div>
+            </section>
+
+            {/* Featured Products Banner */}
+            <section className="py-16 bg-gray-50">
+                <div className="container mx-auto px-6">
+                    <FeaturedProductsBanner 
+                        products={pageBanners.home.featured}
+                        title="Featured Electronics"
+                        subtitle="Handpicked for you"
+                    />
                 </div>
             </section>
 

@@ -99,36 +99,35 @@ function Checkout({ cart, setCart }) {
                     {cart.length === 0 ? (
                         <div className="text-gray-500">Your cart is empty.</div>
                     ) : (
-                        <div className="space-y-4 mb-6">
-                            {cart.map((item, idx) => (
-                                <div key={idx} className="flex items-center justify-between border-b pb-2">
-                                    <div className="flex items-center gap-2">
-                                        {item.image && <img src={item.image} alt={item.name} className="h-12 w-12 object-cover rounded" />}
-                                        <span className="font-semibold">{item.name}</span>
+                        <>
+                            <div className="space-y-3 mb-6">
+                                {cart.map((item, idx) => (
+                                    <div key={idx} className="flex items-center gap-3 p-3 border rounded">
+                                        <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded" />
+                                        <div className="flex-1">
+                                            <h3 className="font-medium">{item.name}</h3>
+                                            <p className="text-sm text-gray-600">Quantity: 1</p>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="font-medium">KES {item.price.toLocaleString()}</p>
+                                        </div>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-indigo-700 font-bold">${item.price}</span>
-                                        <button onClick={() => setCart(cart.filter((_, i) => i !== idx))} className="text-red-500 hover:text-red-700" aria-label="Remove from Cart" title="Remove from Cart">
-                                            <TrashIcon className="w-5 h-5" />
-                                        </button>
-                                    </div>
+                                ))}
+                            </div>
+                            <div className="border-t pt-4 mb-6">
+                                <div className="flex justify-between items-center text-lg font-semibold">
+                                    <span>Total:</span>
+                                    <span>KES {total.toLocaleString()}</span>
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                            <div className="flex gap-3">
+                                <button onClick={() => setStep(1)} className="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50">Back</button>
+                                <button onClick={handlePlaceOrder} disabled={placing} className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded">
+                                    {placing ? 'Placing Order...' : 'Place Order'}
+                                </button>
+                            </div>
+                        </>
                     )}
-                    <div className="mb-4">
-                        <div className="font-semibold">Shipping to:</div>
-                        <div className="text-sm text-gray-700">{addresses[selectedAddressIdx]?.address}, {addresses[selectedAddressIdx]?.city}, {addresses[selectedAddressIdx]?.country}</div>
-                    </div>
-                    <div className="flex justify-between items-center mb-4">
-                        <span className="font-semibold">Total:</span>
-                        <span className="text-xl font-bold text-indigo-700">${total}</span>
-                    </div>
-                    {error && <div className="text-red-500 mb-2">{error}</div>}
-                    <div className="flex gap-2">
-                        <button onClick={() => setStep(1)} className="bg-gray-300 px-6 py-2 rounded">Back</button>
-                        <button onClick={handlePlaceOrder} disabled={placing || cart.length === 0} className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded disabled:opacity-50">{placing ? 'Placing Order...' : 'Place Order'}</button>
-                    </div>
                 </div>
             )}
         </div>

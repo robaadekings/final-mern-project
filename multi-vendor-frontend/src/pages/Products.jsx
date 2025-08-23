@@ -3,6 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import api from '../lib/api';
 import { TrashIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import ProductCard from '../components/ProductCard';
+import PromotionalBanner from '../components/PromotionalBanner';
+import CategoryBanner from '../components/CategoryBanner';
+import { pageBanners } from '../data/bannerData';
 
 function Products({ onAddToCart }) {
     const [selectedCategory, setSelectedCategory] = useState('All');
@@ -97,7 +100,9 @@ function Products({ onAddToCart }) {
     });
 
     const handleDelete = async (id) => {
-        if (!window.confirm('Are you sure you want to delete this product?')) return;
+        if (!window.confirm('Are you sure you want to delete this product?')) {
+            return;
+        }
         try {
             await api.delete(`/products/${id}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
@@ -133,6 +138,7 @@ function Products({ onAddToCart }) {
         }}>
             {/* Subtle pattern overlay */}
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-20" style={{background: 'url("https://www.toptal.com/designers/subtlepatterns/patterns/memphis-mini.png") repeat'}} />
+            
             {/* Sticky Search Bar: fixed at top, overlays above product grid */}
             {(!user || user.role !== 'admin') && (
                 <div className="w-full bg-white border-b border-pink-200 shadow-lg flex flex-col items-center py-2 px-2 fixed top-[64px] left-0 right-0 z-50" style={{ marginTop: '0', maxWidth: '100vw' }}>
@@ -184,7 +190,29 @@ function Products({ onAddToCart }) {
                 </div>
             )}
 
+            {/* Promotional Banners */}
+            <section className="py-6">
+                <div className="space-y-4">
+                    {pageBanners.products.promotional.map((banner) => (
+                        <PromotionalBanner
+                            key={banner.id}
+                            title={banner.title}
+                            description={banner.description}
+                            buttonText={banner.buttonText}
+                            buttonLink={banner.buttonLink}
+                            type={banner.type}
+                            dismissible={banner.dismissible}
+                        />
+                    ))}
+                </div>
+            </section>
+
             <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-gray-800 text-center" style={{ marginTop: '8px' }}>Our Products</h1>
+
+            {/* Category Banners */}
+            <section className="py-8">
+                <CategoryBanner categories={pageBanners.products.categories} />
+            </section>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-6 sm:mb-8">
                 <select
