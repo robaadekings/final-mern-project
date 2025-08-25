@@ -9,6 +9,7 @@ import { ToastProvider, useToast } from './components/ToastContext';
 import { ThemeProvider } from './components/ThemeContext';
 
 import Home from './pages/Home';
+import AIChatbot from './components/AIChatbot';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Orders from './pages/Orders';
@@ -144,6 +145,7 @@ function AppContent() {
                         } />
                     </Routes>
                     <AuthModal open={showAuthModal} onClose={() => setShowAuthModal(false)} setUser={setUser} mode={authModalMode} />
+                    <AIChatbot />
                 </main>
                 <BottomNavbar user={user} cartCount={cart.length} />
                 <Footer user={user} />

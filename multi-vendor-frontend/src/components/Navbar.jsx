@@ -16,6 +16,7 @@ import {
   MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline';
 import { useTheme } from './ThemeContext';
+import RealTimeNotifications from './RealTimeNotifications';
 
 function Navbar({ user, logoutHandler, cartCount }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -163,7 +164,10 @@ function Navbar({ user, logoutHandler, cartCount }) {
                                 </li>
                             </>
                         )}
-                        <li className="flex items-center gap-2 ml-4">
+                        <li className="flex items-center gap-2 ml-2">
+                            <RealTimeNotifications />
+                        </li>
+                        <li className="flex items-center gap-2 ml-2">
                             <Link to="/profile" className="flex items-center gap-1 hover:text-pink-200" aria-label="View Profile" title="View Profile">
                                 <UserCircleIcon className={`${user && user.role === 'admin' ? 'w-12 h-12' : 'w-8 h-8'} text-pink-200`} />
                             </Link>
