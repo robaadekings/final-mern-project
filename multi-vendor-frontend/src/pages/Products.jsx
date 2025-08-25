@@ -218,8 +218,8 @@ function Products({ onAddToCart }) {
                         {
                             title: 'Member Exclusive Rewards',
                             description: 'Earn points on every purchase and redeem for discounts',
-                            ctaText: 'Join Now',
-                            ctaLink: '/login',
+                            ctaText: 'View Rewards',
+                            ctaLink: '/products?search=rewards',
                             bg: 'bg-gradient-to-r from-rose-600 to-pink-600',
                             sideImage: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80'
                         }
