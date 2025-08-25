@@ -164,9 +164,11 @@ function Navbar({ user, logoutHandler, cartCount }) {
                                 </li>
                             </>
                         )}
-                        <li className="flex items-center gap-2 ml-2">
-                            <RealTimeNotifications />
-                        </li>
+                        {user && (
+                            <li className="flex items-center gap-2 ml-2">
+                                <RealTimeNotifications userRole={user.role} />
+                            </li>
+                        )}
                         <li className="flex items-center gap-2 ml-2">
                             <Link to="/profile" className="flex items-center gap-1 hover:text-pink-200" aria-label="View Profile" title="View Profile">
                                 <UserCircleIcon className={`${user && user.role === 'admin' ? 'w-12 h-12' : 'w-8 h-8'} text-pink-200`} />
@@ -181,6 +183,7 @@ function Navbar({ user, logoutHandler, cartCount }) {
                 </div>
             </nav>
             {/* Remove search bar from here */}
+            {/* Show notifications icon on mobile as well (bottom fixed bars already exist) */}
         </>
     );
 }

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { BellIcon, XMarkIcon, CheckCircleIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { on } from '../lib/eventBus';
 
 const sampleMessages = [
     { id: 'n1', type: 'success', title: 'Order Shipped', message: 'Your order #1042 is on the way.' },
@@ -7,7 +8,7 @@ const sampleMessages = [
     { id: 'n3', type: 'warning', title: 'Low Stock', message: 'Items in your cart are almost sold out.' },
 ];
 
-function RealTimeNotifications() {
+function RealTimeNotifications({ userRole }) {
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState([]);
     const [unread, setUnread] = useState(0);
@@ -20,8 +21,21 @@ function RealTimeNotifications() {
             setItems((prev) => [withId, ...prev].slice(0, 8));
             setUnread((u) => u + 1);
         }, 15000);
-        return () => clearInterval(interval);
-    }, []);
+        let off;
+        if (userRole === 'admin' || userRole === 'vendor') {
+            off = on('order:placed', (payload) => {
+                const notif = {
+                    id: `order-${Date.now()}`,
+                    type: 'success',
+                    title: 'New Order',
+                    message: `Order #${payload?.orderId || 'N/A'} placed for $${payload?.total || '0'}`,
+                };
+                setItems((prev) => [notif, ...prev].slice(0, 8));
+                setUnread((u) => u + 1);
+            });
+        }
+        return () => { clearInterval(interval); off && off(); };
+    }, [userRole]);
 
     useEffect(() => {
         const onDocClick = (e) => {

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import api from '../lib/api';
+import { emit } from '../lib/eventBus';
 import { ShoppingCart } from 'lucide-react';
 
 function Cart({ cart, setCart }) {
@@ -33,7 +34,7 @@ function Cart({ cart, setCart }) {
         setSuccess('');
 
         try {
-            await api.post(
+            const res = await api.post(
                 '/orders',
                 {
                     items: cart.map((item) => ({
@@ -58,6 +59,10 @@ function Cart({ cart, setCart }) {
 
             setSuccess('Order placed successfully!');
             setCart([]);
+            try {
+                const orderId = res?.data?._id || res?.data?.id;
+                emit('order:placed', { orderId, total });
+            } catch {}
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to place order.');
         } finally {
