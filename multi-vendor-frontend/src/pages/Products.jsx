@@ -136,14 +136,8 @@ function Products({ onAddToCart }) {
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 pt-28 sm:pt-32 pb-4 sm:pb-8 min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-stone-100">
-            {/* Soft gradient blobs for depth */}
-            <div aria-hidden="true" className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-sky-300/20 blur-3xl z-0" />
-            <div aria-hidden="true" className="pointer-events-none absolute -bottom-28 -left-28 h-80 w-80 rounded-full bg-indigo-300/20 blur-3xl z-0" />
-            {/* Subtle grid + radial vignette */}
-            <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-30 [background-image:radial-gradient(ellipse_at_center,rgba(255,255,255,0.7),rgba(255,255,255,0)_60%),linear-gradient(to_right,rgba(15,23,42,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.05)_1px,transparent_1px)] [background-size:100%_100%,24px_24px,24px_24px] [background-position:center,0_0,0_0]" />
-            {/* Subtle pattern overlay */}
-            <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-20" style={{background: 'url("https://www.toptal.com/designers/subtlepatterns/patterns/memphis-mini.png") repeat'}} />
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 pt-28 sm:pt-32 pb-4 sm:pb-8 min-h-screen relative overflow-hidden bg-gradient-to-b from-white via-rose-50/50 to-indigo-50/60">
+            
             
             {/* Sticky Search Bar: fixed at top, overlays above product grid */}
             {(!user || user.role !== 'admin') && (
