@@ -136,7 +136,10 @@ function Products({ onAddToCart }) {
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 pt-24 sm:pt-28 pb-4 sm:pb-8 min-h-screen relative overflow-hidden bg-gradient-to-br from-fuchsia-50 via-rose-50 to-indigo-100">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 pt-24 sm:pt-28 pb-4 sm:pb-8 min-h-screen relative overflow-hidden bg-gradient-to-br from-rose-50 via-fuchsia-50 to-sky-100">
+            {/* Soft gradient blobs for depth */}
+            <div aria-hidden="true" className="pointer-events-none absolute -top-20 -right-20 h-72 w-72 rounded-full bg-pink-300/30 blur-3xl z-0" />
+            <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-indigo-300/30 blur-3xl z-0" />
             {/* Subtle pattern overlay */}
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-20" style={{background: 'url("https://www.toptal.com/designers/subtlepatterns/patterns/memphis-mini.png") repeat'}} />
             
