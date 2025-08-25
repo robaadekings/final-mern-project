@@ -64,7 +64,8 @@ function Products({ onAddToCart }) {
     };
 
     return (
-        <div className="max-w-7xl mx-auto py-10 px-4">
+        <div className="min-h-screen bg-gradient-to-br from-fuchsia-50 via-rose-50 to-indigo-100">
+            <div className="max-w-7xl mx-auto py-10 px-4">
             <h1 className="text-3xl font-bold text-center mb-8">Our Products</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {loading
