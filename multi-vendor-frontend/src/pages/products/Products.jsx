@@ -64,7 +64,7 @@ function Products({ onAddToCart }) {
     };
 
     return (
-        <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-white via-rose-50/50 to-indigo-50/60">
+        <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-rose-100 via-fuchsia-100 to-indigo-100">
             <div className="relative z-10 max-w-7xl mx-auto py-10 px-4">
             <h1 className="text-3xl font-bold text-center mb-8">Our Products</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
