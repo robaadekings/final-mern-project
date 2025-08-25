@@ -61,6 +61,7 @@ function Cart({ cart, setCart }) {
             setCart([]);
             try {
                 const orderId = res?.data?._id || res?.data?.id;
+                console.log('Emitting order:placed event:', { orderId, total });
                 emit('order:placed', { orderId, total });
             } catch {}
         } catch (err) {

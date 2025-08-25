@@ -15,26 +15,28 @@ function RealTimeNotifications({ userRole }) {
     const panelRef = useRef(null);
 
     useEffect(() => {
-        const interval = setInterval(() => {
+        // Customers see regular, generated notifications; admin/vendor do not
+        const interval = (userRole === 'customer') ? setInterval(() => {
             const next = sampleMessages[Math.floor(Math.random() * sampleMessages.length)];
             const withId = { ...next, id: `${next.id}-${Date.now()}` };
             setItems((prev) => [withId, ...prev].slice(0, 8));
             setUnread((u) => u + 1);
-        }, 15000);
+        }, 15000) : null;
         let off;
         if (userRole === 'admin' || userRole === 'vendor') {
             off = on('order:placed', (payload) => {
+                console.log('RealTimeNotifications received order:placed event:', payload, 'for role:', userRole);
                 const notif = {
                     id: `order-${Date.now()}`,
                     type: 'success',
-                    title: 'New Order',
-                    message: `Order #${payload?.orderId || 'N/A'} placed for $${payload?.total || '0'}`,
+                    title: 'New Customer Order',
+                    message: `Order #${payload?.orderId || 'N/A'} placed for $${payload?.total || '0'} - Process now!`,
                 };
                 setItems((prev) => [notif, ...prev].slice(0, 8));
                 setUnread((u) => u + 1);
             });
         }
-        return () => { clearInterval(interval); off && off(); };
+        return () => { if (interval) clearInterval(interval); off && off(); };
     }, [userRole]);
 
     useEffect(() => {
@@ -64,6 +66,27 @@ function RealTimeNotifications({ userRole }) {
                     </span>
                 )}
             </button>
+            {/* Test button for admins/vendors */}
+            {(userRole === 'admin' || userRole === 'vendor') && (
+                <button 
+                    onClick={() => {
+                        const testPayload = { orderId: 'TEST-123', total: 99.99 };
+                        console.log('Manually triggering test notification:', testPayload);
+                        const notif = {
+                            id: `test-${Date.now()}`,
+                            type: 'success',
+                            title: 'Test Order',
+                            message: `Test Order #${testPayload.orderId} for $${testPayload.total}`,
+                        };
+                        setItems((prev) => [notif, ...prev].slice(0, 8));
+                        setUnread((u) => u + 1);
+                    }}
+                    className="ml-2 p-1 text-xs bg-pink-600 text-white rounded hover:bg-pink-700"
+                    title="Test notification"
+                >
+                    Test
+                </button>
+            )}
             {open && (
                 <div className="absolute right-0 mt-2 w-80 max-w-[90vw] bg-white text-gray-800 rounded-xl shadow-2xl border border-pink-200 z-[60]">
                     <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">

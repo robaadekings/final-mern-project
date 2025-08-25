@@ -164,12 +164,16 @@ function Navbar({ user, logoutHandler, cartCount }) {
                                 </li>
                             </>
                         )}
+                    </ul>
+                    
+                    {/* Right side items - visible on all screen sizes */}
+                    <ul className="flex space-x-4 items-center">
                         {user && (
-                            <li className="flex items-center gap-2 ml-2">
+                            <li className="flex items-center gap-2">
                                 <RealTimeNotifications userRole={user.role} />
                             </li>
                         )}
-                        <li className="flex items-center gap-2 ml-2">
+                        <li className="flex items-center gap-2">
                             <Link to="/profile" className="flex items-center gap-1 hover:text-pink-200" aria-label="View Profile" title="View Profile">
                                 <UserCircleIcon className={`${user && user.role === 'admin' ? 'w-12 h-12' : 'w-8 h-8'} text-pink-200`} />
                             </Link>
