@@ -1,4 +1,4 @@
-"import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { PlusIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import BannerForm from '../../components/BannerForm';
 import api from '../../lib/api';

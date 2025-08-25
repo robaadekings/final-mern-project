@@ -136,16 +136,18 @@ function Products({ onAddToCart }) {
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 pt-24 sm:pt-28 pb-4 sm:pb-8 min-h-screen relative overflow-hidden bg-gradient-to-br from-rose-50 via-fuchsia-50 to-sky-100">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 pt-28 sm:pt-32 pb-4 sm:pb-8 min-h-screen relative overflow-hidden bg-gradient-to-br from-rose-50 via-fuchsia-50 to-sky-100">
             {/* Soft gradient blobs for depth */}
             <div aria-hidden="true" className="pointer-events-none absolute -top-20 -right-20 h-72 w-72 rounded-full bg-pink-300/30 blur-3xl z-0" />
             <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-indigo-300/30 blur-3xl z-0" />
+            {/* Subtle grid + radial vignette */}
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-40 [background-image:radial-gradient(ellipse_at_center,rgba(255,255,255,0.6),rgba(255,255,255,0)_60%),linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] [background-size:100%_100%,24px_24px,24px_24px] [background-position:center,0_0,0_0]" />
             {/* Subtle pattern overlay */}
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-20" style={{background: 'url("https://www.toptal.com/designers/subtlepatterns/patterns/memphis-mini.png") repeat'}} />
             
             {/* Sticky Search Bar: fixed at top, overlays above product grid */}
             {(!user || user.role !== 'admin') && (
-                <div className="w-full bg-white border-b border-pink-200 shadow-lg flex flex-col items-center py-2 px-2 fixed top-[64px] left-0 right-0 z-50" style={{ marginTop: '0', maxWidth: '100vw' }}>
+                <div className="w-full bg-white border-b border-pink-200 shadow-lg flex flex-col items-center py-2 px-2 fixed top-[80px] sm:top-[84px] left-0 right-0 z-50" style={{ marginTop: '0', maxWidth: '100vw' }}>
                     <form onSubmit={handleSearch} className="flex items-center w-full max-w-md relative gap-2">
                         <div className={`flex items-center w-full bg-gray-100 border-2 border-pink-300 rounded-2xl px-2 py-1 transition-shadow ${showSuggestions && suggestions.length > 0 ? 'ring-2 ring-pink-300 shadow-lg' : ''}`}> 
                             <MagnifyingGlassIcon className="w-5 h-5 text-pink-400 mr-1" />
@@ -194,6 +196,11 @@ function Products({ onAddToCart }) {
                 </div>
             )}
 
+            {/* Spacer for fixed search bar so content doesn't hide behind it */}
+            {(!user || user.role !== 'admin') && (
+                <div className="h-16" />
+            )}
+
             {/* Promotional Banners */}
             <section className="py-6">
                 <div className="space-y-4">
@@ -218,25 +225,7 @@ function Products({ onAddToCart }) {
                 <CategoryBanner categories={pageBanners.products.categories} />
             </section>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-6 sm:mb-8">
-                <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="border border-gray-300 rounded-md px-3 py-2 w-full sm:w-1/4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                >
-                    {categories.map((cat) => (
-                        <option key={cat} value={cat}>
-                            {cat}
-                        </option>
-                    ))}
-                </select>
-                <button
-                    onClick={resetFilters}
-                    className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md transition w-full sm:w-auto"
-                >
-                    Reset Filters
-                </button>
-            </div>
+            {/* Removed category dropdown and reset filters per request */}
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-6" style={{ marginBottom: '70px' }}>
                 {filteredProducts.map((product) => (
