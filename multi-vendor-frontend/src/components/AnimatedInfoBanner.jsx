@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 function AnimatedInfoBanner({ slides = [], intervalMs = 4500 }) {
@@ -35,12 +36,12 @@ function AnimatedInfoBanner({ slides = [], intervalMs = 4500 }) {
                                     <p className="mt-2 text-sm sm:text-base text-white/90">{s.description}</p>
                                 )}
                                 {s.ctaText && s.ctaLink && (
-                                    <a
-                                        href={s.ctaLink}
+                                    <Link
+                                        to={s.ctaLink}
                                         className="inline-block mt-4 bg-white/90 hover:bg-white text-indigo-700 font-semibold px-4 py-2 rounded-full transition"
                                     >
                                         {s.ctaText}
-                                    </a>
+                                    </Link>
                                 )}
                             </div>
                             {s.sideImage && (

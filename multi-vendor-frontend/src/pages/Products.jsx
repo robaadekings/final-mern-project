@@ -193,28 +193,11 @@ function Products({ onAddToCart }) {
 
             {/* Spacer for fixed search bar so content doesn't hide behind it */}
             {(!user || user.role !== 'admin') && (
-                <div className="h-16" />
+                <div className="h-12" />
             )}
 
-            {/* Promotional Banners */}
-            <section className="py-6">
-                <div className="space-y-4">
-                    {pageBanners.products.promotional.map((banner) => (
-                        <PromotionalBanner
-                            key={banner.id}
-                            title={banner.title}
-                            description={banner.description}
-                            buttonText={banner.buttonText}
-                            buttonLink={banner.buttonLink}
-                            type={banner.type}
-                            dismissible={banner.dismissible}
-                        />
-                    ))}
-                </div>
-            </section>
-
-            {/* Animated Info Banner */}
-            <section className="py-4">
+            {/* Animated Info Banner (moved above promotional) */}
+            <section className="mt-3 mb-4">
                 <AnimatedInfoBanner
                     slides={[
                         {
@@ -242,6 +225,23 @@ function Products({ onAddToCart }) {
                         }
                     ]}
                 />
+            </section>
+
+            {/* Promotional Banners */}
+            <section className="pt-2 pb-6">
+                <div className="space-y-4">
+                    {pageBanners.products.promotional.map((banner) => (
+                        <PromotionalBanner
+                            key={banner.id}
+                            title={banner.title}
+                            description={banner.description}
+                            buttonText={banner.buttonText}
+                            buttonLink={banner.buttonLink}
+                            type={banner.type}
+                            dismissible={banner.dismissible}
+                        />
+                    ))}
+                </div>
             </section>
 
 
