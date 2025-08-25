@@ -136,7 +136,7 @@ function Products({ onAddToCart }) {
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 pt-28 sm:pt-32 pb-4 sm:pb-8 min-h-screen relative overflow-hidden bg-gradient-to-br from-rose-200 via-fuchsia-300 to-indigo-300">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 pt-28 sm:pt-32 pb-4 sm:pb-8 min-h-screen relative overflow-hidden bg-gradient-to-br from-rose-50 via-white to-indigo-50">
             
             
             {/* Sticky Search Bar: fixed at top, overlays above product grid */}
@@ -212,7 +212,10 @@ function Products({ onAddToCart }) {
                 </div>
             </section>
 
-            <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-gray-800 text-center" style={{ marginTop: '8px' }}>Our Products</h1>
+            <div className="text-center mb-6 sm:mb-8" style={{ marginTop: '8px' }}>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Our Products</h1>
+                <p className="mt-2 text-sm sm:text-base text-gray-600">Browse curated items from trusted vendors</p>
+            </div>
 
             {/* Category Banners */}
             <section className="py-8">
