@@ -4,6 +4,7 @@ import api from '../lib/api';
 import { TrashIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import ProductCard from '../components/ProductCard';
 import PromotionalBanner from '../components/PromotionalBanner';
+import AnimatedInfoBanner from '../components/AnimatedInfoBanner';
 import CategoryBanner from '../components/CategoryBanner';
 import { getPageBanners } from '../data/bannerData';
 
@@ -212,15 +213,48 @@ function Products({ onAddToCart }) {
                 </div>
             </section>
 
-            <div className="text-center mb-6 sm:mb-8" style={{ marginTop: '8px' }}>
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Our Products</h1>
-                <p className="mt-2 text-sm sm:text-base text-gray-600">Browse curated items from trusted vendors</p>
-            </div>
+            {/* Animated Info Banner */}
+            <section className="py-4">
+                <AnimatedInfoBanner
+                    slides={[
+                        {
+                            title: 'Hot Deals This Week',
+                            description: 'Save up to 40% on select electronics',
+                            ctaText: 'Shop Deals',
+                            ctaLink: '/products?search=deals',
+                            sideImage: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80'
+                        },
+                        {
+                            title: 'New Arrivals Are Here',
+                            description: 'Discover the latest products from top brands',
+                            ctaText: 'Explore New',
+                            ctaLink: '/products?search=new',
+                            bg: 'bg-gradient-to-r from-indigo-600 to-fuchsia-600',
+                            sideImage: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=600&q=80'
+                        },
+                        {
+                            title: 'Member Exclusive Rewards',
+                            description: 'Earn points on every purchase and redeem for discounts',
+                            ctaText: 'Join Now',
+                            ctaLink: '/login',
+                            bg: 'bg-gradient-to-r from-rose-600 to-pink-600',
+                            sideImage: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80'
+                        }
+                    ]}
+                />
+            </section>
+
 
             {/* Category Banners */}
             <section className="py-8">
                 <CategoryBanner categories={pageBanners.products.categories} />
             </section>
+
+            {/* Title and subtitle below View All Categories */}
+            <div className="text-center mb-6 sm:mb-8">
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Our Products</h1>
+                <p className="mt-2 text-sm sm:text-base text-gray-600">Browse curated items from trusted vendors</p>
+            </div>
 
             {/* Removed category dropdown and reset filters per request */}
 
