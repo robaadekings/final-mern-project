@@ -64,10 +64,10 @@ function Products({ onAddToCart }) {
     };
 
     return (
-        <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-rose-50 via-fuchsia-50 to-sky-100">
+        <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-stone-100">
             {/* Soft gradient blobs for depth */}
-            <div aria-hidden="true" className="pointer-events-none absolute -top-20 -right-20 h-72 w-72 rounded-full bg-pink-300/30 blur-3xl z-0" />
-            <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-indigo-300/30 blur-3xl z-0" />
+            <div aria-hidden="true" className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-sky-300/20 blur-3xl z-0" />
+            <div aria-hidden="true" className="pointer-events-none absolute -bottom-28 -left-28 h-80 w-80 rounded-full bg-indigo-300/20 blur-3xl z-0" />
             <div className="relative z-10 max-w-7xl mx-auto py-10 px-4">
             <h1 className="text-3xl font-bold text-center mb-8">Our Products</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">

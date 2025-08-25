@@ -33,7 +33,10 @@ function Home({ user }) {
     // If user is authenticated, show dashboard-style home
     if (user) {
         return (
-            <div className="min-h-screen bg-gray-50">
+            <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-stone-100">
+                {/* Subtle grid + radial vignette */}
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-30 [background-image:radial-gradient(ellipse_at_center,rgba(255,255,255,0.7),rgba(255,255,255,0)_60%),linear-gradient(to_right,rgba(15,23,42,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.05)_1px,transparent_1px)] [background-size:100%_100%,24px_24px,24px_24px] [background-position:center,0_0,0_0]" />
+                <div className="relative z-10">
                 {/* Hero Banner Section */}
                 <section className="py-8">
                     <div className="container mx-auto px-6">
@@ -119,13 +122,17 @@ function Home({ user }) {
                         </div>
                     </div>
                 </section>
+                </div>
             </div>
         );
     }
 
     // If user is not authenticated, show landing page
     return (
-        <div>
+        <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-stone-100">
+            {/* Subtle grid + radial vignette */}
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-30 [background-image:radial-gradient(ellipse_at_center,rgba(255,255,255,0.7),rgba(255,255,255,0)_60%),linear-gradient(to_right,rgba(15,23,42,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.05)_1px,transparent_1px)] [background-size:100%_100%,24px_24px,24px_24px] [background-position:center,0_0,0_0]" />
+            <div className="relative z-10">
             {/* Hero Banner Section */}
             <section className="py-8">
                 <div className="container mx-auto px-6">
@@ -220,6 +227,7 @@ function Home({ user }) {
                     </div>
                 </div>
             </section>
+            </div>
         </div>
     );
 }
