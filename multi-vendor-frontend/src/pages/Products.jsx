@@ -136,7 +136,7 @@ function Products({ onAddToCart }) {
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 pt-28 sm:pt-32 pb-4 sm:pb-8 min-h-screen relative overflow-hidden bg-gradient-to-br from-rose-100 via-fuchsia-100 to-indigo-100">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 pt-28 sm:pt-32 pb-4 sm:pb-8 min-h-screen relative overflow-hidden bg-gradient-to-br from-rose-200 via-fuchsia-300 to-indigo-300">
             
             
             {/* Sticky Search Bar: fixed at top, overlays above product grid */}
