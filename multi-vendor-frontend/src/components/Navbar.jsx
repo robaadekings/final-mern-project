@@ -167,7 +167,7 @@ function Navbar({ user, logoutHandler, cartCount }) {
                     </ul>
                     
                     {/* Right side items - visible on all screen sizes */}
-                    <ul className="flex space-x-4 items-center">
+                    <ul className="hidden md:flex space-x-4 items-center">
                         {user && (
                             <li className="flex items-center gap-2">
                                 <RealTimeNotifications userRole={user.role} />
@@ -224,6 +224,10 @@ function BottomNavbar({ user, cartCount }) {
                     <ClipboardDocumentListIcon className="w-7 h-7" />
                     <span className="text-xs">Orders</span>
                 </Link>
+                <div className="flex flex-col items-center">
+                    <RealTimeNotifications userRole={user.role} />
+                    <span className="text-xs">Notifications</span>
+                </div>
                 <Link to="/profile" className="flex flex-col items-center" aria-label="Profile" title="Profile">
                     <UserCircleIcon className="w-7 h-7" />
                     <span className="text-xs">Profile</span>
@@ -251,6 +255,10 @@ function BottomNavbar({ user, cartCount }) {
                     <ClipboardDocumentListIcon className="w-7 h-7" />
                     <span className="text-xs">Orders</span>
                 </Link>
+                <div className="flex flex-col items-center">
+                    <RealTimeNotifications userRole={user.role} />
+                    <span className="text-xs">Notifications</span>
+                </div>
                 <Link to="/profile" className="flex flex-col items-center" aria-label="Profile" title="Profile">
                     <UserCircleIcon className="w-7 h-7" />
                     <span className="text-xs">Profile</span>
@@ -284,6 +292,10 @@ function BottomNavbar({ user, cartCount }) {
                 <ClipboardDocumentListIcon className="w-7 h-7" />
                 <span className="text-xs">Orders</span>
             </Link>
+            <div className="flex flex-col items-center">
+                <RealTimeNotifications userRole={user.role} />
+                <span className="text-xs">Notifications</span>
+            </div>
             <Link to="/profile" className="flex flex-col items-center" aria-label="Profile" title="Profile">
                 <UserCircleIcon className="w-7 h-7" />
                 <span className="text-xs">Profile</span>
